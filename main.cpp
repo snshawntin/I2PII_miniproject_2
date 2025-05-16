@@ -11,6 +11,8 @@
 #include "Scene/StartScene.h"
 #include "Scene/SettingsScene.hpp"
 
+//(END) TODO PROJECT-bonus (4): Use version control tools (e.g., Git) to manage your project.
+
 int main(int argc, char **argv) {
 	Engine::LOG::SetConfig(true);
 	Engine::GameEngine& game = Engine::GameEngine::GetInstance();

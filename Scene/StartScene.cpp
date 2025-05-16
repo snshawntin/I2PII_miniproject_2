@@ -29,21 +29,24 @@ void StartScene::Initialize() {
 
     AddNewObject(new Engine::Label("Tower Defense", "pirulen.ttf", 120, halfW, halfH / 3 + 50, 10, 255, 255, 255, 0.5, 0.5));
 
+    //& play button
     btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW - 200, halfH / 2 + 200, 400, 100);
     btn->SetOnClickCallback(std::bind(&StartScene::PlayOnClick, this, 1));
     AddNewControlObject(btn);
     AddNewObject(new Engine::Label("Play", "pirulen.ttf", 48, halfW, halfH / 2 + 250, 0, 0, 0, 255, 0.5, 0.5));
 
-    btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW - 200, halfH * 3 / 2 - 50, 400, 100);
+    //& setting button
+    btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW - 450, halfH * 3 / 2 - 50, 400, 100);
     btn->SetOnClickCallback(std::bind(&StartScene::SettingsOnClick, this, 2));
     AddNewControlObject(btn);
-    AddNewObject(new Engine::Label("Settings", "pirulen.ttf", 48, halfW, halfH * 3 / 2, 0, 0, 0, 255, 0.5, 0.5));
+    AddNewObject(new Engine::Label("Settings", "pirulen.ttf", 48, halfW - 250, halfH * 3 / 2, 0, 0, 0, 255, 0.5, 0.5));
     
-    // TODO PROJECT-2 (1/5)-1: Add a way to navigate to ScoreboardScene.
-    btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW - 200, halfH * 3 / 2 - 50, 400, 100);
+    //(END) TODO PROJECT-2 (1/5)-1: Add a way to navigate to ScoreboardScene.
+    //& scoreboard button
+    btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW + 50, halfH * 3 / 2 - 50, 400, 100);
     btn->SetOnClickCallback(std::bind(&StartScene::SchoreboardOnClick, this, 1));
     AddNewControlObject(btn);
-    AddNewObject(new Engine::Label("Scoreboard", "pirulen.ttf", 48, halfW, halfH * 3 / 2, 0, 0, 0, 255, 0.5, 0.5));
+    AddNewObject(new Engine::Label("Scoreboard", "pirulen.ttf", 40, halfW + 250, halfH * 3 / 2, 0, 0, 0, 255, 0.5, 0.5));
 }
 
 void StartScene::Terminate() {

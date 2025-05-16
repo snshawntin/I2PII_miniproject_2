@@ -28,7 +28,8 @@ void ScoreboardScene::Initialize() {
     int halfH = h / 2;
     Engine::ImageButton *btn;
 
-    // TODO PROJECT-2 (1/5)-2: Add a way to exit ScoreboardScene.
+    //(END) TODO PROJECT-2 (1/5)-2: Add a way to exit ScoreboardScene.
+    //& exit button
     btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW - 200, halfH * 3 / 2 - 50, 400, 100);
     btn->SetOnClickCallback(std::bind(&ScoreboardScene::BackOnClick, this, 1));
     AddNewControlObject(btn);
