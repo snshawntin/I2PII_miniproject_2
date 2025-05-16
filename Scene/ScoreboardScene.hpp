@@ -13,12 +13,10 @@ public:
     explicit ScoreboardScene() = default;
     void Initialize() override;
     void Terminate() override;
-    void PlayOnClick(int stage);
-    void ScoreboardOnClick();
-    void BackOnClick(int stage);
 
-    void BGMSlideOnValueChanged(float value);
-    void SFXSlideOnValueChanged(float value);
+    void OnNextPgClick(int stage);
+    void OnPrevPgClick(int stage);
+    void BackOnClick(int stage);
 };
 
 #endif   // SCOREBOARDSCENE_HPP

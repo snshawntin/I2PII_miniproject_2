@@ -1,4 +1,8 @@
 --
 you can't enter level 2 right now. maybe a infinite loop is there.
-5.16.4.34
+5.16.16.34
+--
+need to fix that the game encountered segmantation fault when you win 
+if the delete part is uncommented.
+5.16.20.25
 --
