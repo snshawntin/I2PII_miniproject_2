@@ -450,8 +450,14 @@ bool PlayScene::CheckSpaceValid(int x, int y) {
         dynamic_cast<Enemy *>(it)->UpdatePath(mapDistance);
     return true;
 }
+
+const Engine::Point bfs_dxdy[4] = {
+    Engine::Point(1, 0), Engine::Point(-1, 0), Engine::Point(0, 1), Engine::Point(0, -1)
+};
+
 std::vector<std::vector<int>> PlayScene::CalculateBFSDistance() {
     // Reverse BFS to find path.
+    //& map: the path distance 2D array constructed by BFS. (if not path, val. will be -1)
     std::vector<std::vector<int>> map(MapHeight, std::vector<int>(std::vector<int>(MapWidth, -1)));
     std::queue<Engine::Point> que;
     // Push end point.
@@ -460,12 +466,36 @@ std::vector<std::vector<int>> PlayScene::CalculateBFSDistance() {
         return map;
     que.push(Engine::Point(MapWidth - 1, MapHeight - 1));
     map[MapHeight - 1][MapWidth - 1] = 0;
+
+    // (END)TODO PROJECT-1 (1/1): Implement a BFS starting from the most right-bottom block in the map.
+    // (END)              For each step you should assign the corresponding distance to the most right-bottom block.
+    // (END)              mapState[y][x] is TILE_DIRT if it is empty.
     while (!que.empty()) {
-        Engine::Point p = que.front();
+        Engine::Point observing_point = que.front();
         que.pop();
-        // TODO PROJECT-1 (1/1): Implement a BFS starting from the most right-bottom block in the map.
-        //               For each step you should assign the corresponding distance to the most right-bottom block.
-        //               mapState[y][x] is TILE_DIRT if it is empty.
+
+        Engine::Point possible_next_step;
+        for(unsigned short i = 0; i < 4; i++){
+            possible_next_step = observing_point + bfs_dxdy[i];
+            //& invalid
+            if(
+                possible_next_step.x >= MapWidth || possible_next_step.x < 0 || //& out-of-bound
+                possible_next_step.y >= MapHeight || possible_next_step.y < 0 || 
+                (map[possible_next_step.y][possible_next_step.x] <= map[observing_point.y][observing_point.x] && 
+                map[possible_next_step.y][possible_next_step.x] != -1) || //& not a shorter path
+                mapState[possible_next_step.y][possible_next_step.x] != TILE_DIRT //& can't walk
+            ){ continue; }
+
+            map[possible_next_step.y][possible_next_step.x] = map[observing_point.y][observing_point.x] + 1;
+            
+            //& reached the most left-top block, stop
+            if (possible_next_step == Engine::Point(0, 0)){
+                continue;
+            }
+            
+            que.push(possible_next_step);
+        }
     }
+
     return map;
 }
