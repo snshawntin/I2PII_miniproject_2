@@ -7,6 +7,7 @@
 #include <queue>
 #include <string>
 #include <vector>
+#include <fstream>
 
 #include "Enemy/Enemy.hpp"
 #include "Enemy/SoldierEnemy.hpp"
@@ -158,7 +159,22 @@ void PlayScene::Update(float deltaTime) {
                 }
 
                 // Win.
+                //(END) TODO PROJECT-2 (2/5)-1: You need to save the score when the player wins.
+                //(END) TODO                    (save score in tmp file)
+                // TODO PROJECT-bonus (1): Add date time information to each record and display them.
                 if(to_win_scene_lockdown == 0){
+                    //& ofstream: write(**output**) data in code to files.
+                    //& just like "w" mode in python
+                    std::ofstream tmp_file("../Resource/new_score.tmp");
+                    if(tmp_file.is_open()) {
+                        tmp_file << money; //score
+
+                        tmp_file.close();
+                    }
+                    else{
+                        Engine::LOG(Engine::ERROR) << "Can't create temporary file";
+                    }
+
                     Engine::GameEngine::GetInstance().ChangeScene("win");
                 }
             }

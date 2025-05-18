@@ -16,11 +16,6 @@
 #include "UI/Component/Label.hpp"
 #include "UI/Component/Slider.hpp"
 
-// TODO PROJECT-2 (2/5): You need to save the score when the player wins.
-// TODO PROJECT-2 (3/5): Sort the scoreboard entries in a certain way.
-// TODO PROJECT-bonus (1): Add date time information to each record and display them.
-// TODO PROJECT-bonus (2): Add a text box in WinScene to record the user’s name.
-
 void ScoreboardScene::Initialize() {
     int w = Engine::GameEngine::GetInstance().GetScreenSize().x;
     int h = Engine::GameEngine::GetInstance().GetScreenSize().y;
@@ -54,17 +49,19 @@ void ScoreboardScene::Initialize() {
     bgmInstance = AudioHelper::PlaySample("select.ogg", true, AudioHelper::BGMVolume);
 
     //& scoreboard contents
+    //& ifstream: input (**read**) file data to code.
+    //& just like "r" mode in python
     //(END) TODO PROJECT-2 (5/5): The scoreboard must be stored in a file to be permanent.
     std::ifstream ifs("../Resource/scoreboard.txt", std::ios::in); //std::ios::in means the mode is input
     if (!ifs.is_open()) {
         Engine::LOG(Engine::ERROR) << "Can't open scoreboard data file";
     }
 
-    //& now it's only 1 page (5 users for each)
     std::string line;
     unsigned line_nowat = 0, index = 0;
     while(std::getline(ifs,line)){
-        unsigned space_pos = line.find(' ');
+        //this let the user's name can have whitespace
+        unsigned space_pos = line.find_last_of(' ');
 
         if(line_nowat < 5 * page && line_nowat >= 5 * (page - 1)){
             AddNewObject(

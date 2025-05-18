@@ -6,3 +6,7 @@ need to fix that the game encountered segmantation fault when you win
 if the delete part is uncommented.
 5.16.20.25
 --
+now the score is equal to money in winning state.
+maybe consider a more complex formula...
+5.18.15.43
+--
