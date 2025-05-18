@@ -39,27 +39,57 @@ void WinScene::Terminate() {
     //(END) TODO                    (save tmp file's score into txt file)
     std::ifstream tmp_file("../Resource/new_score.tmp", std::ios::in);
     if(tmp_file.is_open()) {
-        std::string score;
-        std::getline(tmp_file, score);
+        std::string score_str;
+        std::getline(tmp_file, score_str);
 
-        // TODO PROJECT-2 (3/5): Sort the scoreboard entries in a certain way.
-        //std::ios::in means the mode is append ("a" mode in python)
-        std::ofstream scoreboard_file("../Resource/scoreboard.txt", std::ios::app);
-        if(scoreboard_file.is_open()){
-            scoreboard_file << "\n";
-            scoreboard_file << "new user" << " " << score;
+        // TODO PROJECT-2 (3/5): Sort the scoreboard entries in a certain way. (insertion sort)
+        std::ifstream scoreboard_file("../Resource/scoreboard.txt", std::ios::in);
+        std::ofstream new_scoreboard_file("../Resource/scoreboard.tmp");
+        if(new_scoreboard_file.is_open() && scoreboard_file.is_open()){
+            std::string line;
+            unsigned now_score = 2147483647, next_score;
 
-            scoreboard_file.close();
+            bool no_data = 1;
+            while (std::getline(scoreboard_file, line)){
+                if(!no_data){
+                    new_scoreboard_file << "\n";
+                }
+
+                no_data = 0;
+                next_score = std::stoi(line.substr(line.find_last_of(' ') + 1, line.length()));
+
+                if(stoi(score_str) < now_score && stoi(score_str) > next_score){
+                    new_scoreboard_file << "new user " << score_str << "\n";
+                }
+                new_scoreboard_file << line;
+
+                now_score = next_score;
+            }
+            if(no_data){ // no data, insert straightly
+                new_scoreboard_file << "new user " << score_str;
+            }
         }
         else{
-            Engine::LOG(Engine::ERROR) << "Can't open scoreboard data file";
+            Engine::LOG(Engine::ERROR) << "Can't create (new) or open (old) scoreboard data file";
         }
 
         tmp_file.close();
+        scoreboard_file.close();
+        new_scoreboard_file.close();
 
-        //delete file
+        //delete the tmp file from PlayScene.cpp
         if(std::remove("../Resource/new_score.tmp") != 0){
             Engine::LOG(Engine::ERROR) << "Can't delete temporary file";
+        }
+
+        //remove old scoreboard file, rename new scoreboard file
+        if(std::remove("../Resource/scoreboard.txt") != 0){
+            Engine::LOG(Engine::ERROR) << "Can't delete old scoreboard file";
+        }
+        else{
+            if(std::rename("../Resource/scoreboard.tmp", "../Resource/scoreboard.txt") != 0){
+                Engine::LOG(Engine::ERROR) << "Can't replace scoreboard file (DATA LOSS)";
+            }
         }
     }
     else{

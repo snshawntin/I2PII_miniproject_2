@@ -10,3 +10,10 @@ now the score is equal to money in winning state.
 maybe consider a more complex formula...
 5.18.15.43
 --
+now the scoreboard won't override the data if users have the same name.
+maybe override it if the text box in WinScene is added...
+5.18.16.44
+--
+now the scoreboard won't compare the user's name when they have the same score.
+5.18.23.24
+--
