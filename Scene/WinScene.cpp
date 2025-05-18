@@ -42,7 +42,7 @@ void WinScene::Terminate() {
         std::string score_str;
         std::getline(tmp_file, score_str);
 
-        // TODO PROJECT-2 (3/5): Sort the scoreboard entries in a certain way. (insertion sort)
+        //(END) TODO PROJECT-2 (3/5): Sort the scoreboard entries in a certain way. (insertion sort)
         std::ifstream scoreboard_file("../Resource/scoreboard.txt", std::ios::in);
         std::ofstream new_scoreboard_file("../Resource/scoreboard.tmp");
         if(new_scoreboard_file.is_open() && scoreboard_file.is_open()){
