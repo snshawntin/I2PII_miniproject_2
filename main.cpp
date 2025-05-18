@@ -11,6 +11,7 @@
 #include "Scene/StartScene.h"
 #include "Scene/SettingsScene.hpp"
 
+// TODO PROJECT-bonus (3) (Max 10%, subjective) Optimize or add features not mentioned in the file.
 //(END) TODO PROJECT-bonus (4): Use version control tools (e.g., Git) to manage your project.
 
 int main(int argc, char **argv) {
