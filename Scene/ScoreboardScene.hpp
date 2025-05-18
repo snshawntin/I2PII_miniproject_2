@@ -8,6 +8,7 @@
 class ScoreboardScene final : public Engine::IScene {
 private:
     std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE> bgmInstance;
+    unsigned page = 1;
 
 public:
     explicit ScoreboardScene() = default;
