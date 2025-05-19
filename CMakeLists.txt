@@ -17,6 +17,8 @@ add_executable(2025_I2P2_TowerDefense
     Bullet/Bullet.hpp
     Bullet/FireBullet.cpp
     Bullet/FireBullet.hpp
+    Bullet/GrowBullet.cpp
+    Bullet/GrowBullet.hpp
     Bullet/LaserBullet.cpp
     Bullet/LaserBullet.hpp
 

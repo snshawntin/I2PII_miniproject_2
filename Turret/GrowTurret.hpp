@@ -9,5 +9,6 @@ public:
     void CreateBullet() override;
 private:
     int level;
+    float attack;
 };
 #endif   // GROWTURRET_HPP
