@@ -13,7 +13,7 @@
 #include "GrowTurret.hpp"
 #include "Scene/PlayScene.hpp"
 
-//TODO PROJECT-3 (1/3): Add new turret: can be placed and will automatically attack enemies.
+//(END) TODO PROJECT-3 (1/3): Add new turret: can be placed and will automatically attack enemies.
 //have chance to update every shot.
 static int shoot_count = 0;
 
