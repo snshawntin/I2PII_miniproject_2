@@ -24,11 +24,10 @@
 #include "Turret/MachineGunTurret.hpp"
 #include "Turret/GrowTurret.hpp"
 #include "Turret/TurretButton.hpp"
+#include "Tool/ToolButton.hpp"
 #include "UI/Animation/DirtyEffect.hpp"
 #include "UI/Animation/Plane.hpp"
 #include "UI/Component/Label.hpp"
-
-
 
 bool PlayScene::DebugMode = false;
 int PlayScene::CheatCodeSeqNowAt = 0;
@@ -409,18 +408,28 @@ void PlayScene::ConstructUI() {
     // Reference: Class Member Function Pointer and std::bind.
     btn->SetOnClickCallback(std::bind(&PlayScene::UIBtnClicked, this, 0));
     UIGroup->AddNewControlObject(btn);
+
     // Button 2 (grow turret)
     btn = new TurretButton("play/floor.png", "play/dirt.png",
                            Engine::Sprite("play/tower-base.png", 1370, 136, 0, 0, 0, 0),
                            Engine::Sprite("play/turret-6.png", 1370, 136 - 8, 0, 0, 0, 0), 1370, 136, GrowTurret::Price);
     btn->SetOnClickCallback(std::bind(&PlayScene::UIBtnClicked, this, 1));
     UIGroup->AddNewControlObject(btn);
+
     // Button 3 (laser turret)
     btn = new TurretButton("play/floor.png", "play/dirt.png",
                            Engine::Sprite("play/tower-base.png", 1446, 136, 0, 0, 0, 0),
                            Engine::Sprite("play/turret-2.png", 1446, 136 - 8, 0, 0, 0, 0), 1446, 136, LaserTurret::Price);
     btn->SetOnClickCallback(std::bind(&PlayScene::UIBtnClicked, this, 2));
     UIGroup->AddNewControlObject(btn);
+
+    // Button 4 (shovel)
+    ToolButton *tool_btn;
+    tool_btn = new ToolButton("play/floor.png", "play/dirt.png",
+                            Engine::Sprite("play/shovel.png", 1299, 291, 54, 54, 0, 0),
+                            1294, 286);
+    tool_btn->SetOnClickCallback(std::bind(&PlayScene::UIBtnClicked, this, 100));
+    UIGroup->AddNewControlObject(tool_btn);
 
     int w = Engine::GameEngine::GetInstance().GetScreenSize().x;
     int h = Engine::GameEngine::GetInstance().GetScreenSize().y;
@@ -442,6 +451,9 @@ void PlayScene::UIBtnClicked(int id) {
     }
     else if (id == 2 && money >= LaserTurret::Price){
         preview = new LaserTurret(0, 0);
+    }
+    else if (id == 100){
+        //TODO: add tool button callback here....
     }
     if (!preview){
         return;

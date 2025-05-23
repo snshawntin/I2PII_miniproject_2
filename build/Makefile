@@ -800,6 +800,30 @@ Scene/WinScene.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/WinScene.cpp.s
 .PHONY : Scene/WinScene.cpp.s
 
+Tool/ToolButton.obj: Tool/ToolButton.cpp.obj
+.PHONY : Tool/ToolButton.obj
+
+# target to build an object file
+Tool/ToolButton.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Tool/ToolButton.cpp.obj
+.PHONY : Tool/ToolButton.cpp.obj
+
+Tool/ToolButton.i: Tool/ToolButton.cpp.i
+.PHONY : Tool/ToolButton.i
+
+# target to preprocess a source file
+Tool/ToolButton.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Tool/ToolButton.cpp.i
+.PHONY : Tool/ToolButton.cpp.i
+
+Tool/ToolButton.s: Tool/ToolButton.cpp.s
+.PHONY : Tool/ToolButton.s
+
+# target to generate assembly for a file
+Tool/ToolButton.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Tool/ToolButton.cpp.s
+.PHONY : Tool/ToolButton.cpp.s
+
 Turret/GrowTurret.obj: Turret/GrowTurret.cpp.obj
 .PHONY : Turret/GrowTurret.obj
 
@@ -1205,6 +1229,9 @@ help:
 	@echo ... Scene/WinScene.obj
 	@echo ... Scene/WinScene.i
 	@echo ... Scene/WinScene.s
+	@echo ... Tool/ToolButton.obj
+	@echo ... Tool/ToolButton.i
+	@echo ... Tool/ToolButton.s
 	@echo ... Turret/GrowTurret.obj
 	@echo ... Turret/GrowTurret.i
 	@echo ... Turret/GrowTurret.s

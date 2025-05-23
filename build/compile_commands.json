@@ -199,6 +199,12 @@
 },
 {
   "directory": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/build",
+  "command": "c:\\llvm-mingw-20240417-msvcrt-x86_64\\bin\\clang++.exe  @CMakeFiles/2025_I2P2_TowerDefense.dir/includes_CXX.rsp -g -o CMakeFiles\\2025_I2P2_TowerDefense.dir\\Tool\\ToolButton.cpp.obj -c C:\\Users\\haoen\\Desktop\\2025_I2P2_TowerDefense-main\\Tool\\ToolButton.cpp",
+  "file": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Tool/ToolButton.cpp",
+  "output": "CMakeFiles/2025_I2P2_TowerDefense.dir/Tool/ToolButton.cpp.obj"
+},
+{
+  "directory": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/build",
   "command": "c:\\llvm-mingw-20240417-msvcrt-x86_64\\bin\\clang++.exe  @CMakeFiles/2025_I2P2_TowerDefense.dir/includes_CXX.rsp -g -o CMakeFiles\\2025_I2P2_TowerDefense.dir\\UI\\Animation\\DirtyEffect.cpp.obj -c C:\\Users\\haoen\\Desktop\\2025_I2P2_TowerDefense-main\\UI\\Animation\\DirtyEffect.cpp",
   "file": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/UI/Animation/DirtyEffect.cpp",
   "output": "CMakeFiles/2025_I2P2_TowerDefense.dir/UI/Animation/DirtyEffect.cpp.obj"
