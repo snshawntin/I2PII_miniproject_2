@@ -276,7 +276,7 @@ void PlayScene::OnMouseUp(int button, int mx, int my) {
                 return;
             }
             // Check if valid.
-            if (!CheckSpaceValid(x, y) && preview) {
+            if (!CheckSpaceValid(x, y)) {
                 Engine::Sprite *sprite;
                 GroundEffectGroup->AddNewObject(sprite = new DirtyEffect("play/target-invalid.png", 1, x * BlockSize + BlockSize / 2, y * BlockSize + BlockSize / 2));
                 sprite->Rotation = 0;
