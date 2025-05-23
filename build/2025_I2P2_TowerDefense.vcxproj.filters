@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Bullet\Bullet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Bullet\FireBullet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Bullet\LaserBullet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Enemy\Enemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Enemy\SoldierEnemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Enemy\TankEnemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\Allegro5Exception.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\AudioHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\Collider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\GameEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\Group.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\IControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\IObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\IScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\LOG.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\Point.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\Resources.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Scene\LoseScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Scene\PlayScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Scene\StageSelectScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Scene\StartScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Scene\WinScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Turret\LaserTurret.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Turret\MachineGunTurret.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Turret\Turret.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Turret\TurretButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\UI\Animation\DirtyEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\UI\Animation\ExplosionEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\UI\Animation\Plane.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\UI\Component\Image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\UI\Component\ImageButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\UI\Component\Label.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\UI\Component\Slider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Bullet\Bullet.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Bullet\FireBullet.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Bullet\LaserBullet.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Enemy\Enemy.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Enemy\SoldierEnemy.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Enemy\TankEnemy.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\Allegro5Exception.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\AudioHelper.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\Collider.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\GameEngine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\Group.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\IControl.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\IObject.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\IScene.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\LOG.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\Point.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\Resources.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Engine\Sprite.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Scene\LoseScene.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Scene\PlayScene.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Scene\StageSelectScene.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Scene\StartScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Scene\WinScene.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Turret\LaserTurret.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Turret\MachineGunTurret.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Turret\Turret.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\Turret\TurretButton.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\UI\Animation\DirtyEffect.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\UI\Animation\ExplosionEffect.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\UI\Animation\Plane.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\UI\Component\Image.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\UI\Component\ImageButton.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\UI\Component\Label.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\UI\Component\Slider.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\haoen\Desktop\2025_I2P2_TowerDefense-main\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{7445AADC-7126-3412-B63B-CBBB52AF33BC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{A7478FF6-2315-3F06-A22C-65BB94A9EDB3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

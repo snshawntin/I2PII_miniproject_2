@@ -1,0 +1,10 @@
+^C:\USERS\HAOEN\DESKTOP\2025_I2P2_TOWERDEFENSE-MAIN\BUILD\CMAKEFILES\C2083751B740DFD6D4247F5215A61A93\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main -BC:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/build/2025_I2P2_TowerDefense.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
