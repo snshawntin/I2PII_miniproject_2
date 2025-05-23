@@ -1,1 +1,0 @@
-//TODO PROJECT-3 (2/3): Add new enemy: can follow the path and be damaged by turrets.
