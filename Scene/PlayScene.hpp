@@ -5,6 +5,7 @@
 #include <memory>
 #include <utility>
 #include <vector>
+#include <map>
 
 #include "Engine/IScene.hpp"
 #include "Engine/Point.hpp"
@@ -86,6 +87,8 @@ public:
     void UIBtnClicked(int id);
     bool CheckSpaceValid(int x, int y);
     std::vector<std::vector<int>> CalculateBFSDistance();
+
+    std::map<std::pair<int, int>, Turret *> turret_map;
     // void ModifyReadMapTiles();
 };
 #endif   // PLAYSCENE_HPP

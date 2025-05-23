@@ -240,8 +240,6 @@ void PlayScene::Draw() const {
     }
 }
 void PlayScene::OnMouseDown(int button, int mx, int my) {
-    std::cout << imgTarget->Visible << std::endl;
-
     if ((button & 1) && !imgTarget->Visible && preview) {
         // Cancel turret construct.
         UIGroup->RemoveObject(preview->GetObjectIterator());
@@ -273,12 +271,12 @@ void PlayScene::OnMouseUp(int button, int mx, int my) {
     const int x = mx / BlockSize;
     const int y = my / BlockSize;
     if (button & 1) {
-        if (mapState[y][x] != TILE_OCCUPIED) {
+        if (preview_tool || mapState[y][x] != TILE_OCCUPIED) {
             if (!preview && !preview_tool){
                 return;
             }
             // Check if valid.
-            if (!CheckSpaceValid(x, y)) {
+            if (!CheckSpaceValid(x, y) && preview) {
                 Engine::Sprite *sprite;
                 GroundEffectGroup->AddNewObject(sprite = new DirtyEffect("play/target-invalid.png", 1, x * BlockSize + BlockSize / 2, y * BlockSize + BlockSize / 2));
                 sprite->Rotation = 0;
@@ -298,6 +296,10 @@ void PlayScene::OnMouseUp(int button, int mx, int my) {
                 preview->Preview = false;
                 preview->Tint = al_map_rgba(255, 255, 255, 255);
                 TowerGroup->AddNewObject(preview);
+                turret_map[std::make_pair(preview->Position.x, preview->Position.y)] = preview;
+
+                std::cout << "new turret constructed at: (" << preview->Position.x << ", " << preview->Position.y << ")" << std::endl;
+
                 // To keep responding when paused.
                 preview->Update(0);
                 // Remove Preview.
@@ -307,8 +309,15 @@ void PlayScene::OnMouseUp(int button, int mx, int my) {
                 // Remove Preview.
                 preview_tool->GetObjectIterator()->first = false;
                 UIGroup->RemoveObject(preview_tool->GetObjectIterator());
-                // Construct real turret.
-                //TODO: tool function...
+                // real tool operated.
+                std::pair<int, int> shovel_place = std::make_pair(x * BlockSize + BlockSize / 2, y * BlockSize + BlockSize / 2);
+                std::cout << "try to remove: (" << shovel_place.first << ", " << shovel_place.second << ")" << std::endl;
+                if(turret_map.find(shovel_place) != turret_map.end()){
+                    std::cout << "removed." << std::endl;
+                    EarnMoney(turret_map[shovel_place]->GetPrice() * 0.5);
+                    TowerGroup->RemoveObject(turret_map[shovel_place]->GetObjectIterator());
+                    turret_map.erase(shovel_place);
+                }
                 // To keep responding when paused.
                 preview_tool->Update(0);
                 // Remove Preview.
