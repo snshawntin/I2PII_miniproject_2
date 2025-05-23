@@ -12,33 +12,28 @@
 [INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 40
 [INFO] Game initialized
 [INFO] Game start event loop
-[INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 60
 [INFO] Loaded Resource<audio>: Resource/audios/select.ogg
-[INFO] Created<sample_instance>: Resource/audios/select.ogg
-[INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 50
-[INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 20
-[INFO] Changed to scoreboard scene
-[INFO] stopped audio (sample)
-[INFO] Created<sample_instance>: Resource/audios/select.ogg
-[INFO] Changed to scoreboard scene
-[INFO] stopped audio (sample)
-[INFO] Created<sample_instance>: Resource/audios/select.ogg
-[INFO] Changed to scoreboard scene
-[INFO] stopped audio (sample)
-[INFO] Created<sample_instance>: Resource/audios/select.ogg
-[INFO] Changed to scoreboard scene
-[INFO] stopped audio (sample)
-[INFO] Created<sample_instance>: Resource/audios/select.ogg
-[INFO] Changed to scoreboard scene
-[INFO] stopped audio (sample)
-[INFO] Created<sample_instance>: Resource/audios/select.ogg
-[INFO] Changed to scoreboard scene
-[INFO] stopped audio (sample)
-[INFO] Created<sample_instance>: Resource/audios/select.ogg
-[INFO] Changed to scoreboard scene
-[INFO] stopped audio (sample)
-[INFO] Changed to start scene
 [INFO] Created<sample_instance>: Resource/audios/select.ogg
 [INFO] Changed to stage-select scene
 [INFO] stopped audio (sample)
 [INFO] Loaded Resource<image>: Resource/images/play/dirt.png scaled to 64x64
+[INFO] Loaded Resource<image>: Resource/images/play/floor.png scaled to 64x64
+[INFO] Loaded Resource<image>: Resource/images/play/sand.png scaled to 320x832
+[INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 32
+[INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 24
+[INFO] Loaded Resource<image>: Resource/images/play/tower-base.png
+[INFO] Loaded Resource<image>: Resource/images/play/turret-1.png
+[INFO] Loaded Resource<image>: Resource/images/play/floor.png
+[INFO] Loaded Resource<image>: Resource/images/play/dirt.png
+[INFO] Loaded Resource<image>: Resource/images/play/turret-6.png
+[INFO] Loaded Resource<image>: Resource/images/play/turret-2.png
+[INFO] Loaded Resource<image>: Resource/images/play/shovel.png scaled to 54x54
+[INFO] Loaded Resource<image>: Resource/images/play/benjamin.png
+[INFO] Loaded Resource<image>: Resource/images/play/target.png
+[INFO] Loaded Resource<audio>: Resource/audios/astronomia.ogg
+[INFO] Created<sample_instance>: Resource/audios/astronomia.ogg
+[INFO] Loaded Resource<image>: Resource/images/lose/benjamin-happy.png
+[INFO] Loaded Resource<audio>: Resource/audios/play.ogg
+[INFO] Changed to play scene
+[INFO] Loaded Resource<image>: Resource/images/play/enemy-1.png
+[INFO] Loaded Resource<image>: Resource/images/play/shovel.png

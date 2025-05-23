@@ -800,6 +800,54 @@ Scene/WinScene.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/WinScene.cpp.s
 .PHONY : Scene/WinScene.cpp.s
 
+Tool/Shovel.obj: Tool/Shovel.cpp.obj
+.PHONY : Tool/Shovel.obj
+
+# target to build an object file
+Tool/Shovel.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Tool/Shovel.cpp.obj
+.PHONY : Tool/Shovel.cpp.obj
+
+Tool/Shovel.i: Tool/Shovel.cpp.i
+.PHONY : Tool/Shovel.i
+
+# target to preprocess a source file
+Tool/Shovel.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Tool/Shovel.cpp.i
+.PHONY : Tool/Shovel.cpp.i
+
+Tool/Shovel.s: Tool/Shovel.cpp.s
+.PHONY : Tool/Shovel.s
+
+# target to generate assembly for a file
+Tool/Shovel.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Tool/Shovel.cpp.s
+.PHONY : Tool/Shovel.cpp.s
+
+Tool/Tool.obj: Tool/Tool.cpp.obj
+.PHONY : Tool/Tool.obj
+
+# target to build an object file
+Tool/Tool.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Tool/Tool.cpp.obj
+.PHONY : Tool/Tool.cpp.obj
+
+Tool/Tool.i: Tool/Tool.cpp.i
+.PHONY : Tool/Tool.i
+
+# target to preprocess a source file
+Tool/Tool.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Tool/Tool.cpp.i
+.PHONY : Tool/Tool.cpp.i
+
+Tool/Tool.s: Tool/Tool.cpp.s
+.PHONY : Tool/Tool.s
+
+# target to generate assembly for a file
+Tool/Tool.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Tool/Tool.cpp.s
+.PHONY : Tool/Tool.cpp.s
+
 Tool/ToolButton.obj: Tool/ToolButton.cpp.obj
 .PHONY : Tool/ToolButton.obj
 
@@ -1229,6 +1277,12 @@ help:
 	@echo ... Scene/WinScene.obj
 	@echo ... Scene/WinScene.i
 	@echo ... Scene/WinScene.s
+	@echo ... Tool/Shovel.obj
+	@echo ... Tool/Shovel.i
+	@echo ... Tool/Shovel.s
+	@echo ... Tool/Tool.obj
+	@echo ... Tool/Tool.i
+	@echo ... Tool/Tool.s
 	@echo ... Tool/ToolButton.obj
 	@echo ... Tool/ToolButton.i
 	@echo ... Tool/ToolButton.s

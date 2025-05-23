@@ -11,16 +11,14 @@ class PlayScene;
 
 class Tool : public Engine::Sprite {
 protected:
-    std::list<Tool *>::iterator lockedTurretIterator;
     PlayScene *getPlayScene();
-    // Reference: Design Patterns - Factory Method.
 
 public:
+    bool Enabled = true;
     bool Preview = false;
-    Enemy *Target = nullptr;
     Tool(std::string imgTool, float x, float y);
     void Update(float deltaTime) override;
     void Draw() const override;
-    int GetPrice() const;
 };
+
 #endif   // TOOL_HPP

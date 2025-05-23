@@ -10,12 +10,13 @@
 #include "Engine/Point.hpp"
 
 class Turret;
-namespace Engine {
+class Tool;
+namespace Engine{
     class Group;
     class Image;
     class Label;
     class Sprite;
-}   // namespace Engine
+} // namespace Engine
 
 class PlayScene final : public Engine::IScene {
 private:
@@ -61,6 +62,7 @@ public:
     Engine::Image *imgTarget;
     Engine::Sprite *dangerIndicator;
     Turret *preview;
+    Tool *preview_tool;
     std::vector<std::vector<TileType>> mapState;
     std::vector<std::vector<int>> mapDistance;
     std::list<std::pair<int, float>> enemyWaveData;
