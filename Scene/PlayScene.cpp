@@ -13,6 +13,7 @@
 #include "Enemy/SoldierEnemy.hpp"
 #include "Enemy/PlaneEnemy.hpp"
 #include "Enemy/TankEnemy.hpp"
+#include "Enemy/ShieldEnemy.hpp"
 #include "Engine/AudioHelper.hpp"
 #include "Engine/GameEngine.hpp"
 #include "Engine/Group.hpp"
@@ -194,7 +195,8 @@ void PlayScene::Update(float deltaTime) {
                 break;
             //(END) TODO HACKATHON-3 (2/3): Add your new enemy here.
             case 2:
-                EnemyGroup->AddNewObject(enemy = new PlaneEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+                //! modified
+                EnemyGroup->AddNewObject(enemy = new ShieldEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
                 break;
             case 3:
                 EnemyGroup->AddNewObject(enemy = new TankEnemy(SpawnCoordinate.x, SpawnCoordinate.y));

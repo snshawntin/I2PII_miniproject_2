@@ -17,3 +17,6 @@ maybe override it if the text box in WinScene is added...
 now the scoreboard won't compare the user's name when they have the same score.
 5.18.23.24
 --
+thought that you need to trace the enemy txt...
+5.14.00.51
+--
