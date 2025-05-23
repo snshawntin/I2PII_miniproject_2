@@ -52,7 +52,7 @@ void ScoreboardScene::Initialize() {
     //& ifstream: input (**read**) file data to code.
     //& just like "r" mode in python
     //(END) TODO PROJECT-2 (5/5): The scoreboard must be stored in a file to be permanent.
-    std::ifstream ifs("../Resource/scoreboard.txt", std::ios::in); //std::ios::in means the mode is input
+    std::ifstream ifs("Resource/scoreboard.txt", std::ios::in); //std::ios::in means the mode is input
     if (!ifs.is_open()) {
         Engine::LOG(Engine::ERROR) << "Can't open scoreboard data file";
     }
