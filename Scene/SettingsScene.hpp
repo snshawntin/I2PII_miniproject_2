@@ -17,7 +17,6 @@ public:
     void BackOnClick(int stage);
     void BGMSlideOnValueChanged(float value);
     void SFXSlideOnValueChanged(float value);
-    void InfiniteModeOnClick(); // 新增：無限模式按鈕處理函式
 };
 
 #endif // SettingsScene_HPP
