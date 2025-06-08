@@ -22,7 +22,7 @@ ALLEGRO_SAMPLE_ID AudioHelper::PlayBGM(const std::string &audio) {
     if (!al_play_sample(sample, BGMVolume, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, &id))
         Engine::LOG(Engine::INFO) << "failed to play audio (bgm)";
     else
-        Engine::LOG(Engine::VERBOSE) << "played audio (bgm)";
+        Engine::LOG(Engine::INFO) << "played audio (bgm)";
     return id;
 }
 void AudioHelper::StopBGM(ALLEGRO_SAMPLE_ID sample) {
