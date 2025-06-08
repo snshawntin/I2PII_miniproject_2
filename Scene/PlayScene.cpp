@@ -34,6 +34,7 @@
 #include "UI/Component/Label.hpp"
 
 bool PlayScene::DebugMode = false;
+bool PlayScene::isInfiniteMode = false;
 int PlayScene::CheatCodeSeqNowAt = 0;
 const std::vector<Engine::Point> PlayScene::directions = {Engine::Point(-1, 0), Engine::Point(0, -1), Engine::Point(1, 0), Engine::Point(0, 1)};
 const int PlayScene::MapWidth = 20, PlayScene::MapHeight = 13;
@@ -46,13 +47,15 @@ const Engine::Point PlayScene::EndGridPoint = Engine::Point(MapWidth, MapHeight 
 const std::vector<int> PlayScene::code = {
     ALLEGRO_KEY_UP, ALLEGRO_KEY_UP, ALLEGRO_KEY_DOWN, ALLEGRO_KEY_DOWN,
     ALLEGRO_KEY_LEFT, ALLEGRO_KEY_RIGHT, ALLEGRO_KEY_LEFT, ALLEGRO_KEY_RIGHT,
-    ALLEGRO_KEY_B, ALLEGRO_KEY_A, ALLEGRO_KEY_RSHIFT, ALLEGRO_KEY_ENTER
-};
+    ALLEGRO_KEY_B, ALLEGRO_KEY_A, ALLEGRO_KEY_RSHIFT, ALLEGRO_KEY_ENTER};
 
-Engine::Point PlayScene::GetClientSize() {
+Engine::Point PlayScene::GetClientSize()
+{
     return Engine::Point(MapWidth * BlockSize, MapHeight * BlockSize);
 }
-void PlayScene::Initialize() {
+void PlayScene::Initialize()
+{
+
     mapState.clear();
     keyStrokes.clear();
     ticks = 0;
@@ -61,6 +64,7 @@ void PlayScene::Initialize() {
     money = 150;
     SpeedMult = 1;
     to_win_scene_lockdown = -1;
+    infiniteTicks = 0.0f;
     // Add groups from bottom to top.
     AddNewObject(TileMapGroup = new Group());
     AddNewObject(GroundEffectGroup = new Group());
@@ -87,13 +91,19 @@ void PlayScene::Initialize() {
     // Start BGM.
     bgmId = AudioHelper::PlayBGM("play.ogg");
 }
-void PlayScene::Terminate() {
+void PlayScene::Terminate()
+{
     AudioHelper::StopBGM(bgmId);
     AudioHelper::StopSample(deathBGMInstance);
     deathBGMInstance = std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE>();
     IScene::Terminate();
 }
-void PlayScene::Update(float deltaTime) {
+void PlayScene::Update(float deltaTime)
+{
+    // if (isInfiniteMode)
+    //     printf("INF");
+    // else
+    //     printf("NORM");
     // If we use deltaTime directly, then we might have Bullet-through-paper problem.
     // Reference: Bullet-Through-Paper
     if (SpeedMult == 0)
@@ -102,20 +112,25 @@ void PlayScene::Update(float deltaTime) {
         SpeedMult = 1;
     // Calculate danger zone.
     std::vector<float> reachEndTimes;
-    for (auto &it : EnemyGroup->GetObjects()) {
+    for (auto &it : EnemyGroup->GetObjects())
+    {
         reachEndTimes.push_back(dynamic_cast<Enemy *>(it)->reachEndTime);
     }
     // Can use Heap / Priority-Queue instead. But since we won't have too many enemies, sorting is fast enough.
     std::sort(reachEndTimes.begin(), reachEndTimes.end());
     float newDeathCountDown = -1;
     int danger = lives;
-    for (auto &it : reachEndTimes) {
-        if (it <= DangerTime) {
+    for (auto &it : reachEndTimes)
+    {
+        if (it <= DangerTime)
+        {
             danger--;
-            if (danger <= 0){
+            if (danger <= 0)
+            {
                 // Death Countdown
                 float pos = DangerTime - it;
-                if (it > deathCountDown){
+                if (it > deathCountDown)
+                {
                     // Restart Death Count Down BGM.
                     AudioHelper::StopSample(deathBGMInstance);
                     if (SpeedMult != 0)
@@ -132,35 +147,42 @@ void PlayScene::Update(float deltaTime) {
     deathCountDown = newDeathCountDown;
     if (SpeedMult == 0)
         AudioHelper::StopSample(deathBGMInstance);
-    if (deathCountDown == -1 && lives > 0) {
+    if (deathCountDown == -1 && lives > 0)
+    {
         AudioHelper::StopSample(deathBGMInstance);
         dangerIndicator->Tint.a = 0;
     }
     if (SpeedMult == 0)
         deathCountDown = -1;
-    for (int i = 0; i < SpeedMult; i++) {
+    for (int i = 0; i < SpeedMult; i++)
+    {
         IScene::Update(deltaTime);
         // Check if we should create new enemy.
         ticks += deltaTime;
-        
-        //(END) TODO HACKATHON-5 (1/4): There's a bug in this file, which crashes the game when you win. Try to find it.
-        if (enemyWaveData.empty()) {
-            if (EnemyGroup->GetObjects().empty()) {
-                //Free resources.
-                // delete TileMapGroup;
-                // delete GroundEffectGroup;
-                // delete DebugIndicatorGroup;
-                // delete TowerGroup;
-                // delete EnemyGroup;
-                // delete BulletGroup;
-                // delete EffectGroup;
-                // delete UIGroup;
-                // delete imgTarget;
+        infiniteTicks += deltaTime;
 
-                if(to_win_scene_lockdown == -1){
+        //(END) TODO HACKATHON-5 (1/4): There's a bug in this file, which crashes the game when you win. Try to find it.
+        if (enemyWaveData.empty())
+        {
+            if (EnemyGroup->GetObjects().empty())
+            {
+                // Free resources.
+                //  delete TileMapGroup;
+                //  delete GroundEffectGroup;
+                //  delete DebugIndicatorGroup;
+                //  delete TowerGroup;
+                //  delete EnemyGroup;
+                //  delete BulletGroup;
+                //  delete EffectGroup;
+                //  delete UIGroup;
+                //  delete imgTarget;
+
+                if (to_win_scene_lockdown == -1)
+                {
                     to_win_scene_lockdown = 60;
                 }
-                else{
+                else
+                {
                     to_win_scene_lockdown--;
                 }
 
@@ -168,16 +190,19 @@ void PlayScene::Update(float deltaTime) {
                 //(END) TODO PROJECT-2 (2/5)-1: You need to save the score when the player wins.
                 //(END) TODO                    (save score in tmp file)
                 // TODO PROJECT-bonus (1): Add date time information to each record and display them.
-                if(to_win_scene_lockdown == 0){
+                if (to_win_scene_lockdown == 0)
+                {
                     //& ofstream: write(**output**) data in code to files.
                     //& just like "w" mode in python
                     std::ofstream tmp_file("../Resource/new_score.tmp");
-                    if(tmp_file.is_open()) {
-                        tmp_file << money; //score
+                    if (tmp_file.is_open())
+                    {
+                        tmp_file << money; // score
 
                         tmp_file.close();
                     }
-                    else{
+                    else
+                    {
                         Engine::LOG(Engine::ERROR) << "Can't create temporary file";
                     }
 
@@ -186,20 +211,22 @@ void PlayScene::Update(float deltaTime) {
             }
             continue;
         }
-        auto current = enemyWaveData.front();
-        if (ticks < current.second)
-            continue;
-        ticks -= current.second;
-        enemyWaveData.pop_front();
-        const Engine::Point SpawnCoordinate = Engine::Point(SpawnGridPoint.x * BlockSize + BlockSize / 2, SpawnGridPoint.y * BlockSize + BlockSize / 2);
-        Enemy *enemy;
-        switch (current.first) {
+
+        Enemy *enemy = nullptr;
+        if (!isInfiniteMode)
+        {
+            auto current = enemyWaveData.front();
+            if (ticks < current.second)
+                continue;
+            ticks -= current.second;
+            enemyWaveData.pop_front();
+            const Engine::Point SpawnCoordinate = Engine::Point(SpawnGridPoint.x * BlockSize + BlockSize / 2, SpawnGridPoint.y * BlockSize + BlockSize / 2);
+            switch (current.first)
+            {
             case 1:
                 EnemyGroup->AddNewObject(enemy = new SoldierEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
                 break;
-            //(END) TODO HACKATHON-3 (2/3): Add your new enemy here.
             case 2:
-                //! modified
                 EnemyGroup->AddNewObject(enemy = new ShieldEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
                 break;
             case 3:
@@ -207,29 +234,110 @@ void PlayScene::Update(float deltaTime) {
                 break;
             default:
                 continue;
+            }
+            enemy->UpdatePath(mapDistance);
+            enemy->Update(ticks);
         }
-        enemy->UpdatePath(mapDistance);
-        // Compensate the time lost.
-        enemy->Update(ticks);
+        else
+        {
+            // 無限模式：隨機生成敵人，且難度隨時間增加
+            const Engine::Point SpawnCoordinate = Engine::Point(
+                SpawnGridPoint.x * BlockSize + BlockSize / 2,
+                SpawnGridPoint.y * BlockSize + BlockSize / 2);
+
+            static float infiniteSpawnInterval = 3.3f; // 初始間隔 3.3 秒
+            static float infiniteTimer = 0.0f;
+            infiniteTimer += deltaTime;
+
+            // 隨著遊戲時間增加，降低生成間隔，加快敵人生成速度（最小間隔 0.5 秒）
+            float difficultyFactor = std::max(0.5f, 2.0f - infiniteTimer * 0.003f);
+            infiniteSpawnInterval = difficultyFactor;
+
+            if (infiniteTimer >= infiniteSpawnInterval)
+            {
+                infiniteTimer = 0.0f;
+
+                // 隨機選敵人類型，依照時間變化機率
+                int enemyType;
+                float r = static_cast<float>(rand()) / RAND_MAX;
+
+                if (infiniteTicks < 90)
+                {
+                    enemyType = (r < 0.8f) ? 1 : 3;
+                }
+                else if (infiniteTicks < 300)
+                {
+                    if (r < 0.5f)
+                        enemyType = 1;
+                    else if (r < 0.85f)
+                        enemyType = 3;
+                    else
+                        enemyType = 2;
+                }
+                else if (infiniteTicks < 1000)
+                {
+                    if (r < 0.3f)
+                        enemyType = 1;
+                    else if (r < 0.6f)
+                        enemyType = 2;
+                    else
+                        enemyType = 3;
+                }
+                else
+                {
+                    if (r < 0.5)
+                        enemyType = 2;
+                    else
+                        enemyType = 3;
+                }
+
+                Enemy *enemy = nullptr;
+                switch (enemyType)
+                {
+                case 1:
+                    enemy = new SoldierEnemy(SpawnCoordinate.x, SpawnCoordinate.y);
+                    break;
+                case 2:
+                    enemy = new ShieldEnemy(SpawnCoordinate.x, SpawnCoordinate.y);
+                    break;
+                case 3:
+                    enemy = new TankEnemy(SpawnCoordinate.x, SpawnCoordinate.y);
+                    break;
+                }
+
+                if (enemy)
+                {
+                    EnemyGroup->AddNewObject(enemy); // 加進 group（讓 objectIterator 被設定）
+                    enemy->UpdatePath(mapDistance);  // 更新路徑
+                }
+            }
+        }
     }
-    if (preview) {
+    if (preview)
+    {
         preview->Position = Engine::GameEngine::GetInstance().GetMousePosition();
         // To keep responding when paused.
         preview->Update(deltaTime);
     }
-    if (preview_tool) {
+    if (preview_tool)
+    {
         preview_tool->Position = Engine::GameEngine::GetInstance().GetMousePosition();
         // To keep responding when paused.
         preview_tool->Update(deltaTime);
     }
 }
-void PlayScene::Draw() const {
+void PlayScene::Draw() const
+{
     IScene::Draw();
-    if (DebugMode) {
+    if (DebugMode)
+    {
         // Draw reverse BFS distance on all reachable blocks.
-        for (int i = 0; i < MapHeight; i++) {
-            for (int j = 0; j < MapWidth; j++) {
-                if (mapDistance[i][j] != -1) {
+        for (int i = 0; i < MapHeight; i++)
+        {
+            for (int j = 0; j < MapWidth; j++)
+            {
+                if (mapDistance[i][j] != -1)
+                {
                     // Not elegant nor efficient, but it's quite enough for debugging.
                     Engine::Label label(std::to_string(mapDistance[i][j]), "pirulen.ttf", 32, (j + 0.5) * BlockSize, (i + 0.5) * BlockSize);
                     label.Anchor = Engine::Point(0.5, 0.5);
@@ -239,24 +347,29 @@ void PlayScene::Draw() const {
         }
     }
 }
-void PlayScene::OnMouseDown(int button, int mx, int my) {
-    if ((button & 1) && !imgTarget->Visible && preview) {
+void PlayScene::OnMouseDown(int button, int mx, int my)
+{
+    if ((button & 1) && !imgTarget->Visible && preview)
+    {
         // Cancel turret construct.
         UIGroup->RemoveObject(preview->GetObjectIterator());
         preview = nullptr;
     }
-    if ((button & 1) && !imgTarget->Visible && preview_tool) {
+    if ((button & 1) && !imgTarget->Visible && preview_tool)
+    {
         // Cancel tool construct.
         UIGroup->RemoveObject(preview_tool->GetObjectIterator());
         preview_tool = nullptr;
     }
     IScene::OnMouseDown(button, mx, my);
 }
-void PlayScene::OnMouseMove(int mx, int my) {
+void PlayScene::OnMouseMove(int mx, int my)
+{
     IScene::OnMouseMove(mx, my);
     const int x = mx / BlockSize;
     const int y = my / BlockSize;
-    if ((!preview && !preview_tool) || x < 0 || x >= MapWidth || y < 0 || y >= MapHeight) {
+    if ((!preview && !preview_tool) || x < 0 || x >= MapWidth || y < 0 || y >= MapHeight)
+    {
         imgTarget->Visible = false;
         return;
     }
@@ -264,26 +377,32 @@ void PlayScene::OnMouseMove(int mx, int my) {
     imgTarget->Position.x = x * BlockSize;
     imgTarget->Position.y = y * BlockSize;
 }
-void PlayScene::OnMouseUp(int button, int mx, int my) {
+void PlayScene::OnMouseUp(int button, int mx, int my)
+{
     IScene::OnMouseUp(button, mx, my);
     if (!imgTarget->Visible)
         return;
     const int x = mx / BlockSize;
     const int y = my / BlockSize;
-    if (button & 1) {
-        if (preview_tool || mapState[y][x] != TILE_OCCUPIED) {
-            if (!preview && !preview_tool){
+    if (button & 1)
+    {
+        if (preview_tool || mapState[y][x] != TILE_OCCUPIED)
+        {
+            if (!preview && !preview_tool)
+            {
                 return;
             }
             // Check if valid.
-            if (!CheckSpaceValid(x, y)) {
+            if (!CheckSpaceValid(x, y))
+            {
                 Engine::Sprite *sprite;
                 GroundEffectGroup->AddNewObject(sprite = new DirtyEffect("play/target-invalid.png", 1, x * BlockSize + BlockSize / 2, y * BlockSize + BlockSize / 2));
                 sprite->Rotation = 0;
                 return;
             }
 
-            if(preview){
+            if (preview)
+            {
                 // Purchase.
                 EarnMoney(-preview->GetPrice());
                 // Remove Preview.
@@ -305,14 +424,16 @@ void PlayScene::OnMouseUp(int button, int mx, int my) {
                 // Remove Preview.
                 preview = nullptr;
             }
-            else if(preview_tool){
+            else if (preview_tool)
+            {
                 // Remove Preview.
                 preview_tool->GetObjectIterator()->first = false;
                 UIGroup->RemoveObject(preview_tool->GetObjectIterator());
                 // real tool operated.
                 std::pair<int, int> shovel_place = std::make_pair(x * BlockSize + BlockSize / 2, y * BlockSize + BlockSize / 2);
                 std::cout << "try to remove: (" << shovel_place.first << ", " << shovel_place.second << ")" << std::endl;
-                if(turret_map.find(shovel_place) != turret_map.end()){
+                if (turret_map.find(shovel_place) != turret_map.end())
+                {
                     std::cout << "removed." << std::endl;
                     EarnMoney(turret_map[shovel_place]->GetPrice() * 0.5);
                     TowerGroup->RemoveObject(turret_map[shovel_place]->GetObjectIterator());
@@ -331,78 +452,102 @@ void PlayScene::OnMouseUp(int button, int mx, int my) {
 }
 
 //(END) TODO HACKATHON-4 (1/3): Trace how the game handles keyboard input.
-void PlayScene::OnKeyDown(int keyCode) {
+void PlayScene::OnKeyDown(int keyCode)
+{
     IScene::OnKeyDown(keyCode);
 
-    //(END) TODO HACKATHON-4 (3/3): When the cheat code is entered, a plane should 
+    //(END) TODO HACKATHON-4 (3/3): When the cheat code is entered, a plane should
     //(END)                         be spawned and added to the scene.
-    if (keyCode == code[CheatCodeSeqNowAt]){
-        if(CheatCodeSeqNowAt == 11){
+    if (keyCode == code[CheatCodeSeqNowAt])
+    {
+        if (CheatCodeSeqNowAt == 11)
+        {
             Plane *new_plane;
             PlaneGroup->AddNewObject(new_plane = new Plane());
             EarnMoney(10000);
 
             CheatCodeSeqNowAt = 0;
         }
-        else{
+        else
+        {
             CheatCodeSeqNowAt++;
         }
     }
-    else{
+    else
+    {
         CheatCodeSeqNowAt = 0;
     }
 
-    if (keyCode == ALLEGRO_KEY_TAB) {
+    if (keyCode == ALLEGRO_KEY_TAB)
+    {
         DebugMode = !DebugMode;
-    } else {
+    }
+    else
+    {
         keyStrokes.push_back(keyCode);
         if (keyStrokes.size() > code.size())
             keyStrokes.pop_front();
     }
-    if (keyCode == ALLEGRO_KEY_Q) {
+    if (keyCode == ALLEGRO_KEY_Q)
+    {
         // Hotkey for MachineGunTurret.
         UIBtnClicked(0);
-    } else if (keyCode == ALLEGRO_KEY_W) {
+    }
+    else if (keyCode == ALLEGRO_KEY_W)
+    {
         // Hotkey for LaserTurret.
         UIBtnClicked(1);
     }
-    else if (keyCode >= ALLEGRO_KEY_0 && keyCode <= ALLEGRO_KEY_9) {
+    else if (keyCode >= ALLEGRO_KEY_0 && keyCode <= ALLEGRO_KEY_9)
+    {
         // Hotkey for Speed up.
         SpeedMult = keyCode - ALLEGRO_KEY_0;
     }
 }
 
 //(END) TODO HACKATHON-5 (2/4): The "LIFE" label are not updated when you lose a life. Try to fix it.
-void PlayScene::Hit() {
+void PlayScene::Hit()
+{
     lives--;
     UILives->Text = std::string("Life ") + std::to_string(lives);
-    if (lives <= 0){
+    if (lives <= 0)
+    {
         Engine::GameEngine::GetInstance().ChangeScene("lose");
     }
 }
-int PlayScene::GetMoney() const {
+int PlayScene::GetMoney() const
+{
     return money;
 }
-void PlayScene::EarnMoney(int money) {
+void PlayScene::EarnMoney(int money)
+{
     this->money += money;
     UIMoney->Text = std::string("$") + std::to_string(this->money);
 }
-void PlayScene::ReadMap() {
+void PlayScene::ReadMap()
+{
     std::string filename = std::string("Resource/map") + std::to_string(MapId) + ".txt";
     // Read map file.
     char c;
     std::vector<bool> mapData;
     std::ifstream fin(filename);
-    while (fin >> c) {
-        switch (c) {
-            case '0': mapData.push_back(false); break;
-            case '1': mapData.push_back(true); break;
-            case '\n':
-            case '\r':
-                if (static_cast<int>(mapData.size()) / MapWidth != 0)
-                    throw std::ios_base::failure("Map data is corrupted.");
-                break;
-            default: throw std::ios_base::failure("Map data is corrupted.");
+    while (fin >> c)
+    {
+        switch (c)
+        {
+        case '0':
+            mapData.push_back(false);
+            break;
+        case '1':
+            mapData.push_back(true);
+            break;
+        case '\n':
+        case '\r':
+            if (static_cast<int>(mapData.size()) / MapWidth != 0)
+                throw std::ios_base::failure("Map data is corrupted.");
+            break;
+        default:
+            throw std::ios_base::failure("Map data is corrupted.");
         }
     }
     fin.close();
@@ -411,8 +556,10 @@ void PlayScene::ReadMap() {
         throw std::ios_base::failure("Map data is corrupted.");
     // Store map in 2d array.
     mapState = std::vector<std::vector<TileType>>(MapHeight, std::vector<TileType>(MapWidth));
-    for (int i = 0; i < MapHeight; i++) {
-        for (int j = 0; j < MapWidth; j++) {
+    for (int i = 0; i < MapHeight; i++)
+    {
+        for (int j = 0; j < MapWidth; j++)
+        {
             const int num = mapData[i * MapWidth + j];
             mapState[i][j] = num ? TILE_FLOOR : TILE_DIRT;
             if (num)
@@ -422,19 +569,22 @@ void PlayScene::ReadMap() {
         }
     }
 }
-void PlayScene::ReadEnemyWave() {
+void PlayScene::ReadEnemyWave()
+{
     std::string filename = std::string("Resource/enemy") + std::to_string(MapId) + ".txt";
     // Read enemy file.
     float type, wait, repeat;
     enemyWaveData.clear();
     std::ifstream fin(filename);
-    while (fin >> type && fin >> wait && fin >> repeat) {
+    while (fin >> type && fin >> wait && fin >> repeat)
+    {
         for (int i = 0; i < repeat; i++)
             enemyWaveData.emplace_back(type, wait);
     }
     fin.close();
 }
-void PlayScene::ConstructUI() {
+void PlayScene::ConstructUI()
+{
     // Background
     UIGroup->AddNewObject(new Engine::Image("play/sand.png", 1280, 0, 320, 832));
     // Text
@@ -467,8 +617,8 @@ void PlayScene::ConstructUI() {
     // Button 4 (shovel)
     ToolButton *tool_btn;
     tool_btn = new ToolButton("play/floor.png", "play/dirt.png",
-                            Engine::Sprite("play/shovel.png", 1299, 291, 54, 54, 0, 0),
-                            1294, 286);
+                              Engine::Sprite("play/shovel.png", 1299, 291, 54, 54, 0, 0),
+                              1294, 286);
     tool_btn->SetOnClickCallback(std::bind(&PlayScene::UIBtnClicked, this, 100));
     UIGroup->AddNewControlObject(tool_btn);
 
@@ -480,36 +630,45 @@ void PlayScene::ConstructUI() {
     UIGroup->AddNewObject(dangerIndicator);
 }
 
-void PlayScene::UIBtnClicked(int id) {
-    if (preview){
+void PlayScene::UIBtnClicked(int id)
+{
+    if (preview)
+    {
         UIGroup->RemoveObject(preview->GetObjectIterator());
     }
-    if (preview_tool){
+    if (preview_tool)
+    {
         UIGroup->RemoveObject(preview_tool->GetObjectIterator());
     }
 
-    if (id == 0 && money >= MachineGunTurret::Price){
+    if (id == 0 && money >= MachineGunTurret::Price)
+    {
         preview = new MachineGunTurret(0, 0);
     }
-    else if (id == 1 && money >= GrowTurret::Price){
+    else if (id == 1 && money >= GrowTurret::Price)
+    {
         preview = new GrowTurret(0, 0);
     }
-    else if (id == 2 && money >= LaserTurret::Price){
+    else if (id == 2 && money >= LaserTurret::Price)
+    {
         preview = new LaserTurret(0, 0);
     }
-    else if (id == 100){
+    else if (id == 100)
+    {
         preview_tool = new Shovel(0, 0);
     }
 
-    if(preview){
+    if (preview)
+    {
         preview->Position = Engine::GameEngine::GetInstance().GetMousePosition();
         preview->Tint = al_map_rgba(255, 255, 255, 200);
         preview->Enabled = false;
         preview->Preview = true;
         UIGroup->AddNewObject(preview);
-        OnMouseMove(Engine::GameEngine::GetInstance().GetMousePosition().x, Engine::GameEngine::GetInstance().GetMousePosition().y);        
+        OnMouseMove(Engine::GameEngine::GetInstance().GetMousePosition().x, Engine::GameEngine::GetInstance().GetMousePosition().y);
     }
-    else if(preview_tool){
+    else if (preview_tool)
+    {
         preview_tool->Position = Engine::GameEngine::GetInstance().GetMousePosition();
         preview_tool->Tint = al_map_rgba(255, 255, 255, 200);
         preview_tool->Enabled = false;
@@ -517,10 +676,10 @@ void PlayScene::UIBtnClicked(int id) {
         UIGroup->AddNewObject(preview_tool);
         OnMouseMove(Engine::GameEngine::GetInstance().GetMousePosition().x, Engine::GameEngine::GetInstance().GetMousePosition().y);
     }
-    
 }
 
-bool PlayScene::CheckSpaceValid(int x, int y) {
+bool PlayScene::CheckSpaceValid(int x, int y)
+{
     if (x < 0 || x >= MapWidth || y < 0 || y >= MapHeight)
         return false;
     auto map00 = mapState[y][x];
@@ -529,14 +688,19 @@ bool PlayScene::CheckSpaceValid(int x, int y) {
     mapState[y][x] = map00;
     if (map[0][0] == -1)
         return false;
-    for (auto &it : EnemyGroup->GetObjects()) {
+    for (auto &it : EnemyGroup->GetObjects())
+    {
         Engine::Point pnt;
         pnt.x = floor(it->Position.x / BlockSize);
         pnt.y = floor(it->Position.y / BlockSize);
-        if (pnt.x < 0) pnt.x = 0;
-        if (pnt.x >= MapWidth) pnt.x = MapWidth - 1;
-        if (pnt.y < 0) pnt.y = 0;
-        if (pnt.y >= MapHeight) pnt.y = MapHeight - 1;
+        if (pnt.x < 0)
+            pnt.x = 0;
+        if (pnt.x >= MapWidth)
+            pnt.x = MapWidth - 1;
+        if (pnt.y < 0)
+            pnt.y = 0;
+        if (pnt.y >= MapHeight)
+            pnt.y = MapHeight - 1;
         if (map[pnt.y][pnt.x] == -1)
             return false;
     }
@@ -549,10 +713,10 @@ bool PlayScene::CheckSpaceValid(int x, int y) {
 }
 
 const Engine::Point bfs_dxdy[4] = {
-    Engine::Point(1, 0), Engine::Point(-1, 0), Engine::Point(0, 1), Engine::Point(0, -1)
-};
+    Engine::Point(1, 0), Engine::Point(-1, 0), Engine::Point(0, 1), Engine::Point(0, -1)};
 
-std::vector<std::vector<int>> PlayScene::CalculateBFSDistance() {
+std::vector<std::vector<int>> PlayScene::CalculateBFSDistance()
+{
     // Reverse BFS to find path.
     //& map: the path distance 2D array constructed by BFS. (if not path, val. will be -1)
     std::vector<std::vector<int>> map(MapHeight, std::vector<int>(std::vector<int>(MapWidth, -1)));
@@ -567,29 +731,35 @@ std::vector<std::vector<int>> PlayScene::CalculateBFSDistance() {
     // (END)TODO PROJECT-1 (1/1): Implement a BFS starting from the most right-bottom block in the map.
     // (END)              For each step you should assign the corresponding distance to the most right-bottom block.
     // (END)              mapState[y][x] is TILE_DIRT if it is empty.
-    while (!que.empty()) {
+    while (!que.empty())
+    {
         Engine::Point observing_point = que.front();
         que.pop();
 
         Engine::Point possible_next_step;
-        for(unsigned short i = 0; i < 4; i++){
+        for (unsigned short i = 0; i < 4; i++)
+        {
             possible_next_step = observing_point + bfs_dxdy[i];
             //& invalid
-            if(
+            if (
                 possible_next_step.x >= MapWidth || possible_next_step.x < 0 || //& out-of-bound
-                possible_next_step.y >= MapHeight || possible_next_step.y < 0 || 
-                (map[possible_next_step.y][possible_next_step.x] <= map[observing_point.y][observing_point.x] && 
-                map[possible_next_step.y][possible_next_step.x] != -1) || //& not a shorter path
+                possible_next_step.y >= MapHeight || possible_next_step.y < 0 ||
+                (map[possible_next_step.y][possible_next_step.x] <= map[observing_point.y][observing_point.x] &&
+                 map[possible_next_step.y][possible_next_step.x] != -1) ||        //& not a shorter path
                 mapState[possible_next_step.y][possible_next_step.x] != TILE_DIRT //& can't walk
-            ){ continue; }
-
-            map[possible_next_step.y][possible_next_step.x] = map[observing_point.y][observing_point.x] + 1;
-            
-            //& reached the most left-top block, stop
-            if (possible_next_step == Engine::Point(0, 0)){
+            )
+            {
                 continue;
             }
-            
+
+            map[possible_next_step.y][possible_next_step.x] = map[observing_point.y][observing_point.x] + 1;
+
+            //& reached the most left-top block, stop
+            if (possible_next_step == Engine::Point(0, 0))
+            {
+                continue;
+            }
+
             que.push(possible_next_step);
         }
     }

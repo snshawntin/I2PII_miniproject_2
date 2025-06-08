@@ -12,16 +12,19 @@
 
 class Turret;
 class Tool;
-namespace Engine{
+namespace Engine
+{
     class Group;
     class Image;
     class Label;
     class Sprite;
 } // namespace Engine
 
-class PlayScene final : public Engine::IScene {
+class PlayScene final : public Engine::IScene
+{
 private:
-    enum TileType {
+    enum TileType
+    {
         TILE_DIRT,
         TILE_FLOOR,
         TILE_OCCUPIED,
@@ -48,6 +51,8 @@ public:
     float ticks;
     float deathCountDown;
     int to_win_scene_lockdown;
+    static bool isInfiniteMode;
+    float infiniteTicks = 0.0f;
     // Map tiles.
     Group *TileMapGroup;
     Group *GroundEffectGroup;
@@ -91,4 +96,4 @@ public:
     std::map<std::pair<int, int>, Turret *> turret_map;
     // void ModifyReadMapTiles();
 };
-#endif   // PLAYSCENE_HPP
+#endif // PLAYSCENE_HPP
