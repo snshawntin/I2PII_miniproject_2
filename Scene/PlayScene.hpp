@@ -36,6 +36,7 @@ protected:
     int lives;
     int money;
     int SpeedMult;
+    std::vector<Engine::Image *> lifeIcons;
 
 public:
     static bool DebugMode;
@@ -84,6 +85,7 @@ public:
     void OnMouseUp(int button, int mx, int my) override;
     void OnKeyDown(int keyCode) override;
     void Hit();
+
     int GetMoney() const;
     void EarnMoney(int money);
     void ReadMap();
@@ -92,6 +94,7 @@ public:
     void UIBtnClicked(int id);
     bool CheckSpaceValid(int x, int y);
     std::vector<std::vector<int>> CalculateBFSDistance();
+    void UpdateLifeIcons();
 
     std::map<std::pair<int, int>, Turret *> turret_map;
     // void ModifyReadMapTiles();

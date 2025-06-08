@@ -249,8 +249,8 @@ void PlayScene::Update(float deltaTime)
             static float infiniteTimer = 0.0f;
             infiniteTimer += deltaTime;
 
-            // 隨著遊戲時間增加，降低生成間隔，加快敵人生成速度（最小間隔 0.5 秒）
-            float difficultyFactor = std::max(0.5f, 2.0f - infiniteTimer * 0.003f);
+            // 隨著遊戲時間增加，降低生成間隔，加快敵人生成速度（最小間隔 0.3 秒）
+            float difficultyFactor = std::max(0.3f, 2.0f - infiniteTimer * 0.003f);
             infiniteSpawnInterval = difficultyFactor;
 
             if (infiniteTimer >= infiniteSpawnInterval)
@@ -307,8 +307,8 @@ void PlayScene::Update(float deltaTime)
 
                 if (enemy)
                 {
-                    EnemyGroup->AddNewObject(enemy); // 加進 group（讓 objectIterator 被設定）
-                    enemy->UpdatePath(mapDistance);  // 更新路徑
+                    EnemyGroup->AddNewObject(enemy);
+                    enemy->UpdatePath(mapDistance);
                 }
             }
         }
@@ -509,7 +509,7 @@ void PlayScene::OnKeyDown(int keyCode)
 void PlayScene::Hit()
 {
     lives--;
-    UILives->Text = std::string("Life ") + std::to_string(lives);
+    UpdateLifeIcons();
     if (lives <= 0)
     {
         Engine::GameEngine::GetInstance().ChangeScene("lose");
@@ -583,6 +583,28 @@ void PlayScene::ReadEnemyWave()
     }
     fin.close();
 }
+void PlayScene::UpdateLifeIcons()
+{
+    int hearts = lives / 2;
+    bool half = lives % 2;
+
+    for (int i = 0; i < 5; ++i)
+    {
+        if (i < hearts)
+        {
+            lifeIcons[i]->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/full.png"));
+        }
+        else if (i == hearts && half)
+        {
+            lifeIcons[i]->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/half.png"));
+        }
+        else
+        {
+            lifeIcons[i]->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/empty.png")); // optional fallback
+        }
+    }
+}
+
 void PlayScene::ConstructUI()
 {
     // Background
@@ -590,7 +612,14 @@ void PlayScene::ConstructUI()
     // Text
     UIGroup->AddNewObject(new Engine::Label(std::string("Stage ") + std::to_string(MapId), "pirulen.ttf", 32, 1294, 0));
     UIGroup->AddNewObject(UIMoney = new Engine::Label(std::string("$") + std::to_string(money), "pirulen.ttf", 24, 1294, 48));
-    UIGroup->AddNewObject(UILives = new Engine::Label(std::string("Life ") + std::to_string(lives), "pirulen.ttf", 24, 1294, 88));
+    // Add 5 heart icons (each is 24*26), spaced by 30 pixels.
+    for (int i = 0; i < 5; ++i)
+    {
+        auto icon = new Engine::Image("play/full.png", 1294 + i * 30, 88, 32, 32);
+        lifeIcons.push_back(icon);
+        UIGroup->AddNewObject(icon);
+    }
+    UpdateLifeIcons(); // initialize
     TurretButton *btn;
     // Button 1 (machine gun turret)
     btn = new TurretButton("play/floor.png", "play/dirt.png",
