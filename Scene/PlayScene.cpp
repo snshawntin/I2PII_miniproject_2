@@ -555,7 +555,7 @@ const Engine::Point bfs_dxdy[4] = {
 std::vector<std::vector<int>> PlayScene::CalculateBFSDistance() {
     // Reverse BFS to find path.
     //& map: the path distance 2D array constructed by BFS. (if not path, val. will be -1)
-    std::vector<std::vector<int>> map(MapHeight, std::vector<int>(std::vector<int>(MapWidth, -1)));
+    std::vector<std::vector<int>> map(MapHeight, std::vector<int>(MapWidth, -1));
     std::queue<Engine::Point> que;
     // Push end point.
     // BFS from end point.
@@ -571,6 +571,11 @@ std::vector<std::vector<int>> PlayScene::CalculateBFSDistance() {
         Engine::Point observing_point = que.front();
         que.pop();
 
+        //& this point is searched before.
+        if(map[observing_point.y][observing_point.x] != -1){
+            continue;
+        }
+
         Engine::Point possible_next_step;
         for(unsigned short i = 0; i < 4; i++){
             possible_next_step = observing_point + bfs_dxdy[i];
@@ -580,11 +585,11 @@ std::vector<std::vector<int>> PlayScene::CalculateBFSDistance() {
                 possible_next_step.y >= MapHeight || possible_next_step.y < 0 || 
                 (map[possible_next_step.y][possible_next_step.x] <= map[observing_point.y][observing_point.x] && 
                 map[possible_next_step.y][possible_next_step.x] != -1) || //& not a shorter path
-                mapState[possible_next_step.y][possible_next_step.x] != TILE_DIRT //& can't walk
+                mapState[possible_next_step.y][possible_next_step.x] != TILE_DIRT //& can't walk 
             ){ continue; }
 
             map[possible_next_step.y][possible_next_step.x] = map[observing_point.y][observing_point.x] + 1;
-            
+
             //& reached the most left-top block, stop
             if (possible_next_step == Engine::Point(0, 0)){
                 continue;

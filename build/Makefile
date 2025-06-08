@@ -632,6 +632,30 @@ Engine/Sprite.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Engine/Sprite.cpp.s
 .PHONY : Engine/Sprite.cpp.s
 
+Scene/CustomMapSelectScene.obj: Scene/CustomMapSelectScene.cpp.obj
+.PHONY : Scene/CustomMapSelectScene.obj
+
+# target to build an object file
+Scene/CustomMapSelectScene.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/CustomMapSelectScene.cpp.obj
+.PHONY : Scene/CustomMapSelectScene.cpp.obj
+
+Scene/CustomMapSelectScene.i: Scene/CustomMapSelectScene.cpp.i
+.PHONY : Scene/CustomMapSelectScene.i
+
+# target to preprocess a source file
+Scene/CustomMapSelectScene.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/CustomMapSelectScene.cpp.i
+.PHONY : Scene/CustomMapSelectScene.cpp.i
+
+Scene/CustomMapSelectScene.s: Scene/CustomMapSelectScene.cpp.s
+.PHONY : Scene/CustomMapSelectScene.s
+
+# target to generate assembly for a file
+Scene/CustomMapSelectScene.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/CustomMapSelectScene.cpp.s
+.PHONY : Scene/CustomMapSelectScene.cpp.s
+
 Scene/LoseScene.obj: Scene/LoseScene.cpp.obj
 .PHONY : Scene/LoseScene.obj
 
@@ -655,6 +679,54 @@ Scene/LoseScene.s: Scene/LoseScene.cpp.s
 Scene/LoseScene.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/LoseScene.cpp.s
 .PHONY : Scene/LoseScene.cpp.s
+
+Scene/MapEditScene.obj: Scene/MapEditScene.cpp.obj
+.PHONY : Scene/MapEditScene.obj
+
+# target to build an object file
+Scene/MapEditScene.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/MapEditScene.cpp.obj
+.PHONY : Scene/MapEditScene.cpp.obj
+
+Scene/MapEditScene.i: Scene/MapEditScene.cpp.i
+.PHONY : Scene/MapEditScene.i
+
+# target to preprocess a source file
+Scene/MapEditScene.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/MapEditScene.cpp.i
+.PHONY : Scene/MapEditScene.cpp.i
+
+Scene/MapEditScene.s: Scene/MapEditScene.cpp.s
+.PHONY : Scene/MapEditScene.s
+
+# target to generate assembly for a file
+Scene/MapEditScene.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/MapEditScene.cpp.s
+.PHONY : Scene/MapEditScene.cpp.s
+
+Scene/ModeSelectScene.obj: Scene/ModeSelectScene.cpp.obj
+.PHONY : Scene/ModeSelectScene.obj
+
+# target to build an object file
+Scene/ModeSelectScene.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/ModeSelectScene.cpp.obj
+.PHONY : Scene/ModeSelectScene.cpp.obj
+
+Scene/ModeSelectScene.i: Scene/ModeSelectScene.cpp.i
+.PHONY : Scene/ModeSelectScene.i
+
+# target to preprocess a source file
+Scene/ModeSelectScene.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/ModeSelectScene.cpp.i
+.PHONY : Scene/ModeSelectScene.cpp.i
+
+Scene/ModeSelectScene.s: Scene/ModeSelectScene.cpp.s
+.PHONY : Scene/ModeSelectScene.s
+
+# target to generate assembly for a file
+Scene/ModeSelectScene.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/ModeSelectScene.cpp.s
+.PHONY : Scene/ModeSelectScene.cpp.s
 
 Scene/PlayScene.obj: Scene/PlayScene.cpp.obj
 .PHONY : Scene/PlayScene.obj
@@ -1256,9 +1328,18 @@ help:
 	@echo ... Engine/Sprite.obj
 	@echo ... Engine/Sprite.i
 	@echo ... Engine/Sprite.s
+	@echo ... Scene/CustomMapSelectScene.obj
+	@echo ... Scene/CustomMapSelectScene.i
+	@echo ... Scene/CustomMapSelectScene.s
 	@echo ... Scene/LoseScene.obj
 	@echo ... Scene/LoseScene.i
 	@echo ... Scene/LoseScene.s
+	@echo ... Scene/MapEditScene.obj
+	@echo ... Scene/MapEditScene.i
+	@echo ... Scene/MapEditScene.s
+	@echo ... Scene/ModeSelectScene.obj
+	@echo ... Scene/ModeSelectScene.i
+	@echo ... Scene/ModeSelectScene.s
 	@echo ... Scene/PlayScene.obj
 	@echo ... Scene/PlayScene.i
 	@echo ... Scene/PlayScene.s
