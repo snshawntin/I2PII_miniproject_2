@@ -860,7 +860,7 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/StageSelectScene.cpp.obj: \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/IControl.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/IObject.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/StageSelectScene.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/Label.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/ImageButton.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/Image.hpp \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/Label.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/Slider.hpp

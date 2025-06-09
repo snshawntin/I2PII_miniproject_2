@@ -4,6 +4,8 @@
 #include <sstream>
 #include <random>
 
+#include <iostream>
+
 #include "Bullet/GrowBullet.hpp"
 #include "Engine/AudioHelper.hpp"
 #include "Engine/Group.hpp"
@@ -40,9 +42,9 @@ void GrowTurret::CreateBullet() {
 
             std::random_device dev;
             std::mt19937 rng(dev());
-            std::uniform_int_distribution<std::mt19937::result_type> dist(0, 1);
+            std::uniform_int_distribution<std::mt19937::result_type> dist(0, 100);
 
-            if(dist(rng) < 0.5 - 0.05 * level){
+            if(dist(rng) < 50 - 5 * level){
                 //& have chance to update every shot.
                 //& level++, cooldown--, radius++, attack++.
                 level++;
@@ -55,6 +57,7 @@ void GrowTurret::CreateBullet() {
                 std::string new_turretmap;
                 sst >> new_turretmap;
                 bmp = Engine::Resources::GetInstance().GetBitmap(new_turretmap);
+                
             }
         }
         else{
