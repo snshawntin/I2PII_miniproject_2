@@ -60,7 +60,7 @@ void CustomMapSelectScene::Terminate() {
 
 void CustomMapSelectScene::EditOnClick(unsigned short map_index) {
     MapEditScene *scene = dynamic_cast<MapEditScene *>(Engine::GameEngine::GetInstance().GetScene("map-edit"));
-    //scene->CustomMapId = map_index;
+    scene->CustomMapId = map_index;
     Engine::GameEngine::GetInstance().ChangeScene("map-edit");
 }
 

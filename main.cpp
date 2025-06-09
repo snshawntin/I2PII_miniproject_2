@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
 	//game.AddNewScene("infinite", new PlayScene());
 
 	game.AddNewScene("custom-map-select", new CustomMapSelectScene());
-	game.AddNewScene("map-edit", new MapEditScene()); //TODO
+	game.AddNewScene("map-edit", new MapEditScene());
 
 	game.AddNewScene("play", new PlayScene());
 	game.AddNewScene("lose", new LoseScene());

@@ -298,8 +298,6 @@ void PlayScene::OnMouseUp(int button, int mx, int my) {
                 TowerGroup->AddNewObject(preview);
                 turret_map[std::make_pair(preview->Position.x, preview->Position.y)] = preview;
 
-                std::cout << "new turret constructed at: (" << preview->Position.x << ", " << preview->Position.y << ")" << std::endl;
-
                 // To keep responding when paused.
                 preview->Update(0);
                 // Remove Preview.
@@ -311,9 +309,7 @@ void PlayScene::OnMouseUp(int button, int mx, int my) {
                 UIGroup->RemoveObject(preview_tool->GetObjectIterator());
                 // real tool operated.
                 std::pair<int, int> shovel_place = std::make_pair(x * BlockSize + BlockSize / 2, y * BlockSize + BlockSize / 2);
-                std::cout << "try to remove: (" << shovel_place.first << ", " << shovel_place.second << ")" << std::endl;
                 if(turret_map.find(shovel_place) != turret_map.end()){
-                    std::cout << "removed." << std::endl;
                     EarnMoney(turret_map[shovel_place]->GetPrice() * 0.5);
                     TowerGroup->RemoveObject(turret_map[shovel_place]->GetObjectIterator());
                     turret_map.erase(shovel_place);
