@@ -12,20 +12,10 @@
 [INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 40
 [INFO] Game initialized
 [INFO] Game start event loop
-[INFO] Loaded Resource<image>: Resource/images/stage-select/slider.png
-[INFO] Loaded Resource<image>: Resource/images/stage-select/slider-blue.png
-[INFO] Loaded Resource<image>: Resource/images/stage-select/bar.png scaled to 190x4
-[INFO] Loaded Resource<image>: Resource/images/stage-select/end.png
-[INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 28
-[INFO] Loaded Resource<audio>: Resource/audios/select.ogg
-[INFO] Created<sample_instance>: Resource/audios/select.ogg
-[INFO] Created<sample_instance>: Resource/audios/select.ogg
-[INFO] Changed to settings scene
-[INFO] stopped audio (sample)
-[INFO] Changed to start scene
 [INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 60
 [INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 36
 [INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 38
+[INFO] Loaded Resource<audio>: Resource/audios/select.ogg
 [INFO] Created<sample_instance>: Resource/audios/select.ogg
 [INFO] Changed to mode-select scene
 [INFO] stopped audio (sample)
@@ -46,52 +36,9 @@
 [INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 25
 [INFO] Loaded Resource<image>: Resource/images/stage-select/dirt.png scaled to 150x100
 [INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 20
+[INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 15
 [INFO] Loaded Resource<image>: Resource/images/play/benjamin.png
 [INFO] Loaded Resource<image>: Resource/images/play/target.png
 [INFO] Loaded Resource<audio>: Resource/audios/happy.ogg
 [INFO] played audio (bgm)
 [INFO] Changed to map-edit scene
-[INFO] stopped audio (bgm)
-[INFO] Created<sample_instance>: Resource/audios/select.ogg
-[INFO] Changed to custom-map-select scene
-[INFO] stopped audio (sample)
-[INFO] played audio (bgm)
-[INFO] Changed to map-edit scene
-[INFO] Game Terminating...
-[INFO] stopped audio (bgm)
-[INFO] Game terminated
-[INFO] Game end
-[INFO] Destroyed Resource<image>: play/benjamin.png
-[INFO] Destroyed Resource<image>: play/dirt.png
-[INFO] Destroyed Resource<image>: play/dirt.png?38x38
-[INFO] Destroyed Resource<image>: icon.png
-[INFO] Destroyed Resource<image>: play/dirt.png?64x64
-[INFO] Destroyed Resource<image>: stage-select/end.png
-[INFO] Destroyed Resource<image>: play/floor.png?64x64
-[INFO] Destroyed Resource<image>: stage-select/dirt.png?150x100
-[INFO] Destroyed Resource<image>: stage-select/bar.png?190x4
-[INFO] Destroyed Resource<image>: stage-select/slider-blue.png
-[INFO] Destroyed Resource<image>: play/sand.png?320x832
-[INFO] Destroyed Resource<image>: stage-select/dirt.png
-[INFO] Destroyed Resource<image>: stage-select/dirt.png?400x100
-[INFO] Destroyed Resource<image>: stage-select/slider.png
-[INFO] Destroyed Resource<image>: play/target.png
-[INFO] Destroyed Resource<image>: play/floor.png?38x38
-[INFO] Destroyed Resource<image>: stage-select/floor.png
-[INFO] Destroyed Resource<image>: play/shovel-base.png
-[INFO] Destroyed Resource<image>: play/floorbutton-base.png
-[INFO] Destroyed Resource<image>: stage-select/dirt.png?150x50
-[INFO] Destroyed Resource<font>: pirulen.ttf?20
-[INFO] Destroyed Resource<font>: pirulen.ttf?30
-[INFO] Destroyed Resource<font>: pirulen.ttf?25
-[INFO] Destroyed Resource<font>: pirulen.ttf?36
-[INFO] Destroyed Resource<font>: pirulen.ttf?40
-[INFO] Destroyed Resource<font>: pirulen.ttf?38
-[INFO] Destroyed Resource<font>: pirulen.ttf?60
-[INFO] Destroyed Resource<font>: pirulen.ttf?48
-[INFO] Destroyed Resource<font>: pirulen.ttf?28
-[INFO] Destroyed Resource<font>: pirulen.ttf?24
-[INFO] Destroyed Resource<font>: pirulen.ttf?120
-[INFO] Destroyed<sample_instance>: select.ogg
-[INFO] Destroyed Resource<audio>: happy.ogg
-[INFO] Destroyed Resource<audio>: select.ogg

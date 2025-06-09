@@ -560,40 +560,26 @@ std::vector<std::vector<int>> PlayScene::CalculateBFSDistance() {
     que.push(Engine::Point(MapWidth - 1, MapHeight - 1));
     map[MapHeight - 1][MapWidth - 1] = 0;
 
-    // (END)TODO PROJECT-1 (1/1): Implement a BFS starting from the most right-bottom block in the map.
-    // (END)              For each step you should assign the corresponding distance to the most right-bottom block.
-    // (END)              mapState[y][x] is TILE_DIRT if it is empty.
+    //(END) TODO PROJECT-1 (1/1): Implement a BFS starting from the most right-bottom block in the map.
+    //               For each step you should assign the corresponding distance to the most right-bottom block.
+    //               mapState[y][x] is TILE_DIRT if it is empty.
     while (!que.empty()) {
         Engine::Point observing_point = que.front();
         que.pop();
-
-        //& this point is searched before.
-        if(map[observing_point.y][observing_point.x] != -1){
-            continue;
-        }
-
-        Engine::Point possible_next_step;
-        for(unsigned short i = 0; i < 4; i++){
-            possible_next_step = observing_point + bfs_dxdy[i];
-            //& invalid
-            if(
-                possible_next_step.x >= MapWidth || possible_next_step.x < 0 || //& out-of-bound
-                possible_next_step.y >= MapHeight || possible_next_step.y < 0 || 
-                (map[possible_next_step.y][possible_next_step.x] <= map[observing_point.y][observing_point.x] && 
-                map[possible_next_step.y][possible_next_step.x] != -1) || //& not a shorter path
-                mapState[possible_next_step.y][possible_next_step.x] != TILE_DIRT //& can't walk 
-            ){ continue; }
-
-            map[possible_next_step.y][possible_next_step.x] = map[observing_point.y][observing_point.x] + 1;
-
-            //& reached the most left-top block, stop
-            if (possible_next_step == Engine::Point(0, 0)){
+        for (int i = 0; i < 4; i++) {
+            int next_x = observing_point.x + bfs_dxdy[i].x;
+            int next_y = observing_point.y + bfs_dxdy[i].y;
+            if (next_x < 0 || next_x >= MapWidth || next_y < 0 || next_y >= MapHeight)
                 continue;
-            }
-            
-            que.push(possible_next_step);
+            if (map[next_y][next_x] != -1)
+                continue;
+            if (mapState[next_y][next_x] != TILE_DIRT)
+                continue;
+            map[next_y][next_x] = map[observing_point.y][observing_point.x] + 1;
+            que.push(Engine::Point(next_x, next_y));
         }
     }
+    
 
     return map;
 }

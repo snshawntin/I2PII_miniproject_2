@@ -50,6 +50,8 @@ public:
     Group *UIGroup;
     TileType selected_tile;
     Engine::Label *UISelected;
+    Engine::Label *ErrorMsg;
+    Engine::Label *ErrorMsgExplicit;
     Engine::Image *imgTarget;
     Engine::Sprite *dangerIndicator;
     std::vector<std::vector<TileType>> mapState;

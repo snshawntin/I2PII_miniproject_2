@@ -65,6 +65,10 @@ void MapEditScene::Terminate() {
 }
 
 void MapEditScene::Update(float deltaTime) {
+    if(TileMapGroup == nullptr){
+        UpdateMapUI();
+    }
+
     //& display the selete mode.
     switch (selected_tile){
     case TILE_FLOOR: UISelected->Text = "unwalkable"; break;
@@ -140,6 +144,7 @@ void MapEditScene::OnMouseUp(int button, int mx, int my) {
 
     if (button & 1) {
         if(selected_tile != NONE){
+            UpdateMapUI();
             mapState[y][x] = selected_tile;
             UpdateMapUI();
         }
@@ -232,17 +237,20 @@ void MapEditScene::ConstructUI() {
 
     //save and quit button
     Engine::ImageButton *back_btn;
-    back_btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW * 8 / 5 + 140, halfH * 8 / 5 + 40, 150, 100);
+    back_btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW * 8 / 5 + 20, halfH * 8 / 5 + 40, 150, 100);
     back_btn->SetOnClickCallback(std::bind(&MapEditScene::BackOnClick, this));
     AddNewControlObject(back_btn);
-    AddNewObject(new Engine::Label("save", "pirulen.ttf", 24, halfW * 8 / 5 + 215, halfH * 8 / 5 + 65, 0, 0, 0, 255, 0.5, 0.5));
-    AddNewObject(new Engine::Label("&", "pirulen.ttf", 24, halfW * 8 / 5 + 215, halfH * 8 / 5 + 90, 0, 0, 0, 255, 0.5, 0.5));
-    AddNewObject(new Engine::Label("quit", "pirulen.ttf", 24, halfW * 8 / 5 + 215, halfH * 8 / 5 + 115, 0, 0, 0, 255, 0.5, 0.5));
+    AddNewObject(new Engine::Label("save", "pirulen.ttf", 24, halfW * 8 / 5 + 95, halfH * 8 / 5 + 65, 0, 0, 0, 255, 0.5, 0.5));
+    AddNewObject(new Engine::Label("&", "pirulen.ttf", 24, halfW * 8 / 5 + 95, halfH * 8 / 5 + 90, 0, 0, 0, 255, 0.5, 0.5));
+    AddNewObject(new Engine::Label("quit", "pirulen.ttf", 24, halfW * 8 / 5 + 95, halfH * 8 / 5 + 115, 0, 0, 0, 255, 0.5, 0.5));
 
     //& display the tile that is gonna put.
     UIGroup->AddNewObject(new Engine::Label("selected:", "pirulen.ttf", 20, 1294, 100, 0, 0, 255, 255));
     UIGroup->AddNewObject(UISelected = new Engine::Label("none", "pirulen.ttf", 20, 1294, 120, 0, 0, 255, 255));
 
+    //& show the error msg (empty)
+    AddNewObject(ErrorMsg = new Engine::Label("", "pirulen.ttf", 30, halfW * 8 / 5 + 20, halfH * 8 / 5 - 25, 255, 0, 0, 255));
+    AddNewObject(ErrorMsgExplicit = new Engine::Label("", "pirulen.ttf", 15, halfW * 8 / 5 + 20, halfH * 8 / 5 + 10, 255, 0, 0, 255));
 
     int shift = 135 + 25;
     dangerIndicator = new Engine::Sprite("play/benjamin.png", w - shift, h - shift);
@@ -262,7 +270,49 @@ void MapEditScene::UIBtnClicked(int id) {
 
 //& while save&quit btn is clicked.
 void MapEditScene::BackOnClick() {
+    std::vector<std::vector<int>> dist = CalculateBFSDistance();
+
+    if(dist[0][0] == -1){
+        int w = Engine::GameEngine::GetInstance().GetScreenSize().x;
+        int h = Engine::GameEngine::GetInstance().GetScreenSize().y;
+        int halfW = w / 2;
+        int halfH = h / 2;
+
+        ErrorMsg->Text = "error:";
+        ErrorMsgExplicit->Text = "no valid path";
+        return;
+    }
+
+    unsigned have_place_for_turrets = 0;
+    for (int i = 0; i < MapHeight; i++) {
+        for (int j = 0; j < MapWidth; j++) {
+            if(mapState[i][j] == TILE_FLOOR){
+                have_place_for_turrets = 1;
+                break;
+            }
+        }
+        if(have_place_for_turrets) { break; }
+    }
+
+    if(!have_place_for_turrets){
+        ErrorMsg->Text = "error:";
+        ErrorMsgExplicit->Text = "no place for turrets";
+        return;
+    }
+
+    std::string filename = std::string("../Resource/custom_map/cm0") + std::to_string(CustomMapId) + ".txt";
+    std::ofstream fout(filename);
+
+    for (int i = 0; i < MapHeight; i++) {
+        for (int j = 0; j < MapWidth; j++) {
+            if (mapState[i][j] == TILE_FLOOR){ fout << "1"; }
+            else if(mapState[i][j] == TILE_DIRT){ fout << "0"; }
+        }
+        fout << "\n";
+    }
+
     Engine::GameEngine::GetInstance().ChangeScene("custom-map-select");
+    
 }
 
 const Engine::Point bfs_dxdy[4] = {
@@ -281,38 +331,23 @@ std::vector<std::vector<int>> MapEditScene::CalculateBFSDistance() {
     que.push(Engine::Point(MapWidth - 1, MapHeight - 1));
     map[MapHeight - 1][MapWidth - 1] = 0;
 
-    // (END)TODO PROJECT-1 (1/1): Implement a BFS starting from the most right-bottom block in the map.
-    // (END)              For each step you should assign the corresponding distance to the most right-bottom block.
-    // (END)              mapState[y][x] is TILE_DIRT if it is empty.
+    //(END) TODO PROJECT-1 (1/1): Implement a BFS starting from the most right-bottom block in the map.
+    //               For each step you should assign the corresponding distance to the most right-bottom block.
+    //               mapState[y][x] is TILE_DIRT if it is empty.
     while (!que.empty()) {
         Engine::Point observing_point = que.front();
         que.pop();
-
-        //& this point is searched before.
-        if(map[observing_point.y][observing_point.x] != -1){
-            continue;
-        }
-
-        Engine::Point possible_next_step;
-        for(unsigned short i = 0; i < 4; i++){
-            possible_next_step = observing_point + bfs_dxdy[i];
-            //& invalid
-            if(
-                possible_next_step.x >= MapWidth || possible_next_step.x < 0 || //& out-of-bound
-                possible_next_step.y >= MapHeight || possible_next_step.y < 0 || 
-                (map[possible_next_step.y][possible_next_step.x] <= map[observing_point.y][observing_point.x] && 
-                map[possible_next_step.y][possible_next_step.x] != -1) || //& not a shorter path
-                mapState[possible_next_step.y][possible_next_step.x] != TILE_DIRT //& can't walk 
-            ){ continue; }
-
-            map[possible_next_step.y][possible_next_step.x] = map[observing_point.y][observing_point.x] + 1;
-
-            //& reached the most left-top block, stop
-            if (possible_next_step == Engine::Point(0, 0)){
+        for (int i = 0; i < 4; i++) {
+            int next_x = observing_point.x + bfs_dxdy[i].x;
+            int next_y = observing_point.y + bfs_dxdy[i].y;
+            if (next_x < 0 || next_x >= MapWidth || next_y < 0 || next_y >= MapHeight)
                 continue;
-            }
-            
-            que.push(possible_next_step);
+            if (map[next_y][next_x] != -1)
+                continue;
+            if (mapState[next_y][next_x] != TILE_DIRT)
+                continue;
+            map[next_y][next_x] = map[observing_point.y][observing_point.x] + 1;
+            que.push(Engine::Point(next_x, next_y));
         }
     }
 
