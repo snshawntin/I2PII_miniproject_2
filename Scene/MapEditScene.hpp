@@ -74,7 +74,7 @@ public:
     void ReadMap();
     void ConstructUI();
     void UIBtnClicked(int id);
-    void BackOnClick();
+    void BackOnClick(bool save);
     std::vector<std::vector<int>> CalculateBFSDistance();
 
     std::map<std::pair<int, int>, Turret *> turret_map;

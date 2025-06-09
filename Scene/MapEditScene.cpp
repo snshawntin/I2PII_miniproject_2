@@ -80,6 +80,7 @@ void MapEditScene::Update(float deltaTime) {
 void MapEditScene::UpdateMapUI() {
     //& prepare to redraw the map.
     delete TileMapGroup;
+    TileMapGroup = nullptr;
     TileMapGroup = new Group();
     
     for (int i = 0; i < MapHeight; i++) {
@@ -111,7 +112,10 @@ void MapEditScene::Draw() const {
     }
 }
 
+static bool mousedown = 0;
+
 void MapEditScene::OnMouseDown(int button, int mx, int my) {
+    mousedown = 1;
     if ((button & 1) && !imgTarget->Visible) {
         selected_tile = NONE;
     }
@@ -130,9 +134,15 @@ void MapEditScene::OnMouseMove(int mx, int my) {
     imgTarget->Visible = true;
     imgTarget->Position.x = x * BlockSize;
     imgTarget->Position.y = y * BlockSize;
+
+    if(selected_tile != NONE && mousedown == 1 && mapState[y][x] != selected_tile){
+        mapState[y][x] = selected_tile;
+        UpdateMapUI();
+    }
 }
 
 void MapEditScene::OnMouseUp(int button, int mx, int my) {
+    mousedown = 0;
     IScene::OnMouseUp(button, mx, my);
 
     if (!imgTarget->Visible){
@@ -226,7 +236,6 @@ void MapEditScene::ConstructUI() {
     btn->SetOnClickCallback(std::bind(&MapEditScene::UIBtnClicked, this, 1));
     UIGroup->AddNewControlObject(btn);
  
-    //& add save and quit button like other scene do.
     int w = Engine::GameEngine::GetInstance().GetScreenSize().x;
     int h = Engine::GameEngine::GetInstance().GetScreenSize().y;
     int halfW = w / 2;
@@ -235,22 +244,29 @@ void MapEditScene::ConstructUI() {
     UIGroup->AddNewObject(new Engine::Label("Editing:", "pirulen.ttf", 40, 1294, 10));
     UIGroup->AddNewObject(new Engine::Label(std::string("Custom Map") + std::to_string(CustomMapId), "pirulen.ttf", 25, 1294, 55));
 
-    //save and quit button
+    //& save and quit button
     Engine::ImageButton *back_btn;
-    back_btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW * 8 / 5 + 20, halfH * 8 / 5 + 40, 150, 100);
-    back_btn->SetOnClickCallback(std::bind(&MapEditScene::BackOnClick, this));
+    back_btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW * 8 / 5 + 20, halfH * 8 / 5 + 40 - 110, 150, 100);
+    back_btn->SetOnClickCallback(std::bind(&MapEditScene::BackOnClick, this, 1));
     AddNewControlObject(back_btn);
-    AddNewObject(new Engine::Label("save", "pirulen.ttf", 24, halfW * 8 / 5 + 95, halfH * 8 / 5 + 65, 0, 0, 0, 255, 0.5, 0.5));
-    AddNewObject(new Engine::Label("&", "pirulen.ttf", 24, halfW * 8 / 5 + 95, halfH * 8 / 5 + 90, 0, 0, 0, 255, 0.5, 0.5));
-    AddNewObject(new Engine::Label("quit", "pirulen.ttf", 24, halfW * 8 / 5 + 95, halfH * 8 / 5 + 115, 0, 0, 0, 255, 0.5, 0.5));
+    AddNewObject(new Engine::Label("save", "pirulen.ttf", 24, halfW * 8 / 5 + 95, halfH * 8 / 5 + 65 - 110, 0, 0, 0, 255, 0.5, 0.5));
+    AddNewObject(new Engine::Label("&", "pirulen.ttf", 24, halfW * 8 / 5 + 95, halfH * 8 / 5 + 90 - 110, 0, 0, 0, 255, 0.5, 0.5));
+    AddNewObject(new Engine::Label("quit", "pirulen.ttf", 24, halfW * 8 / 5 + 95, halfH * 8 / 5 + 115 - 110, 0, 0, 0, 255, 0.5, 0.5));
+
+    back_btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW * 8 / 5 + 20, halfH * 8 / 5 + 40, 150, 100);
+    back_btn->SetOnClickCallback(std::bind(&MapEditScene::BackOnClick, this, 0));
+    AddNewControlObject(back_btn);
+    AddNewObject(new Engine::Label("quit", "pirulen.ttf", 24, halfW * 8 / 5 + 95, halfH * 8 / 5 + 65, 0, 0, 0, 255, 0.5, 0.5));
+    AddNewObject(new Engine::Label("w/o", "pirulen.ttf", 24, halfW * 8 / 5 + 95, halfH * 8 / 5 + 90, 0, 0, 0, 255, 0.5, 0.5));
+    AddNewObject(new Engine::Label("saving", "pirulen.ttf", 24, halfW * 8 / 5 + 95, halfH * 8 / 5 + 115, 0, 0, 0, 255, 0.5, 0.5));
 
     //& display the tile that is gonna put.
     UIGroup->AddNewObject(new Engine::Label("selected:", "pirulen.ttf", 20, 1294, 100, 0, 0, 255, 255));
     UIGroup->AddNewObject(UISelected = new Engine::Label("none", "pirulen.ttf", 20, 1294, 120, 0, 0, 255, 255));
 
     //& show the error msg (empty)
-    AddNewObject(ErrorMsg = new Engine::Label("", "pirulen.ttf", 30, halfW * 8 / 5 + 20, halfH * 8 / 5 - 25, 255, 0, 0, 255));
-    AddNewObject(ErrorMsgExplicit = new Engine::Label("", "pirulen.ttf", 15, halfW * 8 / 5 + 20, halfH * 8 / 5 + 10, 255, 0, 0, 255));
+    AddNewObject(ErrorMsg = new Engine::Label("", "pirulen.ttf", 30, halfW * 8 / 5 + 20, halfH * 8 / 5 - 25 - 110, 255, 0, 0, 255));
+    AddNewObject(ErrorMsgExplicit = new Engine::Label("", "pirulen.ttf", 15, halfW * 8 / 5 + 20, halfH * 8 / 5 + 10 - 110, 255, 0, 0, 255));
 
     int shift = 135 + 25;
     dangerIndicator = new Engine::Sprite("play/benjamin.png", w - shift, h - shift);
@@ -268,51 +284,52 @@ void MapEditScene::UIBtnClicked(int id) {
     }    
 }
 
-//& while save&quit btn is clicked.
-void MapEditScene::BackOnClick() {
-    std::vector<std::vector<int>> dist = CalculateBFSDistance();
+//& while quit btn is clicked.
+void MapEditScene::BackOnClick(bool save) {
+    if(save){
+        std::vector<std::vector<int>> dist = CalculateBFSDistance();
 
-    if(dist[0][0] == -1){
-        int w = Engine::GameEngine::GetInstance().GetScreenSize().x;
-        int h = Engine::GameEngine::GetInstance().GetScreenSize().y;
-        int halfW = w / 2;
-        int halfH = h / 2;
+        if(dist[0][0] == -1){
+            int w = Engine::GameEngine::GetInstance().GetScreenSize().x;
+            int h = Engine::GameEngine::GetInstance().GetScreenSize().y;
+            int halfW = w / 2;
+            int halfH = h / 2;
 
-        ErrorMsg->Text = "error:";
-        ErrorMsgExplicit->Text = "no valid path";
-        return;
-    }
+            ErrorMsg->Text = "error:";
+            ErrorMsgExplicit->Text = "no valid path";
+            return;
+        }
 
-    unsigned have_place_for_turrets = 0;
-    for (int i = 0; i < MapHeight; i++) {
-        for (int j = 0; j < MapWidth; j++) {
-            if(mapState[i][j] == TILE_FLOOR){
-                have_place_for_turrets = 1;
-                break;
+        unsigned have_place_for_turrets = 0;
+        for (int i = 0; i < MapHeight; i++) {
+            for (int j = 0; j < MapWidth; j++) {
+                if(mapState[i][j] == TILE_FLOOR){
+                    have_place_for_turrets = 1;
+                    break;
+                }
             }
+            if(have_place_for_turrets) { break; }
         }
-        if(have_place_for_turrets) { break; }
-    }
 
-    if(!have_place_for_turrets){
-        ErrorMsg->Text = "error:";
-        ErrorMsgExplicit->Text = "no place for turrets";
-        return;
-    }
-
-    std::string filename = std::string("../Resource/custom_map/cm0") + std::to_string(CustomMapId) + ".txt";
-    std::ofstream fout(filename);
-
-    for (int i = 0; i < MapHeight; i++) {
-        for (int j = 0; j < MapWidth; j++) {
-            if (mapState[i][j] == TILE_FLOOR){ fout << "1"; }
-            else if(mapState[i][j] == TILE_DIRT){ fout << "0"; }
+        if(!have_place_for_turrets){
+            ErrorMsg->Text = "error:";
+            ErrorMsgExplicit->Text = "no place for turrets";
+            return;
         }
-        fout << "\n";
+
+        std::string filename = std::string("../Resource/custom_map/cm0") + std::to_string(CustomMapId) + ".txt";
+        std::ofstream fout(filename);
+
+        for (int i = 0; i < MapHeight; i++) {
+            for (int j = 0; j < MapWidth; j++) {
+                if (mapState[i][j] == TILE_FLOOR){ fout << "1"; }
+                else if(mapState[i][j] == TILE_DIRT){ fout << "0"; }
+            }
+            fout << "\n";
+        }
     }
 
     Engine::GameEngine::GetInstance().ChangeScene("custom-map-select");
-    
 }
 
 const Engine::Point bfs_dxdy[4] = {
