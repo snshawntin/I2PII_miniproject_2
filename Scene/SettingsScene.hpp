@@ -5,7 +5,8 @@
 #include "Engine/IScene.hpp"
 #include <allegro5/allegro_audio.h>
 
-class SettingsScene final : public Engine::IScene {
+class SettingsScene final : public Engine::IScene
+{
 private:
     std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE> bgmInstance;
 
@@ -18,4 +19,4 @@ public:
     void SFXSlideOnValueChanged(float value);
 };
 
-#endif   // SettingsScene_HPP
+#endif // SettingsScene_HPP

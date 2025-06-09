@@ -12,16 +12,19 @@
 
 class Turret;
 class Tool;
-namespace Engine{
+namespace Engine
+{
     class Group;
     class Image;
     class Label;
     class Sprite;
 } // namespace Engine
 
-class PlayScene final : public Engine::IScene {
+class PlayScene final : public Engine::IScene
+{
 private:
-    enum TileType {
+    enum TileType
+    {
         TILE_DIRT,
         TILE_FLOOR,
         TILE_OCCUPIED,
@@ -33,6 +36,7 @@ protected:
     int lives;
     int money;
     int SpeedMult;
+    std::vector<Engine::Image *> lifeIcons;
 
 public:
     static bool DebugMode;
@@ -48,6 +52,8 @@ public:
     float ticks;
     float deathCountDown;
     int to_win_scene_lockdown;
+    static bool isInfiniteMode;
+    float infiniteTicks = 0.0f;
     // Map tiles.
     Group *TileMapGroup;
     Group *GroundEffectGroup;
@@ -79,6 +85,7 @@ public:
     void OnMouseUp(int button, int mx, int my) override;
     void OnKeyDown(int keyCode) override;
     void Hit();
+
     int GetMoney() const;
     void EarnMoney(int money);
     void ReadMap();
@@ -87,8 +94,9 @@ public:
     void UIBtnClicked(int id);
     bool CheckSpaceValid(int x, int y);
     std::vector<std::vector<int>> CalculateBFSDistance();
+    void UpdateLifeIcons();
 
     std::map<std::pair<int, int>, Turret *> turret_map;
     // void ModifyReadMapTiles();
 };
-#endif   // PLAYSCENE_HPP
+#endif // PLAYSCENE_HPP

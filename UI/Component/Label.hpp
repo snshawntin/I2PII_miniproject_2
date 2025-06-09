@@ -7,11 +7,13 @@
 
 #include "Engine/IObject.hpp"
 
-namespace Engine {
+namespace Engine
+{
     /// <summary>
     /// A simple static text object.
     /// </summary>
-    class Label : public IObject {
+    class Label : public IObject
+    {
     protected:
         // Smart pointer to font.
         std::shared_ptr<ALLEGRO_FONT> font;
@@ -50,7 +52,10 @@ namespace Engine {
         /// </summary>
         /// <returns>Height of the text.</returns>
         int GetTextHeight() const;
+
+        // 設定文字函式
+        void SetText(const std::string &text);
     };
 }
 
-#endif   // LABEL_HPP
+#endif // LABEL_HPP

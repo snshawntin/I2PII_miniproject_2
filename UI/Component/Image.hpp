@@ -6,11 +6,13 @@
 
 #include "Engine/IObject.hpp"
 
-namespace Engine {
+namespace Engine
+{
     /// <summary>
     /// A simple static image object.
     /// </summary>
-    class Image : public IObject {
+    class Image : public IObject
+    {
     public:
         // Smart pointer to bitmap.
         std::shared_ptr<ALLEGRO_BITMAP> bmp;
@@ -39,6 +41,7 @@ namespace Engine {
         /// </summary>
         /// <returns>Height of the original or scaled bitmap.</returns>
         int GetBitmapHeight() const;
+        void SetBitmap(std::shared_ptr<ALLEGRO_BITMAP> bmp);
     };
 }
-#endif   // IMAGE_HPP
+#endif // IMAGE_HPP
