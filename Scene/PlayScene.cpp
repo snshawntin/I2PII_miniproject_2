@@ -106,6 +106,11 @@ void PlayScene::Update(float deltaTime)
     //     printf("NORM");
     // If we use deltaTime directly, then we might have Bullet-through-paper problem.
     // Reference: Bullet-Through-Paper
+    if(!map_rereaded){
+        ReadMap();
+        map_rereaded = 1;
+    }
+
     if (SpeedMult == 0)
         deathCountDown = -1;
     else if (deathCountDown != -1)
@@ -521,7 +526,14 @@ void PlayScene::EarnMoney(int money)
 }
 void PlayScene::ReadMap()
 {
-    std::string filename = std::string("Resource/map") + std::to_string(MapId) + ".txt";
+    std::string filename;
+    if(!IsCustom){
+        filename = std::string("../Resource/map") + std::to_string(MapId) + ".txt";
+    }
+    else{
+        filename = std::string("../Resource/custom_map/cm0") + std::to_string(MapId) + ".txt";
+    }
+
     // Read map file.
     char c;
     std::vector<bool> mapData;
@@ -604,9 +616,17 @@ void PlayScene::ConstructUI()
 {
     // Background
     UIGroup->AddNewObject(new Engine::Image("play/sand.png", 1280, 0, 320, 832));
+
     // Text
-    UIGroup->AddNewObject(new Engine::Label(std::string("Stage ") + std::to_string(MapId), "pirulen.ttf", 32, 1294, 0));
+    if(!IsCustom){
+        UIGroup->AddNewObject(new Engine::Label(std::string("Stage ") + std::to_string(MapId), "pirulen.ttf", 32, 1294, 0));
+    }
+    else{
+        UIGroup->AddNewObject(new Engine::Label(std::string("custom tage ") + std::to_string(MapId), "pirulen.ttf", 18, 1294, 0));
+    }
+
     UIGroup->AddNewObject(UIMoney = new Engine::Label(std::string("$") + std::to_string(money), "pirulen.ttf", 24, 1294, 48));
+    
     // Add 5 heart icons (each is 24*26), spaced by 30 pixels.
     for (int i = 0; i < 5; ++i)
     {
@@ -616,6 +636,7 @@ void PlayScene::ConstructUI()
     }
     UpdateLifeIcons(); // initialize
     TurretButton *btn;
+
     // Button 1 (machine gun turret)
     btn = new TurretButton("play/floor.png", "play/dirt.png",
                            Engine::Sprite("play/tower-base.png", 1294, 136, 0, 0, 0, 0),

@@ -8,6 +8,7 @@
 #include "Engine/Point.hpp"
 #include "Engine/Resources.hpp"
 #include "ModeSelectScene.hpp"
+#include "StageSelectScene.hpp"
 #include "UI/Component/ImageButton.hpp"
 #include "UI/Component/Label.hpp"
 #include "UI/Component/Slider.hpp"
@@ -29,7 +30,6 @@ void ModeSelectScene::Initialize() {
     AddNewObject(new Engine::Label("Normal mode", "pirulen.ttf", 36, halfW, halfH / 2 + 200, 0, 0, 0, 255, 0.5, 0.5));
     
     //infinite mode
-    //*連接到無限模式
     btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW - 700, halfH / 2 + 150, 400, 100);
     btn->SetOnClickCallback(std::bind(&ModeSelectScene::InfiniteModeOnClick, this));
     AddNewControlObject(btn);
@@ -62,11 +62,14 @@ void ModeSelectScene::BackOnClick() {
     Engine::GameEngine::GetInstance().ChangeScene("start");
 }
 void ModeSelectScene::NormalModeOnClick() {
+    StageSelectScene *scene = dynamic_cast<StageSelectScene *>(Engine::GameEngine::GetInstance().GetScene("stage-select"));
+    scene->isInfiniteMode = 0;
     Engine::GameEngine::GetInstance().ChangeScene("stage-select");
 }
 void ModeSelectScene::InfiniteModeOnClick() {
-    //*connect to infinite mode.
-    //Engine::GameEngine::GetInstance().ChangeScene("...");
+    StageSelectScene *scene = dynamic_cast<StageSelectScene *>(Engine::GameEngine::GetInstance().GetScene("stage-select"));
+    scene->isInfiniteMode = 1;
+    Engine::GameEngine::GetInstance().ChangeScene("stage-select");
 }
 void ModeSelectScene::CustomMapOnClick() {
     Engine::GameEngine::GetInstance().ChangeScene("custom-map-select");

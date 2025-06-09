@@ -39,6 +39,7 @@ Engine::Point MapEditScene::GetClientSize() {
 
 void MapEditScene::Initialize() {
     DebugMode = 0;
+    operating = 0;
 
     mapState.clear();
     keyStrokes.clear();
@@ -65,10 +66,6 @@ void MapEditScene::Terminate() {
 }
 
 void MapEditScene::Update(float deltaTime) {
-    if(TileMapGroup == nullptr){
-        UpdateMapUI();
-    }
-
     //& display the selete mode.
     switch (selected_tile){
     case TILE_FLOOR: UISelected->Text = "unwalkable"; break;
@@ -78,14 +75,11 @@ void MapEditScene::Update(float deltaTime) {
 }
 
 void MapEditScene::UpdateMapUI() {
-    //& prepare to redraw the map.
-    delete TileMapGroup;
-    TileMapGroup = nullptr;
-    TileMapGroup = new Group();
-    
+    // Redraw the map by adding new images to TileMapGroup.
+    // No deletion or clearing of TileMapGroup.
     for (int i = 0; i < MapHeight; i++) {
         for (int j = 0; j < MapWidth; j++) {
-            if (mapState[i][j] == TILE_FLOOR){
+            if (mapState[i][j] == TILE_FLOOR) {
                 TileMapGroup->AddNewObject(new Engine::Image("play/floor.png", j * BlockSize, i * BlockSize, BlockSize, BlockSize));
             }
             else if (mapState[i][j] == TILE_DIRT) {
@@ -116,6 +110,7 @@ static bool mousedown = 0;
 
 void MapEditScene::OnMouseDown(int button, int mx, int my) {
     mousedown = 1;
+    //do bound check
     if ((button & 1) && !imgTarget->Visible) {
         selected_tile = NONE;
     }
@@ -125,12 +120,14 @@ void MapEditScene::OnMouseDown(int button, int mx, int my) {
 
 void MapEditScene::OnMouseMove(int mx, int my) {
     IScene::OnMouseMove(mx, my);
+
     const int x = mx / BlockSize;
     const int y = my / BlockSize;
     if (x < 0 || x >= MapWidth || y < 0 || y >= MapHeight) {
         imgTarget->Visible = false;
         return;
     }
+
     imgTarget->Visible = true;
     imgTarget->Position.x = x * BlockSize;
     imgTarget->Position.y = y * BlockSize;
@@ -149,8 +146,12 @@ void MapEditScene::OnMouseUp(int button, int mx, int my) {
         return;
     }
 
+    //do bound check
     const int x = mx / BlockSize;
     const int y = my / BlockSize;
+    if (x < 0 || x >= MapWidth || y < 0 || y >= MapHeight) {
+        return;
+    }
 
     if (button & 1) {
         if(selected_tile != NONE){
@@ -327,6 +328,8 @@ void MapEditScene::BackOnClick(bool save) {
             }
             fout << "\n";
         }
+
+        fout.close();
     }
 
     Engine::GameEngine::GetInstance().ChangeScene("custom-map-select");
@@ -348,9 +351,6 @@ std::vector<std::vector<int>> MapEditScene::CalculateBFSDistance() {
     que.push(Engine::Point(MapWidth - 1, MapHeight - 1));
     map[MapHeight - 1][MapWidth - 1] = 0;
 
-    //(END) TODO PROJECT-1 (1/1): Implement a BFS starting from the most right-bottom block in the map.
-    //               For each step you should assign the corresponding distance to the most right-bottom block.
-    //               mapState[y][x] is TILE_DIRT if it is empty.
     while (!que.empty()) {
         Engine::Point observing_point = que.front();
         que.pop();

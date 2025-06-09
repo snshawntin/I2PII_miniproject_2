@@ -3,6 +3,8 @@
 #include <memory>
 #include <string>
 
+#include <iostream>
+
 #include "Engine/AudioHelper.hpp"
 #include "Engine/GameEngine.hpp"
 #include "Engine/Point.hpp"
@@ -10,6 +12,7 @@
 #include "ModeSelectScene.hpp"
 #include "CustomMapSelectScene.hpp"
 #include "MapEditScene.hpp"
+#include "PlayScene.hpp"
 #include "UI/Component/ImageButton.hpp"
 #include "UI/Component/Label.hpp"
 
@@ -22,6 +25,8 @@ void CustomMapSelectScene::Initialize() {
 
     //title
     AddNewObject(new Engine::Label("Select/Create Custom Map", "pirulen.ttf", 60, halfW, halfH / 5 + 50, 10, 255, 255, 255, 0.5, 0.5));
+    AddNewObject(new Engine::Label("press \"play!\" to play the map in infinite mode", "pirulen.ttf", 20, halfW, halfH / 5 + 110, 100, 255, 100, 255, 0.5, 0.5));
+    
     const unsigned short dist_vertical = 20;
     const unsigned short dist_horizontal = 30;
     std::string custom_map_name;
@@ -37,7 +42,7 @@ void CustomMapSelectScene::Initialize() {
         //TODO: determine the enemy sequence in play! section.
         //and connect to playscene.
         btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW + 180 + dist_horizontal, halfH - 180 + i * (50 + dist_vertical), 150, 50);
-        btn->SetOnClickCallback(std::bind(&CustomMapSelectScene::PlayCustomOnClick, this));
+        btn->SetOnClickCallback(std::bind(&CustomMapSelectScene::PlayCustomOnClick, this, i + 1));
         AddNewControlObject(btn);
         AddNewObject(new Engine::Label("Play!", "pirulen.ttf", 24, halfW + 75 + 180 + dist_horizontal, halfH + 25 - 180 + i * (50 + dist_vertical), 0, 0, 0, 255, 0.5, 0.5));
     }
@@ -64,8 +69,17 @@ void CustomMapSelectScene::EditOnClick(unsigned short map_index) {
     Engine::GameEngine::GetInstance().ChangeScene("map-edit");
 }
 
-void CustomMapSelectScene::PlayCustomOnClick(){
-    //...
+void CustomMapSelectScene::PlayCustomOnClick(unsigned short map_index){
+    PlayScene *scene = dynamic_cast<PlayScene *>(Engine::GameEngine::GetInstance().GetScene("play"));
+    scene = dynamic_cast<PlayScene *>(Engine::GameEngine::GetInstance().GetScene("play"));
+    if (scene){
+        scene->MapId = map_index;
+        scene->isInfiniteMode = 1;
+        scene->IsCustom = 1;
+        scene->map_rereaded = 0;
+    }
+
+    Engine::GameEngine::GetInstance().ChangeScene("play");
 }
 
 void CustomMapSelectScene::BackOnClick() {

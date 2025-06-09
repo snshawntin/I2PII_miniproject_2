@@ -49,6 +49,8 @@ public:
     static const Engine::Point EndGridPoint;
     static const std::vector<int> code;
     int MapId;
+    bool IsCustom;
+    bool map_rereaded;
     float ticks;
     float deathCountDown;
     int to_win_scene_lockdown;

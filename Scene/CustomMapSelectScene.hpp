@@ -15,7 +15,7 @@ public:
     void Terminate();
 
     void EditOnClick(unsigned short map_index);
-    void PlayCustomOnClick();
+    void PlayCustomOnClick(unsigned short map_index);
     void BackOnClick();
 };
 

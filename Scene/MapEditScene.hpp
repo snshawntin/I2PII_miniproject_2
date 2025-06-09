@@ -66,6 +66,7 @@ public:
     void Terminate() override;
     void Update(float deltaTime) override;
     void UpdateMapUI();
+    bool operating;
     void Draw() const override;
     void OnMouseDown(int button, int mx, int my) override;
     void OnMouseMove(int mx, int my) override;

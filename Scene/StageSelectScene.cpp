@@ -39,15 +39,24 @@ void StageSelectScene::Initialize()
     AddNewControlObject(btn);
     AddNewObject(new Engine::Label("Back", "pirulen.ttf", 48, halfW, halfH / 2 + 450, 0, 0, 0, 255, 0.5, 0.5));
 
-    // 切換無限模式按鈕（Toggle）
-    btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW - 200, halfH / 2 + 250, 400, 100);
-    btn->SetOnClickCallback(std::bind(&StageSelectScene::ToggleInfiniteMode, this));
-    AddNewControlObject(btn);
-    AddNewObject(new Engine::Label("Toggle Mode", "pirulen.ttf", 36, halfW, halfH / 2 + 300, 0, 0, 0, 255, 0.5, 0.5));
+    // // 切換無限模式按鈕（Toggle）
+    // btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW - 200, halfH / 2 + 250, 400, 100);
+    // btn->SetOnClickCallback(std::bind(&StageSelectScene::ToggleInfiniteMode, this));
+    // AddNewControlObject(btn);
+    // AddNewObject(new Engine::Label("Toggle Mode", "pirulen.ttf", 36, halfW, halfH / 2 + 300, 0, 0, 0, 255, 0.5, 0.5));
 
-    // 畫面上顯示目前模式的 Label，預設顯示 Normal 模式
-    modeLabel = new Engine::Label("Mode: NORMAL", "pirulen.ttf", 36, halfW, halfH + 350, 255, 0, 0, 255, 0.5, 0.5);
-    AddNewObject(modeLabel);
+    // 畫面上顯示目前模式的 Label
+    std::string modestr;
+    if (isInfiniteMode)
+    {
+        modestr = "Mode: INFINITE";
+    }
+    else
+    {
+        modestr = "Mode: NORMAL";
+    }
+
+    AddNewObject(new Engine::Label(modestr, "pirulen.ttf", 36, halfW, halfH + 350, 255, 0, 0, 255, 0.5, 0.5));
 
     // 播放背景音樂
     bgmInstance = AudioHelper::PlaySample("select.ogg", true, AudioHelper::BGMVolume);
@@ -70,6 +79,8 @@ void StageSelectScene::PlayOnClick(int stage)
     {
         scene->MapId = stage;
         scene->isInfiniteMode = isInfiniteMode; // 傳遞無限模式設定
+        scene->IsCustom = 0;
+        scene->map_rereaded = 1;
     }
     Engine::GameEngine::GetInstance().ChangeScene("play");
 }
@@ -90,19 +101,19 @@ void StageSelectScene::SFXSlideOnValueChanged(float value)
     AudioHelper::SFXVolume = value;
 }
 
-// 顯示當前模式
-void StageSelectScene::ToggleInfiniteMode()
-{
-    isInfiniteMode = !isInfiniteMode;
-    if (modeLabel)
-    {
-        if (isInfiniteMode)
-        {
-            modeLabel->SetText("Mode: INFINITE");
-        }
-        else
-        {
-            modeLabel->SetText("Mode: NORMAL");
-        }
-    }
-}
+// // 顯示當前模式
+// void StageSelectScene::ToggleInfiniteMode()
+// {
+//     isInfiniteMode = !isInfiniteMode;
+//     if (modeLabel)
+//     {
+//         if (isInfiniteMode)
+//         {
+//             modeLabel->SetText("Mode: INFINITE");
+//         }
+//         else
+//         {
+//             modeLabel->SetText("Mode: NORMAL");
+//         }
+//     }
+// }
