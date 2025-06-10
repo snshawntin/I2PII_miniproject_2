@@ -29,6 +29,10 @@ add_executable(2025_I2P2_TowerDefense
     Enemy/SoldierEnemy.hpp
     Enemy/PlaneEnemy.cpp
     Enemy/PlaneEnemy.hpp
+    Enemy/SnailEnemy.hpp
+    Enemy/SnailEnemy.cpp
+    Enemy/SnailBoss.hpp
+    Enemy/SnailBoss.cpp
     Enemy/TankEnemy.cpp
     Enemy/TankEnemy.hpp
     Enemy/ShieldEnemy.cpp

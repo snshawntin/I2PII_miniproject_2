@@ -56,6 +56,10 @@ public:
     int to_win_scene_lockdown;
     static bool isInfiniteMode;
     float infiniteTicks = 0.0f;
+    int bossSpawnCount = 0;
+    float bossTicks = 0.0f;
+    const float bossSpawnInterval = 500;
+
     // Map tiles.
     Group *TileMapGroup;
     Group *GroundEffectGroup;

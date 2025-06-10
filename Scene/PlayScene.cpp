@@ -16,6 +16,8 @@
 #include "Enemy/PlaneEnemy.hpp"
 #include "Enemy/TankEnemy.hpp"
 #include "Enemy/ShieldEnemy.hpp"
+#include "Enemy/SnailBoss.hpp"
+#include "Enemy/SnailEnemy.hpp"
 #include "Engine/AudioHelper.hpp"
 #include "Engine/GameEngine.hpp"
 #include "Engine/Group.hpp"
@@ -106,7 +108,8 @@ void PlayScene::Update(float deltaTime)
     //     printf("NORM");
     // If we use deltaTime directly, then we might have Bullet-through-paper problem.
     // Reference: Bullet-Through-Paper
-    if(!map_rereaded){
+    if (!map_rereaded)
+    {
         ReadMap();
         map_rereaded = 1;
     }
@@ -165,6 +168,7 @@ void PlayScene::Update(float deltaTime)
         // Check if we should create new enemy.
         ticks += deltaTime;
         infiniteTicks += deltaTime;
+        bossTicks += deltaTime;
 
         //(END) TODO HACKATHON-5 (1/4): There's a bug in this file, which crashes the game when you win. Try to find it.
         if (enemyWaveData.empty())
@@ -254,8 +258,8 @@ void PlayScene::Update(float deltaTime)
             static float infiniteTimer = 0.0f;
             infiniteTimer += deltaTime;
 
-            // 隨著遊戲時間增加，降低生成間隔，加快敵人生成速度（最小間隔 0.3 秒）
-            float difficultyFactor = std::max(0.3f, 2.0f - infiniteTimer * 0.003f);
+            // 隨著遊戲時間增加，降低生成間隔，加快敵人生成速度（最小間隔 0.2 秒）
+            float difficultyFactor = std::max(0.2f, 2.0f - infiniteTimer * 0.003f);
             infiniteSpawnInterval = difficultyFactor;
 
             if (infiniteTimer >= infiniteSpawnInterval)
@@ -266,7 +270,11 @@ void PlayScene::Update(float deltaTime)
                 int enemyType;
                 float r = static_cast<float>(rand()) / RAND_MAX;
 
-                if (infiniteTicks < 90)
+                if ((int)infiniteTicks % 500 >= 490)
+                {
+                    continue;
+                }
+                else if (infiniteTicks < 90)
                 {
                     enemyType = (r < 0.8f) ? 1 : 3;
                 }
@@ -315,6 +323,19 @@ void PlayScene::Update(float deltaTime)
                     EnemyGroup->AddNewObject(enemy);
                     enemy->UpdatePath(mapDistance);
                 }
+            }
+            if (bossTicks >= bossSpawnInterval)
+            {
+                bossTicks = 0;
+                bossSpawnCount += 1;
+                const Engine::Point SpawnCoordinate = Engine::Point(
+                    SpawnGridPoint.x * BlockSize + BlockSize / 2,
+                    SpawnGridPoint.y * BlockSize + BlockSize / 2);
+
+                SnailBoss *boss = new SnailBoss(SpawnCoordinate.x, SpawnCoordinate.y);
+                boss->Initialize(5.0f / bossSpawnCount);
+                EnemyGroup->AddNewObject(boss);
+                boss->UpdatePath(mapDistance);
             }
         }
     }
@@ -434,7 +455,8 @@ void PlayScene::OnMouseUp(int button, int mx, int my)
                 UIGroup->RemoveObject(preview_tool->GetObjectIterator());
                 // real tool operated.
                 std::pair<int, int> shovel_place = std::make_pair(x * BlockSize + BlockSize / 2, y * BlockSize + BlockSize / 2);
-                if(turret_map.find(shovel_place) != turret_map.end()){
+                if (turret_map.find(shovel_place) != turret_map.end())
+                {
                     EarnMoney(turret_map[shovel_place]->GetPrice() * 0.5);
                     TowerGroup->RemoveObject(turret_map[shovel_place]->GetObjectIterator());
                     turret_map.erase(shovel_place);
@@ -527,11 +549,13 @@ void PlayScene::EarnMoney(int money)
 void PlayScene::ReadMap()
 {
     std::string filename;
-    if(!IsCustom){
-        filename = std::string("../Resource/map") + std::to_string(MapId) + ".txt";
+    if (!IsCustom)
+    {
+        filename = std::string("C:/Users/User/Downloads/final_project/2025_I2P2_TowerDefense-main/Resource/map") + std::to_string(MapId) + ".txt";
     }
-    else{
-        filename = std::string("../Resource/custom_map/cm0") + std::to_string(MapId) + ".txt";
+    else
+    {
+        filename = std::string("C:/Users/User/Downloads/final_project/2025_I2P2_TowerDefense-main/2025_I2P2_TowerDefense-main/Resource/custom_map/cm0") + std::to_string(MapId) + ".txt";
     }
 
     // Read map file.
@@ -618,18 +642,24 @@ void PlayScene::ConstructUI()
     UIGroup->AddNewObject(new Engine::Image("play/sand.png", 1280, 0, 320, 832));
 
     // Text
-    if(!IsCustom){
+    if (!IsCustom)
+    {
         UIGroup->AddNewObject(new Engine::Label(std::string("Stage ") + std::to_string(MapId), "pirulen.ttf", 32, 1294, 0));
     }
-    else{
+    else
+    {
         UIGroup->AddNewObject(new Engine::Label(std::string("custom stage ") + std::to_string(MapId), "pirulen.ttf", 18, 1294, 0));
     }
 
     UIGroup->AddNewObject(UIMoney = new Engine::Label(std::string("$") + std::to_string(money), "pirulen.ttf", 24, 1294, 48));
-    
+
     // Add 5 heart icons (each is 24*26), spaced by 30 pixels.
     for (int i = 0; i < 5; ++i)
     {
+        if (lifeIcons.size() == 5)
+        {
+            break;
+        }
         auto icon = new Engine::Image("play/full.png", 1294 + i * 30, 88, 32, 32);
         lifeIcons.push_back(icon);
         UIGroup->AddNewObject(icon);
@@ -776,10 +806,12 @@ std::vector<std::vector<int>> PlayScene::CalculateBFSDistance()
     //(END) TODO PROJECT-1 (1/1): Implement a BFS starting from the most right-bottom block in the map.
     //               For each step you should assign the corresponding distance to the most right-bottom block.
     //               mapState[y][x] is TILE_DIRT if it is empty.
-    while (!que.empty()) {
+    while (!que.empty())
+    {
         Engine::Point observing_point = que.front();
         que.pop();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++)
+        {
             int next_x = observing_point.x + bfs_dxdy[i].x;
             int next_y = observing_point.y + bfs_dxdy[i].y;
             if (next_x < 0 || next_x >= MapWidth || next_y < 0 || next_y >= MapHeight)
@@ -792,7 +824,6 @@ std::vector<std::vector<int>> PlayScene::CalculateBFSDistance()
             que.push(Engine::Point(next_x, next_y));
         }
     }
-    
 
     return map;
 }
