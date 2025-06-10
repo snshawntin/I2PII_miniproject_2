@@ -248,6 +248,30 @@ Enemy/Enemy.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/Enemy.cpp.s
 .PHONY : Enemy/Enemy.cpp.s
 
+Enemy/P2Base.obj: Enemy/P2Base.cpp.obj
+.PHONY : Enemy/P2Base.obj
+
+# target to build an object file
+Enemy/P2Base.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/P2Base.cpp.obj
+.PHONY : Enemy/P2Base.cpp.obj
+
+Enemy/P2Base.i: Enemy/P2Base.cpp.i
+.PHONY : Enemy/P2Base.i
+
+# target to preprocess a source file
+Enemy/P2Base.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/P2Base.cpp.i
+.PHONY : Enemy/P2Base.cpp.i
+
+Enemy/P2Base.s: Enemy/P2Base.cpp.s
+.PHONY : Enemy/P2Base.s
+
+# target to generate assembly for a file
+Enemy/P2Base.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/P2Base.cpp.s
+.PHONY : Enemy/P2Base.cpp.s
+
 Enemy/PlaneEnemy.obj: Enemy/PlaneEnemy.cpp.obj
 .PHONY : Enemy/PlaneEnemy.obj
 
@@ -1328,6 +1352,9 @@ help:
 	@echo ... Enemy/Enemy.obj
 	@echo ... Enemy/Enemy.i
 	@echo ... Enemy/Enemy.s
+	@echo ... Enemy/P2Base.obj
+	@echo ... Enemy/P2Base.i
+	@echo ... Enemy/P2Base.s
 	@echo ... Enemy/PlaneEnemy.obj
 	@echo ... Enemy/PlaneEnemy.i
 	@echo ... Enemy/PlaneEnemy.s

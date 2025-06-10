@@ -12,6 +12,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/2025_I2P2_TowerDefense.dir/Bullet/LaserBullet.cpp.obj.d"
   "CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/Enemy.cpp.obj"
   "CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/Enemy.cpp.obj.d"
+  "CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/P2Base.cpp.obj"
+  "CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/P2Base.cpp.obj.d"
   "CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/PlaneEnemy.cpp.obj"
   "CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/PlaneEnemy.cpp.obj.d"
   "CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/ShieldEnemy.cpp.obj"

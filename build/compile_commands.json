@@ -55,6 +55,12 @@
 },
 {
   "directory": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/build",
+  "command": "c:\\llvm-mingw-20240417-msvcrt-x86_64\\bin\\clang++.exe  @CMakeFiles/2025_I2P2_TowerDefense.dir/includes_CXX.rsp -g -o CMakeFiles\\2025_I2P2_TowerDefense.dir\\Enemy\\P2Base.cpp.obj -c C:\\Users\\haoen\\Desktop\\2025_I2P2_TowerDefense-main\\Enemy\\P2Base.cpp",
+  "file": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Enemy/P2Base.cpp",
+  "output": "CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/P2Base.cpp.obj"
+},
+{
+  "directory": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/build",
   "command": "c:\\llvm-mingw-20240417-msvcrt-x86_64\\bin\\clang++.exe  @CMakeFiles/2025_I2P2_TowerDefense.dir/includes_CXX.rsp -g -o CMakeFiles\\2025_I2P2_TowerDefense.dir\\Engine\\Allegro5Exception.cpp.obj -c C:\\Users\\haoen\\Desktop\\2025_I2P2_TowerDefense-main\\Engine\\Allegro5Exception.cpp",
   "file": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Engine/Allegro5Exception.cpp",
   "output": "CMakeFiles/2025_I2P2_TowerDefense.dir/Engine/Allegro5Exception.cpp.obj"

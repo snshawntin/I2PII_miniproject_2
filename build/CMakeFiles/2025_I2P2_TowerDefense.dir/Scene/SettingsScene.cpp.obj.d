@@ -859,8 +859,11 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/SettingsScene.cpp.obj: \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/Group.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/IControl.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/IObject.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Enemy/P2Base.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Enemy/Enemy.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/Sprite.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/Image.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Scene/SettingsScene.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/ImageButton.hpp \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/Image.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/Label.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/Slider.hpp

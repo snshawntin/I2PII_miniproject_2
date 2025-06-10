@@ -9,6 +9,7 @@
 
 #include "Engine/IScene.hpp"
 #include "Engine/Point.hpp"
+#include "Enemy/P2Base.hpp"
 
 class Turret;
 class Tool;
@@ -27,7 +28,7 @@ private:
     {
         TILE_DIRT,
         TILE_FLOOR,
-        TILE_OCCUPIED,
+        TILE_OCCUPIED
     };
     ALLEGRO_SAMPLE_ID bgmId;
     std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE> deathBGMInstance;
@@ -35,6 +36,7 @@ private:
 protected:
     int lives;
     int money;
+    int p2money;
     int SpeedMult;
     std::vector<Engine::Image *> lifeIcons;
 
@@ -48,6 +50,7 @@ public:
     static const Engine::Point SpawnGridPoint;
     static const Engine::Point EndGridPoint;
     static const std::vector<int> code;
+    Engine::Point SpawnCoordinate;
     int MapId;
     bool map_rereaded;
     float ticks;
@@ -57,6 +60,19 @@ public:
     bool isMultiPlayer;
     bool IsCustom;
     float infiniteTicks = 0.0f;
+
+    static const int soldier_enemy_price = 50;
+    static const int plane_enemy_price = 230;
+    static const int tank_enemy_price = 500;
+    static const int shield_enemy_price = 1200;
+
+    int soldier_enemy_cooldown;
+    int plane_enemy_cooldown;
+    int tank_enemy_cooldown;
+    int shield_enemy_cooldown;
+
+    int p2_earn_money_cooldown;
+
     // Map tiles.
     Group *TileMapGroup;
     Group *GroundEffectGroup;
@@ -68,6 +84,7 @@ public:
     Group *EffectGroup;
     Group *UIGroup;
     Engine::Label *UIMoney;
+    Engine::Label *UIMoney_P2;
     Engine::Label *UILives;
     Engine::Image *imgTarget;
     Engine::Sprite *dangerIndicator;
@@ -77,6 +94,7 @@ public:
     std::vector<std::vector<int>> mapDistance;
     std::list<std::pair<int, float>> enemyWaveData;
     std::list<int> keyStrokes;
+    P2Base *p2_base;
     static Engine::Point GetClientSize();
     explicit PlayScene() = default;
     void Initialize() override;
@@ -91,13 +109,14 @@ public:
 
     int GetMoney() const;
     void EarnMoney(int money);
+    void P2EarnMoney(int money);
     void ReadMap();
     void ReadEnemyWave();
     void ConstructUI();
     void UIBtnClicked(int id);
     bool CheckSpaceValid(int x, int y);
     std::vector<std::vector<int>> CalculateBFSDistance();
-    void UpdateLifeIcons();
+    void UpdateLifeIcons(bool isP2);
 
     std::map<std::pair<int, int>, Turret *> turret_map;
     // void ModifyReadMapTiles();

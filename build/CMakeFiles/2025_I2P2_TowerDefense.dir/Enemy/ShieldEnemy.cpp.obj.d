@@ -938,4 +938,6 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/ShieldEnemy.cpp.obj: \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/IScene.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/Group.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/IControl.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Enemy/P2Base.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Enemy/Enemy.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Turret/Turret.hpp

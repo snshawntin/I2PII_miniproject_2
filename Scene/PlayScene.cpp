@@ -4,6 +4,7 @@
 #include <fstream>
 #include <functional>
 #include <memory>
+#include <random>
 #include <queue>
 #include <string>
 #include <vector>
@@ -16,6 +17,7 @@
 #include "Enemy/PlaneEnemy.hpp"
 #include "Enemy/TankEnemy.hpp"
 #include "Enemy/ShieldEnemy.hpp"
+#include "Enemy/P2Base.hpp"
 #include "Engine/AudioHelper.hpp"
 #include "Engine/GameEngine.hpp"
 #include "Engine/Group.hpp"
@@ -52,9 +54,8 @@ Engine::Point PlayScene::GetClientSize()
 {
     return Engine::Point(MapWidth * BlockSize, MapHeight * BlockSize);
 }
-void PlayScene::Initialize()
-{
 
+void PlayScene::Initialize(){
     mapState.clear();
     keyStrokes.clear();
     ticks = 0;
@@ -64,6 +65,7 @@ void PlayScene::Initialize()
     SpeedMult = 1;
     to_win_scene_lockdown = -1;
     infiniteTicks = 0.0f;
+    p2_earn_money_cooldown = 30;
     // Add groups from bottom to top.
     AddNewObject(TileMapGroup = new Group());
     AddNewObject(GroundEffectGroup = new Group());
@@ -78,18 +80,34 @@ void PlayScene::Initialize()
     ReadMap();
     ReadEnemyWave();
     mapDistance = CalculateBFSDistance();
+
+    //set base.
+    if(isMultiPlayer){
+        EnemyGroup->AddNewObject(p2_base = new P2Base(BlockSize / 2, BlockSize / 2));
+        p2_base->UpdatePath(mapDistance);
+    }
+    else{
+        p2_base = nullptr;
+    }
+
     ConstructUI();
     imgTarget = new Engine::Image("play/target.png", 0, 0);
     imgTarget->Visible = false;
     preview = nullptr;
     preview_tool = nullptr;
     UIGroup->AddNewObject(imgTarget);
+    SpawnCoordinate = Engine::Point(
+        SpawnGridPoint.x * BlockSize + BlockSize / 2,
+        SpawnGridPoint.y * BlockSize + BlockSize / 2
+    );
+
     // Preload Lose Scene
     deathBGMInstance = Engine::Resources::GetInstance().GetSampleInstance("astronomia.ogg");
     Engine::Resources::GetInstance().GetBitmap("lose/benjamin-happy.png");
     // Start BGM.
     bgmId = AudioHelper::PlayBGM("play.ogg");
 }
+
 void PlayScene::Terminate()
 {
     AudioHelper::StopBGM(bgmId);
@@ -97,12 +115,9 @@ void PlayScene::Terminate()
     deathBGMInstance = std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE>();
     IScene::Terminate();
 }
+
 void PlayScene::Update(float deltaTime)
 {
-    // if (isInfiniteMode)
-    //     printf("INF");
-    // else
-    //     printf("NORM");
     // If we use deltaTime directly, then we might have Bullet-through-paper problem.
     // Reference: Bullet-Through-Paper
     if(!map_rereaded){
@@ -140,11 +155,15 @@ void PlayScene::Update(float deltaTime)
                     if (SpeedMult != 0)
                         deathBGMInstance = AudioHelper::PlaySample("astronomia.ogg", false, AudioHelper::BGMVolume, pos);
                 }
-                float alpha = pos / DangerTime;
-                alpha = std::max(0, std::min(255, static_cast<int>(alpha * alpha * 255)));
-                dangerIndicator->Tint = al_map_rgba(255, 255, 255, alpha);
-                newDeathCountDown = it;
-                break;
+
+                //& will not able death indicator in multi mode.
+                if(!isMultiPlayer){
+                    float alpha = pos / DangerTime;
+                    alpha = std::max(0, std::min(255, static_cast<int>(alpha * alpha * 255)));
+                    dangerIndicator->Tint = al_map_rgba(255, 255, 255, alpha);
+                    newDeathCountDown = it;
+                    break;
+                }
             }
         }
     }
@@ -154,10 +173,13 @@ void PlayScene::Update(float deltaTime)
     if (deathCountDown == -1 && lives > 0)
     {
         AudioHelper::StopSample(deathBGMInstance);
-        dangerIndicator->Tint.a = 0;
+        if(!isMultiPlayer){
+            dangerIndicator->Tint.a = 0;
+        }
     }
     if (SpeedMult == 0)
         deathCountDown = -1;
+
     for (int i = 0; i < SpeedMult; i++)
     {
         IScene::Update(deltaTime);
@@ -165,8 +187,7 @@ void PlayScene::Update(float deltaTime)
         ticks += deltaTime;
         infiniteTicks += deltaTime;
 
-        //(END) TODO HACKATHON-5 (1/4): There's a bug in this file, which crashes the game when you win. Try to find it.
-        if (enemyWaveData.empty())
+        if (!isMultiPlayer && enemyWaveData.empty())
         {
             if (EnemyGroup->GetObjects().empty())
             {
@@ -181,19 +202,10 @@ void PlayScene::Update(float deltaTime)
                 //  delete UIGroup;
                 //  delete imgTarget;
 
-                if (to_win_scene_lockdown == -1)
-                {
-                    to_win_scene_lockdown = 60;
-                }
-                else
-                {
-                    to_win_scene_lockdown--;
-                }
+                if (to_win_scene_lockdown == -1){ to_win_scene_lockdown = 60; }
+                else{ to_win_scene_lockdown--; }
 
                 // Win.
-                //(END) TODO PROJECT-2 (2/5)-1: You need to save the score when the player wins.
-                //(END) TODO                    (save score in tmp file)
-                // TODO PROJECT-bonus (1): Add date time information to each record and display them.
                 if (to_win_scene_lockdown == 0)
                 {
                     //& ofstream: write(**output**) data in code to files.
@@ -215,16 +227,37 @@ void PlayScene::Update(float deltaTime)
             }
             continue;
         }
+        else if(isMultiPlayer){
+            if (p2_base == nullptr || p2_base->gethp() <= 0){
+                // Free resources.
+                //  delete TileMapGroup;
+                //  delete GroundEffectGroup;
+                //  delete DebugIndicatorGroup;
+                //  delete TowerGroup;
+                //  delete EnemyGroup;
+                //  delete BulletGroup;
+                //  delete EffectGroup;
+                //  delete UIGroup;
+                //  delete imgTarget;
+
+                if (to_win_scene_lockdown == -1){ to_win_scene_lockdown = 120; }
+                else{ to_win_scene_lockdown--; }
+
+                // Win.
+                if (to_win_scene_lockdown == 0){
+                    Engine::GameEngine::GetInstance().ChangeScene("win");
+                }
+            }
+            continue;
+        }
 
         Enemy *enemy = nullptr;
-        if (!isInfiniteMode)
-        {
+        if (!isInfiniteMode && !isMultiPlayer) { // normal mode
             auto current = enemyWaveData.front();
             if (ticks < current.second)
                 continue;
             ticks -= current.second;
             enemyWaveData.pop_front();
-            const Engine::Point SpawnCoordinate = Engine::Point(SpawnGridPoint.x * BlockSize + BlockSize / 2, SpawnGridPoint.y * BlockSize + BlockSize / 2);
             switch (current.first)
             {
             case 1:
@@ -246,13 +279,8 @@ void PlayScene::Update(float deltaTime)
             enemy->UpdatePath(mapDistance);
             enemy->Update(ticks);
         }
-        else
-        {
+        else if (isInfiniteMode) {
             // 無限模式：隨機生成敵人，且難度隨時間增加
-            const Engine::Point SpawnCoordinate = Engine::Point(
-                SpawnGridPoint.x * BlockSize + BlockSize / 2,
-                SpawnGridPoint.y * BlockSize + BlockSize / 2);
-
             static float infiniteSpawnInterval = 3.3f; // 初始間隔 3.3 秒
             static float infiniteTimer = 0.0f;
             infiniteTimer += deltaTime;
@@ -333,6 +361,27 @@ void PlayScene::Update(float deltaTime)
             }
         }
     }
+
+    //reduce the cooldown.
+    if(soldier_enemy_cooldown != 0){ soldier_enemy_cooldown--; }
+    if(plane_enemy_cooldown != 0){ plane_enemy_cooldown--; }
+    if(tank_enemy_cooldown != 0){ tank_enemy_cooldown--; }
+    if(shield_enemy_cooldown != 0){ shield_enemy_cooldown--; }
+
+    //p2 will automatically earn money.(random value)
+    if(p2_earn_money_cooldown > 0){ p2_earn_money_cooldown--; }
+    else{
+        std::random_device dev;
+        std::mt19937 rng(dev());
+        std::uniform_int_distribution<std::mt19937::result_type> dist(50, 500);
+        P2EarnMoney(dist(rng));
+
+        p2_earn_money_cooldown += 60;
+    }
+
+    //update p2 lives.
+    UpdateLifeIcons(1);
+
     if (preview)
     {
         preview->Position = Engine::GameEngine::GetInstance().GetMousePosition();
@@ -346,6 +395,7 @@ void PlayScene::Update(float deltaTime)
         preview_tool->Update(deltaTime);
     }
 }
+
 void PlayScene::Draw() const
 {
     IScene::Draw();
@@ -367,6 +417,7 @@ void PlayScene::Draw() const
         }
     }
 }
+
 void PlayScene::OnMouseDown(int button, int mx, int my)
 {
     if ((button & 1) && !imgTarget->Visible && preview)
@@ -383,6 +434,7 @@ void PlayScene::OnMouseDown(int button, int mx, int my)
     }
     IScene::OnMouseDown(button, mx, my);
 }
+
 void PlayScene::OnMouseMove(int mx, int my)
 {
     IScene::OnMouseMove(mx, my);
@@ -397,6 +449,7 @@ void PlayScene::OnMouseMove(int mx, int my)
     imgTarget->Position.x = x * BlockSize;
     imgTarget->Position.y = y * BlockSize;
 }
+
 void PlayScene::OnMouseUp(int button, int mx, int my)
 {
     IScene::OnMouseUp(button, mx, my);
@@ -472,13 +525,11 @@ void PlayScene::OnMouseUp(int button, int mx, int my)
     }
 }
 
-//(END) TODO HACKATHON-4 (1/3): Trace how the game handles keyboard input.
 void PlayScene::OnKeyDown(int keyCode)
 {
     IScene::OnKeyDown(keyCode);
 
-    //(END) TODO HACKATHON-4 (3/3): When the cheat code is entered, a plane should
-    //(END)                         be spawned and added to the scene.
+    //cheatcode...
     if (keyCode == code[CheatCodeSeqNowAt])
     {
         if (CheatCodeSeqNowAt == 11)
@@ -499,6 +550,7 @@ void PlayScene::OnKeyDown(int keyCode)
         CheatCodeSeqNowAt = 0;
     }
 
+    //hotkeys...
     if (keyCode == ALLEGRO_KEY_TAB)
     {
         DebugMode = !DebugMode;
@@ -524,27 +576,65 @@ void PlayScene::OnKeyDown(int keyCode)
         // Hotkey for Speed up.
         SpeedMult = keyCode - ALLEGRO_KEY_0;
     }
+
+    //multiplayer...
+    if(isMultiPlayer){        
+        //a: solder, s:plane, d:tank, f:shield
+        Enemy *enemy = nullptr;
+        if(keyCode == ALLEGRO_KEY_A && soldier_enemy_cooldown == 0 && p2money >= soldier_enemy_price){
+            EnemyGroup->AddNewObject(enemy = new SoldierEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+            soldier_enemy_cooldown += 10;
+            p2money -= 50;
+        }
+        else if(keyCode == ALLEGRO_KEY_S && plane_enemy_cooldown == 0 && p2money >= plane_enemy_price){
+            EnemyGroup->AddNewObject(enemy = new PlaneEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+            plane_enemy_cooldown += 80;
+            p2money -= 230;
+        }        
+        else if(keyCode == ALLEGRO_KEY_D && tank_enemy_cooldown == 0 && p2money >= tank_enemy_price){
+            EnemyGroup->AddNewObject(enemy = new TankEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+            tank_enemy_cooldown += 180;
+            p2money -= 500;
+        }
+        else if(keyCode == ALLEGRO_KEY_F && shield_enemy_cooldown == 0 && p2money >= shield_enemy_price){
+            EnemyGroup->AddNewObject(enemy = new ShieldEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+            shield_enemy_cooldown += 300;
+            p2money -= 1200;
+        }
+        
+        if(enemy != nullptr){
+            enemy->UpdatePath(mapDistance);
+        }
+    }
 }
 
-//(END) TODO HACKATHON-5 (2/4): The "LIFE" label are not updated when you lose a life. Try to fix it.
 void PlayScene::Hit()
 {
     lives--;
-    UpdateLifeIcons();
+    UpdateLifeIcons(0);
     if (lives <= 0)
     {
         Engine::GameEngine::GetInstance().ChangeScene("lose");
     }
 }
+
 int PlayScene::GetMoney() const
 {
     return money;
 }
+
 void PlayScene::EarnMoney(int money)
 {
     this->money += money;
     UIMoney->Text = std::string("$") + std::to_string(this->money);
 }
+
+void PlayScene::P2EarnMoney(int money)
+{
+    this->p2money += money;
+    UIMoney_P2->Text = "money: " + std::string("$") + std::to_string(this->p2money);
+}
+
 void PlayScene::ReadMap()
 {
     std::string filename;
@@ -597,37 +687,53 @@ void PlayScene::ReadMap()
         }
     }
 }
+
 void PlayScene::ReadEnemyWave()
 {
-    std::string filename = std::string("Resource/enemy") + std::to_string(MapId) + ".txt";
-    // Read enemy file.
-    float type, wait, repeat;
-    enemyWaveData.clear();
-    std::ifstream fin(filename);
-    while (fin >> type && fin >> wait && fin >> repeat)
-    {
-        for (int i = 0; i < repeat; i++)
-            enemyWaveData.emplace_back(type, wait);
-    }
-    fin.close();
-}
-void PlayScene::UpdateLifeIcons()
-{
-    int hearts = lives / 2;
-    bool half = lives % 2;
-
-    for (int i = 0; i < 5; ++i)
-    {
-        if (i < hearts)
+    if(!isMultiPlayer){
+        std::string filename = std::string("Resource/enemy") + std::to_string(MapId) + ".txt";
+        // Read enemy file.
+        float type, wait, repeat;
+        enemyWaveData.clear();
+        std::ifstream fin(filename);
+        while (fin >> type && fin >> wait && fin >> repeat)
         {
+            for (int i = 0; i < repeat; i++)
+                enemyWaveData.emplace_back(type, wait);
+        }
+        fin.close();
+    }
+    else{
+        enemyWaveData.clear();
+    }
+}
+void PlayScene::UpdateLifeIcons(bool isP2){
+    int hearts;
+    bool half;
+
+    if(isP2){
+        int hp2 = p2_base->gethp();
+        hearts = hp2 / 20;
+        half = (hp2 % 10) % 2;
+    }
+    else{
+        hearts = lives / 2;
+        half = lives % 2;
+    }
+
+    for (int i = (int)isP2 * 5; i < (int)isP2 * 5 + 5; ++i)
+    {
+        if(i >= lifeIcons.size()){
+            return;
+        }
+
+        if (i < (int)isP2 * 5 + hearts){
             lifeIcons[i]->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/full.png"));
         }
-        else if (i == hearts && half)
-        {
+        else if (i == (int)isP2 * 5 + hearts && half){
             lifeIcons[i]->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/half.png"));
         }
-        else
-        {
+        else{
             lifeIcons[i]->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/empty.png")); // optional fallback
         }
     }
@@ -646,54 +752,87 @@ void PlayScene::ConstructUI()
         UIGroup->AddNewObject(new Engine::Label(std::string("custom stage ") + std::to_string(MapId), "pirulen.ttf", 24, 1294, 0));
     }
 
-    UIGroup->AddNewObject(UIMoney = new Engine::Label(std::string("$") + std::to_string(money), "pirulen.ttf", 24, 1294, 48));
+    if(isMultiPlayer){
+        UIGroup->AddNewObject(new Engine::Label(std::string("player 1"), "pirulen.ttf", 32, 1294, 48));
+    }
+
+    UIGroup->AddNewObject(UIMoney = new Engine::Label("money: " + std::string("$") + std::to_string(money), "pirulen.ttf", 25, 1294, 86));
     
+    int multi_ui_btn_shift = (isMultiPlayer) ? 50 : 0;
+
     // Add 5 heart icons (each is 24*26), spaced by 30 pixels.
     for (int i = 0; i < 5; ++i)
     {
-        auto icon = new Engine::Image("play/full.png", 1294 + i * 30, 88, 32, 32);
+        auto icon = new Engine::Image("play/full.png", 1294 + i * 30, 88 + multi_ui_btn_shift, 32, 32);
         lifeIcons.push_back(icon);
         UIGroup->AddNewObject(icon);
     }
-    UpdateLifeIcons(); // initialize
+    UpdateLifeIcons(0); // initialize
+
     TurretButton *btn;
 
     // Button 1 (machine gun turret)
     btn = new TurretButton("play/floor.png", "play/dirt.png",
-                           Engine::Sprite("play/tower-base.png", 1294, 136, 0, 0, 0, 0),
-                           Engine::Sprite("play/turret-1.png", 1294, 136 - 8, 0, 0, 0, 0), 1294, 136, MachineGunTurret::Price);
+                           Engine::Sprite("play/tower-base.png", 1294, 136 + multi_ui_btn_shift, 0, 0, 0, 0),
+                           Engine::Sprite("play/turret-1.png", 1294, 136 - 8 + multi_ui_btn_shift, 0, 0, 0, 0), 1294, 136 + multi_ui_btn_shift, MachineGunTurret::Price);
     // Reference: Class Member Function Pointer and std::bind.
     btn->SetOnClickCallback(std::bind(&PlayScene::UIBtnClicked, this, 0));
     UIGroup->AddNewControlObject(btn);
 
     // Button 2 (grow turret)
     btn = new TurretButton("play/floor.png", "play/dirt.png",
-                           Engine::Sprite("play/tower-base.png", 1370, 136, 0, 0, 0, 0),
-                           Engine::Sprite("play/turret-6.png", 1370, 136 - 8, 0, 0, 0, 0), 1370, 136, GrowTurret::Price);
+                           Engine::Sprite("play/tower-base.png", 1370, 136 + multi_ui_btn_shift, 0, 0, 0, 0),
+                           Engine::Sprite("play/turret-6.png", 1370, 136 - 8 + multi_ui_btn_shift, 0, 0, 0, 0), 1370, 136 + multi_ui_btn_shift, GrowTurret::Price);
     btn->SetOnClickCallback(std::bind(&PlayScene::UIBtnClicked, this, 1));
     UIGroup->AddNewControlObject(btn);
 
     // Button 3 (laser turret)
     btn = new TurretButton("play/floor.png", "play/dirt.png",
-                           Engine::Sprite("play/tower-base.png", 1446, 136, 0, 0, 0, 0),
-                           Engine::Sprite("play/turret-2.png", 1446, 136 - 8, 0, 0, 0, 0), 1446, 136, LaserTurret::Price);
+                           Engine::Sprite("play/tower-base.png", 1446, 136 + multi_ui_btn_shift, 0, 0, 0, 0),
+                           Engine::Sprite("play/turret-2.png", 1446, 136 - 8 + multi_ui_btn_shift, 0, 0, 0, 0), 1446, 136 + multi_ui_btn_shift, LaserTurret::Price);
     btn->SetOnClickCallback(std::bind(&PlayScene::UIBtnClicked, this, 2));
     UIGroup->AddNewControlObject(btn);
 
     // Button 4 (shovel)
     ToolButton *tool_btn;
     tool_btn = new ToolButton("play/floor.png", "play/dirt.png",
-                              Engine::Sprite("play/shovel.png", 1299, 291, 54, 54, 0, 0),
-                              1294, 286);
+                              Engine::Sprite("play/shovel.png", 1299, 230 + 5 + multi_ui_btn_shift, 54, 54, 0, 0),
+                              1294, 230 + multi_ui_btn_shift);
     tool_btn->SetOnClickCallback(std::bind(&PlayScene::UIBtnClicked, this, 100));
     UIGroup->AddNewControlObject(tool_btn);
 
-    int w = Engine::GameEngine::GetInstance().GetScreenSize().x;
-    int h = Engine::GameEngine::GetInstance().GetScreenSize().y;
-    int shift = 135 + 25;
-    dangerIndicator = new Engine::Sprite("play/benjamin.png", w - shift, h - shift);
-    dangerIndicator->Tint.a = 0;
-    UIGroup->AddNewObject(dangerIndicator);
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!add p2 uis!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+    if(isMultiPlayer){
+        UIGroup->AddNewObject(new Engine::Label(std::string("player 2"), "pirulen.ttf", 32, 1294, 380));
+        UIGroup->AddNewObject(UIMoney_P2 = new Engine::Label("money: " + std::string("$") + std::to_string(p2money), "pirulen.ttf", 25, 1294, 418));
+        for (int i = 0; i < 5; i++){
+            auto icon = new Engine::Image("play/full.png", 1294 + i * 30, 470, 32, 32);
+
+            lifeIcons.push_back(icon);
+            UIGroup->AddNewObject(icon);
+        }
+
+        //TODO: add press ... key & countdown ui.
+        UIGroup->AddNewObject(new Engine::Image("play/enemy-1.png", 1294, 520, 64, 64));
+        UIGroup->AddNewObject(new Engine::Label(std::string("$") + std::to_string(soldier_enemy_price), "pirulen.ttf", 20, 1370, 525));
+        UIGroup->AddNewObject(new Engine::Image("play/enemy-2.png", 1294, 590, 64, 64));
+        UIGroup->AddNewObject(new Engine::Label(std::string("$") + std::to_string(plane_enemy_price), "pirulen.ttf", 20, 1370, 595));
+        UIGroup->AddNewObject(new Engine::Image("play/enemy-3.png", 1294, 660, 64, 64));
+        UIGroup->AddNewObject(new Engine::Image("play/enemy-3-head.png", 1294, 660, 64, 64));
+        UIGroup->AddNewObject(new Engine::Label(std::string("$") + std::to_string(tank_enemy_price), "pirulen.ttf", 20, 1370, 665));
+        UIGroup->AddNewObject(new Engine::Image("play/enemy-4.png", 1294, 730, 64, 64));
+        UIGroup->AddNewObject(new Engine::Label(std::string("$") + std::to_string(shield_enemy_price), "pirulen.ttf", 20, 1370, 735));
+
+        UpdateLifeIcons(1);
+    }
+    else{
+        int w = Engine::GameEngine::GetInstance().GetScreenSize().x;
+        int h = Engine::GameEngine::GetInstance().GetScreenSize().y;
+        int shift = 135 + 25;
+        dangerIndicator = new Engine::Sprite("play/benjamin.png", w - shift, h - shift);
+        dangerIndicator->Tint.a = 0;
+        UIGroup->AddNewObject(dangerIndicator);
+    }
 }
 
 void PlayScene::UIBtnClicked(int id)
@@ -794,9 +933,6 @@ std::vector<std::vector<int>> PlayScene::CalculateBFSDistance()
     que.push(Engine::Point(MapWidth - 1, MapHeight - 1));
     map[MapHeight - 1][MapWidth - 1] = 0;
 
-    //(END) TODO PROJECT-1 (1/1): Implement a BFS starting from the most right-bottom block in the map.
-    //               For each step you should assign the corresponding distance to the most right-bottom block.
-    //               mapState[y][x] is TILE_DIRT if it is empty.
     while (!que.empty()) {
         Engine::Point observing_point = que.front();
         que.pop();
