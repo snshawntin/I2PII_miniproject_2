@@ -60,10 +60,17 @@ void CustomModeSelectScene::BackOnClick() {
 }
 
 void CustomModeSelectScene::MultiModeOnClick() {
-    //TODO: link into multiplayer scene...
-    // StageSelectScene *scene = dynamic_cast<StageSelectScene *>(Engine::GameEngine::GetInstance().GetScene("stage-select"));
-    // scene->isInfiniteMode = 0;
-    // Engine::GameEngine::GetInstance().ChangeScene("stage-select");
+    PlayScene *scene = dynamic_cast<PlayScene *>(Engine::GameEngine::GetInstance().GetScene("play"));
+    scene = dynamic_cast<PlayScene *>(Engine::GameEngine::GetInstance().GetScene("play"));
+    if (scene){
+        scene->MapId = custom_map_index;
+        scene->isInfiniteMode = 0;
+        scene->isMultiPlayer = 1;
+        scene->IsCustom = 1;
+        scene->map_rereaded = 0;
+    }
+
+    Engine::GameEngine::GetInstance().ChangeScene("play");
 }
 
 void CustomModeSelectScene::InfiniteModeOnClick() {
@@ -72,6 +79,7 @@ void CustomModeSelectScene::InfiniteModeOnClick() {
     if (scene){
         scene->MapId = custom_map_index;
         scene->isInfiniteMode = 1;
+        scene->isMultiPlayer = 0;
         scene->IsCustom = 1;
         scene->map_rereaded = 0;
     }

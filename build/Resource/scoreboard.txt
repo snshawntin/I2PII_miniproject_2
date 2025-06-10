@@ -4,6 +4,7 @@ new user 900
 new user 405
 new user 305
 new user 155
+new user 150
 new user 105
 Daniel 80
 XiaoLiang 70

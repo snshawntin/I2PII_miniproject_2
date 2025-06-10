@@ -54,8 +54,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/MapEditScene.cpp.obj.d"
   "CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/ModeSelectScene.cpp.obj"
   "CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/ModeSelectScene.cpp.obj.d"
-  "CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/MultiPlayerScene.cpp.obj"
-  "CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/MultiPlayerScene.cpp.obj.d"
   "CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/MultiWin.cpp.obj"
   "CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/MultiWin.cpp.obj.d"
   "CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/PlayScene.cpp.obj"

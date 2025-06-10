@@ -752,30 +752,6 @@ Scene/ModeSelectScene.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/ModeSelectScene.cpp.s
 .PHONY : Scene/ModeSelectScene.cpp.s
 
-Scene/MultiPlayerScene.obj: Scene/MultiPlayerScene.cpp.obj
-.PHONY : Scene/MultiPlayerScene.obj
-
-# target to build an object file
-Scene/MultiPlayerScene.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/MultiPlayerScene.cpp.obj
-.PHONY : Scene/MultiPlayerScene.cpp.obj
-
-Scene/MultiPlayerScene.i: Scene/MultiPlayerScene.cpp.i
-.PHONY : Scene/MultiPlayerScene.i
-
-# target to preprocess a source file
-Scene/MultiPlayerScene.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/MultiPlayerScene.cpp.i
-.PHONY : Scene/MultiPlayerScene.cpp.i
-
-Scene/MultiPlayerScene.s: Scene/MultiPlayerScene.cpp.s
-.PHONY : Scene/MultiPlayerScene.s
-
-# target to generate assembly for a file
-Scene/MultiPlayerScene.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/MultiPlayerScene.cpp.s
-.PHONY : Scene/MultiPlayerScene.cpp.s
-
 Scene/MultiWin.obj: Scene/MultiWin.cpp.obj
 .PHONY : Scene/MultiWin.obj
 
@@ -1415,9 +1391,6 @@ help:
 	@echo ... Scene/ModeSelectScene.obj
 	@echo ... Scene/ModeSelectScene.i
 	@echo ... Scene/ModeSelectScene.s
-	@echo ... Scene/MultiPlayerScene.obj
-	@echo ... Scene/MultiPlayerScene.i
-	@echo ... Scene/MultiPlayerScene.s
 	@echo ... Scene/MultiWin.obj
 	@echo ... Scene/MultiWin.i
 	@echo ... Scene/MultiWin.s

@@ -35,7 +35,6 @@ int main(int argc, char **argv) {
 	game.AddNewScene("map-edit", new MapEditScene());
 
 	game.AddNewScene("play", new PlayScene());
-	game.AddNewScene("multi-play", new PlayScene()); //TODO
 	game.AddNewScene("lose", new LoseScene());
 	game.AddNewScene("win", new WinScene());
 	game.AddNewScene("multi-win", new PlayScene()); //TODO

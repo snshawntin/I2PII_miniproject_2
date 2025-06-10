@@ -895,32 +895,7 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/Enemy.cpp.obj: \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/seed_seq.h \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/student_t_distribution.h \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/weibull_distribution.h \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Bullet/Bullet.hpp \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/Sprite.hpp \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/Point.hpp \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/Image.hpp \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/IObject.hpp \
-  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/list \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Enemy/Enemy.hpp \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/AudioHelper.hpp \
-  C:/allegro/include/allegro5/allegro_audio.h \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/GameEngine.hpp \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/Group.hpp \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/IControl.hpp \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/IScene.hpp \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/LOG.hpp \
-  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/fstream \
-  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/filesystem \
-  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/copy_options.h \
-  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/directory_entry.h \
-  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/file_status.h \
-  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/file_type.h \
-  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/perms.h \
-  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/file_time_type.h \
-  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__chrono/file_clock.h \
-  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/filesystem_error.h \
-  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/path.h \
-  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/iomanip \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/iostream \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/istream \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/ostream \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/bitset \
@@ -948,6 +923,32 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/Enemy.cpp.obj: \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/formatter_string.h \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/formatter_tuple.h \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/print \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Bullet/Bullet.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/Sprite.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/Point.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/Image.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/IObject.hpp \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/list \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Enemy/Enemy.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/AudioHelper.hpp \
+  C:/allegro/include/allegro5/allegro_audio.h \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/GameEngine.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/Group.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/IControl.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/IScene.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/LOG.hpp \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/fstream \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/filesystem \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/copy_options.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/directory_entry.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/file_status.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/file_type.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/perms.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/file_time_type.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__chrono/file_clock.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/filesystem_error.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/path.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/iomanip \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/operations.h \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/perm_options.h \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/space_info.h \
@@ -956,7 +957,6 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/Enemy.cpp.obj: \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/path_iterator.h \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/recursive_directory_iterator.h \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/u8path.h \
-  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/iostream \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Scene/PlayScene.hpp \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/map \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__tree \

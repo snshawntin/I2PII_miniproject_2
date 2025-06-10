@@ -34,7 +34,6 @@
 #include "UI/Component/Label.hpp"
 
 bool PlayScene::DebugMode = false;
-bool PlayScene::isInfiniteMode = false;
 int PlayScene::CheatCodeSeqNowAt = 0;
 const std::vector<Engine::Point> PlayScene::directions = {Engine::Point(-1, 0), Engine::Point(0, -1), Engine::Point(1, 0), Engine::Point(0, 1)};
 const int PlayScene::MapWidth = 20, PlayScene::MapHeight = 13;
@@ -237,6 +236,10 @@ void PlayScene::Update(float deltaTime)
             case 3:
                 EnemyGroup->AddNewObject(enemy = new TankEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
                 break;
+            case 4:
+                //planeenemy is deleted in mini2, now its back.
+                EnemyGroup->AddNewObject(enemy = new PlaneEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+                break;
             default:
                 continue;
             }
@@ -263,17 +266,22 @@ void PlayScene::Update(float deltaTime)
                 infiniteTimer = 0.0f;
 
                 // 隨機選敵人類型，依照時間變化機率
+                
+                //& 註：我把原本在shield_enemy位置的plane_enemy加回來了，所以壓縮到一點tank_enemy的生成機率
+                //& 但是整體體驗應該不會改變太多
                 int enemyType;
                 float r = static_cast<float>(rand()) / RAND_MAX;
 
                 if (infiniteTicks < 90)
                 {
-                    enemyType = (r < 0.8f) ? 1 : 3;
+                    enemyType = (r < 0.8f) ? 1 : 4;
                 }
                 else if (infiniteTicks < 300)
                 {
                     if (r < 0.5f)
                         enemyType = 1;
+                    else if (r < 0.75f)
+                        enemyType = 4;
                     else if (r < 0.85f)
                         enemyType = 3;
                     else
@@ -285,6 +293,8 @@ void PlayScene::Update(float deltaTime)
                         enemyType = 1;
                     else if (r < 0.6f)
                         enemyType = 2;
+                    else if (r > 0.85f)
+                        enemyType = 4;
                     else
                         enemyType = 3;
                 }
@@ -292,7 +302,9 @@ void PlayScene::Update(float deltaTime)
                 {
                     if (r < 0.5)
                         enemyType = 2;
-                    else
+                    else if (r > 0.85f)
+                        enemyType = 4;
+                    else 
                         enemyType = 3;
                 }
 
@@ -307,6 +319,9 @@ void PlayScene::Update(float deltaTime)
                     break;
                 case 3:
                     enemy = new TankEnemy(SpawnCoordinate.x, SpawnCoordinate.y);
+                    break;
+                case 4:
+                    enemy = new PlaneEnemy(SpawnCoordinate.x, SpawnCoordinate.y);
                     break;
                 }
 
@@ -426,6 +441,8 @@ void PlayScene::OnMouseUp(int button, int mx, int my)
                 preview->Update(0);
                 // Remove Preview.
                 preview = nullptr;
+
+                mapState[y][x] = TILE_OCCUPIED;
             }
             else if (preview_tool)
             {
@@ -443,9 +460,13 @@ void PlayScene::OnMouseUp(int button, int mx, int my)
                 preview_tool->Update(0);
                 // Remove Preview.
                 preview_tool = nullptr;
-            }
 
-            mapState[y][x] = TILE_OCCUPIED;
+                //& restore map state to let the turret can be placed again.
+                if(mapState[y][x] == TILE_OCCUPIED){
+                    mapState[y][x] = TILE_DIRT;
+                }
+            }
+            
             OnMouseMove(mx, my);
         }
     }
@@ -622,7 +643,7 @@ void PlayScene::ConstructUI()
         UIGroup->AddNewObject(new Engine::Label(std::string("Stage ") + std::to_string(MapId), "pirulen.ttf", 32, 1294, 0));
     }
     else{
-        UIGroup->AddNewObject(new Engine::Label(std::string("custom stage ") + std::to_string(MapId), "pirulen.ttf", 18, 1294, 0));
+        UIGroup->AddNewObject(new Engine::Label(std::string("custom stage ") + std::to_string(MapId), "pirulen.ttf", 24, 1294, 0));
     }
 
     UIGroup->AddNewObject(UIMoney = new Engine::Label(std::string("$") + std::to_string(money), "pirulen.ttf", 24, 1294, 48));

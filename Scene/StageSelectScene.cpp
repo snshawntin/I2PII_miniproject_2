@@ -47,19 +47,13 @@ void StageSelectScene::Initialize()
 
     // 畫面上顯示目前模式的 Label
     std::string modestr;
-    if (isMultiplayer)
-    {
-        if(isInfiniteMode)
-        {
-            modestr = "Mode: MULTIPLAYER";
-        }
-        else
-        {
-            modestr = "Mode: INFINITE";
-        }
+    if(isMultiplayer){
+        modestr = "Mode: MULTIPLAYER";
     }
-    else
-    {
+    else if(isInfiniteMode){
+        modestr = "Mode: INFINITE";
+    }
+    else{
         modestr = "Mode: NORMAL";
     }
 
@@ -81,22 +75,16 @@ void StageSelectScene::BackOnClick(int stage) {
 
 void StageSelectScene::PlayOnClick(int stage)
 {
-    if(!isMultiplayer)
+    PlayScene *scene = dynamic_cast<PlayScene *>(Engine::GameEngine::GetInstance().GetScene("play"));
+    if (scene)
     {
-        PlayScene *scene = dynamic_cast<PlayScene *>(Engine::GameEngine::GetInstance().GetScene("play"));
-        if (scene)
-        {
-            scene->MapId = stage;
-            scene->isInfiniteMode = isInfiniteMode; // 傳遞無限模式設定
-            scene->IsCustom = 0;
-            scene->map_rereaded = 1;
-        }
-        Engine::GameEngine::GetInstance().ChangeScene("play");
+        scene->MapId = stage;
+        scene->isInfiniteMode = isInfiniteMode; // 傳遞無限模式設定
+        scene->isMultiPlayer = isMultiplayer;
+        scene->IsCustom = 0;
+        scene->map_rereaded = 0;
     }
-    else
-    {
-        //TODO: link into multiplayer scene...
-    }
+    Engine::GameEngine::GetInstance().ChangeScene("play");
 }
 
 void StageSelectScene::ScoreboardOnClick()
@@ -114,20 +102,3 @@ void StageSelectScene::SFXSlideOnValueChanged(float value)
 {
     AudioHelper::SFXVolume = value;
 }
-
-// // 顯示當前模式
-// void StageSelectScene::ToggleInfiniteMode()
-// {
-//     isInfiniteMode = !isInfiniteMode;
-//     if (modeLabel)
-//     {
-//         if (isInfiniteMode)
-//         {
-//             modeLabel->SetText("Mode: INFINITE");
-//         }
-//         else
-//         {
-//             modeLabel->SetText("Mode: NORMAL");
-//         }
-//     }
-// }

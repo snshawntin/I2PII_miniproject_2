@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include <iostream>
+
 #include "Bullet/Bullet.hpp"
 #include "Enemy.hpp"
 #include "Engine/AudioHelper.hpp"
@@ -26,7 +28,7 @@ void Enemy::OnExplode() {
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> distId(1, 3);
     std::uniform_int_distribution<std::mt19937::result_type> dist(1, 20);
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 10; i++){
         // Random add 10 dirty effects.
         getPlayScene()->GroundEffectGroup->AddNewObject(new DirtyEffect("play/dirty-" + std::to_string(distId(rng)) + ".png", dist(rng), Position.x, Position.y));
     }

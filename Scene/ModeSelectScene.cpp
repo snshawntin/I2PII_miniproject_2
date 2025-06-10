@@ -86,7 +86,7 @@ void ModeSelectScene::InfiniteModeOnClick() {
 
 void ModeSelectScene::MultiOnClick() {
     StageSelectScene *scene = dynamic_cast<StageSelectScene *>(Engine::GameEngine::GetInstance().GetScene("stage-select"));
-    scene->isInfiniteMode = 1;
+    scene->isInfiniteMode = 0;
     scene->isMultiplayer = 1;
     Engine::GameEngine::GetInstance().ChangeScene("stage-select");
 }
