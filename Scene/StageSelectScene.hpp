@@ -26,8 +26,8 @@ public:
     void BGMSlideOnValueChanged(float value);
     void SFXSlideOnValueChanged(float value);
 
-    void ToggleInfiniteMode(); // 切換無限模式
     bool isInfiniteMode = false;
+    bool isMultiplayer = false;
 };
 
 #endif // STAGESELECTSCENE_HPP

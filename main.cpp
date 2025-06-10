@@ -8,13 +8,14 @@
 #include "Scene/StageSelectScene.hpp"
 #include "Scene/ModeSelectScene.hpp"
 #include "Scene/CustomMapSelectScene.hpp"
+#include "Scene/CustomModeSelectScene.hpp"
 #include "Scene/MapEditScene.hpp"
 #include "Scene/ScoreboardScene.hpp"
 #include "Scene/WinScene.hpp"
 #include "Scene/StartScene.h"
 #include "Scene/SettingsScene.hpp"
 
-// TODO PROJECT-bonus (3) (Max 10%, subjective) Optimize or add features not mentioned in the file.
+////PROJECT-bonus (3) (Max 10%, subjective) Optimize or add features not mentioned in the file.
 //(END) TODO PROJECT-bonus (4): Use version control tools (e.g., Git) to manage your project.
 
 int main(int argc, char **argv) {
@@ -28,15 +29,16 @@ int main(int argc, char **argv) {
     game.AddNewScene("stage-select", new StageSelectScene());
 
 	game.AddNewScene("settings", new SettingsScene());
-	
-	//game.AddNewScene("infinite", new PlayScene());
 
 	game.AddNewScene("custom-map-select", new CustomMapSelectScene());
+	game.AddNewScene("custom-mode-select", new CustomModeSelectScene());
 	game.AddNewScene("map-edit", new MapEditScene());
 
 	game.AddNewScene("play", new PlayScene());
+	game.AddNewScene("multi-play", new PlayScene()); //TODO
 	game.AddNewScene("lose", new LoseScene());
 	game.AddNewScene("win", new WinScene());
+	game.AddNewScene("multi-win", new PlayScene()); //TODO
 	game.AddNewScene("scoreboard", new ScoreboardScene());
 
     //(END) TODO HACKATHON-1 (1/1): Change the start scene

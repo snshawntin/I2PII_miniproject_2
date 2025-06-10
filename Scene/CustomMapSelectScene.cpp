@@ -11,8 +11,8 @@
 #include "Engine/Resources.hpp"
 #include "ModeSelectScene.hpp"
 #include "CustomMapSelectScene.hpp"
+#include "CustomModeSelectScene.hpp"
 #include "MapEditScene.hpp"
-#include "PlayScene.hpp"
 #include "UI/Component/ImageButton.hpp"
 #include "UI/Component/Label.hpp"
 
@@ -39,7 +39,6 @@ void CustomMapSelectScene::Initialize() {
         AddNewControlObject(btn);
         AddNewObject(new Engine::Label("Edit", "pirulen.ttf", 24, halfW + 75 + 30, halfH + 25 - 180 + i * (50 + dist_vertical), 0, 0, 0, 255, 0.5, 0.5));
 
-        //TODO: determine the enemy sequence in play! section.
         //and connect to playscene.
         btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW + 180 + dist_horizontal, halfH - 180 + i * (50 + dist_vertical), 150, 50);
         btn->SetOnClickCallback(std::bind(&CustomMapSelectScene::PlayCustomOnClick, this, i + 1));
@@ -70,16 +69,13 @@ void CustomMapSelectScene::EditOnClick(unsigned short map_index) {
 }
 
 void CustomMapSelectScene::PlayCustomOnClick(unsigned short map_index){
-    PlayScene *scene = dynamic_cast<PlayScene *>(Engine::GameEngine::GetInstance().GetScene("play"));
-    scene = dynamic_cast<PlayScene *>(Engine::GameEngine::GetInstance().GetScene("play"));
+    CustomModeSelectScene *scene = dynamic_cast<CustomModeSelectScene *>(Engine::GameEngine::GetInstance().GetScene("play"));
+    scene = dynamic_cast<CustomModeSelectScene *>(Engine::GameEngine::GetInstance().GetScene("custom-mode-select"));
     if (scene){
-        scene->MapId = map_index;
-        scene->isInfiniteMode = 1;
-        scene->IsCustom = 1;
-        scene->map_rereaded = 0;
+        scene->custom_map_index = map_index;
     }
 
-    Engine::GameEngine::GetInstance().ChangeScene("play");
+    Engine::GameEngine::GetInstance().ChangeScene("custom-mode-select");
 }
 
 void CustomMapSelectScene::BackOnClick() {

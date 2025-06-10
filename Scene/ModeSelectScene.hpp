@@ -17,6 +17,7 @@ public:
     void NormalModeOnClick();
     void InfiniteModeOnClick();
     void CustomMapOnClick();
+    void MultiOnClick();
     void BackOnClick();
 
 };

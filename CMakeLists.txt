@@ -64,18 +64,24 @@ add_executable(2025_I2P2_TowerDefense
     Scene/LoseScene.hpp
     Scene/PlayScene.cpp
     Scene/PlayScene.hpp
+    Scene/MultiPlayerScene.cpp
+    Scene/MultiPlayerScene.hpp
     Scene/MapEditScene.cpp
     Scene/MapEditScene.hpp
     Scene/ModeSelectScene.cpp
     Scene/ModeSelectScene.hpp
     Scene/CustomMapSelectScene.cpp
     Scene/CustomMapSelectScene.hpp
+    Scene/CustomModeSelectScene.cpp
+    Scene/CustomModeSelectScene.hpp
     Scene/StageSelectScene.cpp
     Scene/StageSelectScene.hpp
     Scene/StartScene.cpp
     Scene/StartScene.h
     Scene/WinScene.cpp
     Scene/WinScene.hpp
+    Scene/MultiWin.cpp
+    Scene/MultiWin.cpp
     Scene/SettingsScene.cpp
     Scene/SettingsScene.hpp
     Scene/ScoreboardScene.cpp

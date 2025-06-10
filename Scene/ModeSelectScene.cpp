@@ -23,24 +23,32 @@ void ModeSelectScene::Initialize() {
     //title
     AddNewObject(new Engine::Label("Select Gamemode", "pirulen.ttf", 60, halfW, halfH / 5 + 50, 10, 255, 255, 255, 0.5, 0.5));
 
+    const unsigned halfdist = 50;
+
     //normal mode
-    btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW - 200, halfH / 2 + 150, 400, 100);
+    btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW - 200 + 250, halfH / 2 + 150 - 100, 400, 100);
     btn->SetOnClickCallback(std::bind(&ModeSelectScene::NormalModeOnClick, this));
     AddNewControlObject(btn);
-    AddNewObject(new Engine::Label("Normal mode", "pirulen.ttf", 36, halfW, halfH / 2 + 200, 0, 0, 0, 255, 0.5, 0.5));
+    AddNewObject(new Engine::Label("Normal mode", "pirulen.ttf", 36, halfW + 250, halfH / 2 + 200 - 100, 0, 0, 0, 255, 0.5, 0.5));
     
     //infinite mode
-    btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW - 700, halfH / 2 + 150, 400, 100);
+    btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW - 700 + 250, halfH / 2 + 150 - 100, 400, 100);
     btn->SetOnClickCallback(std::bind(&ModeSelectScene::InfiniteModeOnClick, this));
     AddNewControlObject(btn);
-    AddNewObject(new Engine::Label("Infinite mode", "pirulen.ttf", 38, halfW - 500, halfH / 2 + 200, 0, 0, 0, 255, 0.5, 0.5));
+    AddNewObject(new Engine::Label("Infinite mode", "pirulen.ttf", 38, halfW - 500 + 250, halfH / 2 + 200 - 100, 0, 0, 0, 255, 0.5, 0.5));
 
+    //multi player mode
+    btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW - 700 + 250, halfH / 2 + 150 + halfdist, 400, 100);
+    btn->SetOnClickCallback(std::bind(&ModeSelectScene::MultiOnClick, this));
+    AddNewControlObject(btn);
+    AddNewObject(new Engine::Label("multiplayer", "pirulen.ttf", 36, halfW - 500 + 250, halfH / 2 + 200 + halfdist, 0, 0, 0, 255, 0.5, 0.5));
+    
     //custom map
-    btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW + 300, halfH / 2 + 150, 400, 100);
+    btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW - 200 + 250, halfH / 2 + 150 + halfdist, 400, 100);
     btn->SetOnClickCallback(std::bind(&ModeSelectScene::CustomMapOnClick, this));
     AddNewControlObject(btn);
-    AddNewObject(new Engine::Label("Play", "pirulen.ttf", 36, halfW + 500, halfH / 2 + 180, 0, 0, 0, 255, 0.5, 0.5));
-    AddNewObject(new Engine::Label("custom map", "pirulen.ttf", 36, halfW + 500, halfH / 2 + 220, 0, 0, 0, 255, 0.5, 0.5));
+    AddNewObject(new Engine::Label("Play", "pirulen.ttf", 36, halfW + 250, halfH / 2 + 180 + halfdist, 0, 0, 0, 255, 0.5, 0.5));
+    AddNewObject(new Engine::Label("custom map", "pirulen.ttf", 36, halfW + 250, halfH / 2 + 220 + halfdist, 0, 0, 0, 255, 0.5, 0.5));
 
     //back
     btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW - 200, halfH * 3 / 2 - 50, 400, 100);
@@ -61,16 +69,28 @@ void ModeSelectScene::Terminate() {
 void ModeSelectScene::BackOnClick() {
     Engine::GameEngine::GetInstance().ChangeScene("start");
 }
+
 void ModeSelectScene::NormalModeOnClick() {
     StageSelectScene *scene = dynamic_cast<StageSelectScene *>(Engine::GameEngine::GetInstance().GetScene("stage-select"));
     scene->isInfiniteMode = 0;
+    scene->isMultiplayer = 0;
     Engine::GameEngine::GetInstance().ChangeScene("stage-select");
 }
+
 void ModeSelectScene::InfiniteModeOnClick() {
     StageSelectScene *scene = dynamic_cast<StageSelectScene *>(Engine::GameEngine::GetInstance().GetScene("stage-select"));
     scene->isInfiniteMode = 1;
+    scene->isMultiplayer = 0;
     Engine::GameEngine::GetInstance().ChangeScene("stage-select");
 }
+
+void ModeSelectScene::MultiOnClick() {
+    StageSelectScene *scene = dynamic_cast<StageSelectScene *>(Engine::GameEngine::GetInstance().GetScene("stage-select"));
+    scene->isInfiniteMode = 1;
+    scene->isMultiplayer = 1;
+    Engine::GameEngine::GetInstance().ChangeScene("stage-select");
+}
+
 void ModeSelectScene::CustomMapOnClick() {
     Engine::GameEngine::GetInstance().ChangeScene("custom-map-select");
 }

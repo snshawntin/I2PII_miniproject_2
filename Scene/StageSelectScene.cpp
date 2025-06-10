@@ -47,9 +47,16 @@ void StageSelectScene::Initialize()
 
     // 畫面上顯示目前模式的 Label
     std::string modestr;
-    if (isInfiniteMode)
+    if (isMultiplayer)
     {
-        modestr = "Mode: INFINITE";
+        if(isInfiniteMode)
+        {
+            modestr = "Mode: MULTIPLAYER";
+        }
+        else
+        {
+            modestr = "Mode: INFINITE";
+        }
     }
     else
     {
@@ -74,15 +81,22 @@ void StageSelectScene::BackOnClick(int stage) {
 
 void StageSelectScene::PlayOnClick(int stage)
 {
-    PlayScene *scene = dynamic_cast<PlayScene *>(Engine::GameEngine::GetInstance().GetScene("play"));
-    if (scene)
+    if(!isMultiplayer)
     {
-        scene->MapId = stage;
-        scene->isInfiniteMode = isInfiniteMode; // 傳遞無限模式設定
-        scene->IsCustom = 0;
-        scene->map_rereaded = 1;
+        PlayScene *scene = dynamic_cast<PlayScene *>(Engine::GameEngine::GetInstance().GetScene("play"));
+        if (scene)
+        {
+            scene->MapId = stage;
+            scene->isInfiniteMode = isInfiniteMode; // 傳遞無限模式設定
+            scene->IsCustom = 0;
+            scene->map_rereaded = 1;
+        }
+        Engine::GameEngine::GetInstance().ChangeScene("play");
     }
-    Engine::GameEngine::GetInstance().ChangeScene("play");
+    else
+    {
+        //TODO: link into multiplayer scene...
+    }
 }
 
 void StageSelectScene::ScoreboardOnClick()

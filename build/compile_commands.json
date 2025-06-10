@@ -139,6 +139,12 @@
 },
 {
   "directory": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/build",
+  "command": "c:\\llvm-mingw-20240417-msvcrt-x86_64\\bin\\clang++.exe  @CMakeFiles/2025_I2P2_TowerDefense.dir/includes_CXX.rsp -g -o CMakeFiles\\2025_I2P2_TowerDefense.dir\\Scene\\MultiPlayerScene.cpp.obj -c C:\\Users\\haoen\\Desktop\\2025_I2P2_TowerDefense-main\\Scene\\MultiPlayerScene.cpp",
+  "file": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/MultiPlayerScene.cpp",
+  "output": "CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/MultiPlayerScene.cpp.obj"
+},
+{
+  "directory": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/build",
   "command": "c:\\llvm-mingw-20240417-msvcrt-x86_64\\bin\\clang++.exe  @CMakeFiles/2025_I2P2_TowerDefense.dir/includes_CXX.rsp -g -o CMakeFiles\\2025_I2P2_TowerDefense.dir\\Scene\\MapEditScene.cpp.obj -c C:\\Users\\haoen\\Desktop\\2025_I2P2_TowerDefense-main\\Scene\\MapEditScene.cpp",
   "file": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/MapEditScene.cpp",
   "output": "CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/MapEditScene.cpp.obj"
@@ -157,6 +163,12 @@
 },
 {
   "directory": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/build",
+  "command": "c:\\llvm-mingw-20240417-msvcrt-x86_64\\bin\\clang++.exe  @CMakeFiles/2025_I2P2_TowerDefense.dir/includes_CXX.rsp -g -o CMakeFiles\\2025_I2P2_TowerDefense.dir\\Scene\\CustomModeSelectScene.cpp.obj -c C:\\Users\\haoen\\Desktop\\2025_I2P2_TowerDefense-main\\Scene\\CustomModeSelectScene.cpp",
+  "file": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/CustomModeSelectScene.cpp",
+  "output": "CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/CustomModeSelectScene.cpp.obj"
+},
+{
+  "directory": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/build",
   "command": "c:\\llvm-mingw-20240417-msvcrt-x86_64\\bin\\clang++.exe  @CMakeFiles/2025_I2P2_TowerDefense.dir/includes_CXX.rsp -g -o CMakeFiles\\2025_I2P2_TowerDefense.dir\\Scene\\StageSelectScene.cpp.obj -c C:\\Users\\haoen\\Desktop\\2025_I2P2_TowerDefense-main\\Scene\\StageSelectScene.cpp",
   "file": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/StageSelectScene.cpp",
   "output": "CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/StageSelectScene.cpp.obj"
@@ -172,6 +184,12 @@
   "command": "c:\\llvm-mingw-20240417-msvcrt-x86_64\\bin\\clang++.exe  @CMakeFiles/2025_I2P2_TowerDefense.dir/includes_CXX.rsp -g -o CMakeFiles\\2025_I2P2_TowerDefense.dir\\Scene\\WinScene.cpp.obj -c C:\\Users\\haoen\\Desktop\\2025_I2P2_TowerDefense-main\\Scene\\WinScene.cpp",
   "file": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/WinScene.cpp",
   "output": "CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/WinScene.cpp.obj"
+},
+{
+  "directory": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/build",
+  "command": "c:\\llvm-mingw-20240417-msvcrt-x86_64\\bin\\clang++.exe  @CMakeFiles/2025_I2P2_TowerDefense.dir/includes_CXX.rsp -g -o CMakeFiles\\2025_I2P2_TowerDefense.dir\\Scene\\MultiWin.cpp.obj -c C:\\Users\\haoen\\Desktop\\2025_I2P2_TowerDefense-main\\Scene\\MultiWin.cpp",
+  "file": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/MultiWin.cpp",
+  "output": "CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/MultiWin.cpp.obj"
 },
 {
   "directory": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/build",

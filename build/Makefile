@@ -656,6 +656,30 @@ Scene/CustomMapSelectScene.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/CustomMapSelectScene.cpp.s
 .PHONY : Scene/CustomMapSelectScene.cpp.s
 
+Scene/CustomModeSelectScene.obj: Scene/CustomModeSelectScene.cpp.obj
+.PHONY : Scene/CustomModeSelectScene.obj
+
+# target to build an object file
+Scene/CustomModeSelectScene.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/CustomModeSelectScene.cpp.obj
+.PHONY : Scene/CustomModeSelectScene.cpp.obj
+
+Scene/CustomModeSelectScene.i: Scene/CustomModeSelectScene.cpp.i
+.PHONY : Scene/CustomModeSelectScene.i
+
+# target to preprocess a source file
+Scene/CustomModeSelectScene.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/CustomModeSelectScene.cpp.i
+.PHONY : Scene/CustomModeSelectScene.cpp.i
+
+Scene/CustomModeSelectScene.s: Scene/CustomModeSelectScene.cpp.s
+.PHONY : Scene/CustomModeSelectScene.s
+
+# target to generate assembly for a file
+Scene/CustomModeSelectScene.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/CustomModeSelectScene.cpp.s
+.PHONY : Scene/CustomModeSelectScene.cpp.s
+
 Scene/LoseScene.obj: Scene/LoseScene.cpp.obj
 .PHONY : Scene/LoseScene.obj
 
@@ -727,6 +751,54 @@ Scene/ModeSelectScene.s: Scene/ModeSelectScene.cpp.s
 Scene/ModeSelectScene.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/ModeSelectScene.cpp.s
 .PHONY : Scene/ModeSelectScene.cpp.s
+
+Scene/MultiPlayerScene.obj: Scene/MultiPlayerScene.cpp.obj
+.PHONY : Scene/MultiPlayerScene.obj
+
+# target to build an object file
+Scene/MultiPlayerScene.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/MultiPlayerScene.cpp.obj
+.PHONY : Scene/MultiPlayerScene.cpp.obj
+
+Scene/MultiPlayerScene.i: Scene/MultiPlayerScene.cpp.i
+.PHONY : Scene/MultiPlayerScene.i
+
+# target to preprocess a source file
+Scene/MultiPlayerScene.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/MultiPlayerScene.cpp.i
+.PHONY : Scene/MultiPlayerScene.cpp.i
+
+Scene/MultiPlayerScene.s: Scene/MultiPlayerScene.cpp.s
+.PHONY : Scene/MultiPlayerScene.s
+
+# target to generate assembly for a file
+Scene/MultiPlayerScene.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/MultiPlayerScene.cpp.s
+.PHONY : Scene/MultiPlayerScene.cpp.s
+
+Scene/MultiWin.obj: Scene/MultiWin.cpp.obj
+.PHONY : Scene/MultiWin.obj
+
+# target to build an object file
+Scene/MultiWin.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/MultiWin.cpp.obj
+.PHONY : Scene/MultiWin.cpp.obj
+
+Scene/MultiWin.i: Scene/MultiWin.cpp.i
+.PHONY : Scene/MultiWin.i
+
+# target to preprocess a source file
+Scene/MultiWin.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/MultiWin.cpp.i
+.PHONY : Scene/MultiWin.cpp.i
+
+Scene/MultiWin.s: Scene/MultiWin.cpp.s
+.PHONY : Scene/MultiWin.s
+
+# target to generate assembly for a file
+Scene/MultiWin.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/MultiWin.cpp.s
+.PHONY : Scene/MultiWin.cpp.s
 
 Scene/PlayScene.obj: Scene/PlayScene.cpp.obj
 .PHONY : Scene/PlayScene.obj
@@ -1331,6 +1403,9 @@ help:
 	@echo ... Scene/CustomMapSelectScene.obj
 	@echo ... Scene/CustomMapSelectScene.i
 	@echo ... Scene/CustomMapSelectScene.s
+	@echo ... Scene/CustomModeSelectScene.obj
+	@echo ... Scene/CustomModeSelectScene.i
+	@echo ... Scene/CustomModeSelectScene.s
 	@echo ... Scene/LoseScene.obj
 	@echo ... Scene/LoseScene.i
 	@echo ... Scene/LoseScene.s
@@ -1340,6 +1415,12 @@ help:
 	@echo ... Scene/ModeSelectScene.obj
 	@echo ... Scene/ModeSelectScene.i
 	@echo ... Scene/ModeSelectScene.s
+	@echo ... Scene/MultiPlayerScene.obj
+	@echo ... Scene/MultiPlayerScene.i
+	@echo ... Scene/MultiPlayerScene.s
+	@echo ... Scene/MultiWin.obj
+	@echo ... Scene/MultiWin.i
+	@echo ... Scene/MultiWin.s
 	@echo ... Scene/PlayScene.obj
 	@echo ... Scene/PlayScene.i
 	@echo ... Scene/PlayScene.s

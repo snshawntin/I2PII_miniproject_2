@@ -13,7 +13,3 @@ maybe override it if the text box in WinScene is added...
 now the scoreboard won't compare the user's name when they have the same score.
 5.18.23.24
 --
-maybe add more dirty effect (the invalid red square sign) on shovels.
-or, put the shovel function into it;s own cpp file.
-5.14.04.53
---

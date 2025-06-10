@@ -622,7 +622,7 @@ void PlayScene::ConstructUI()
         UIGroup->AddNewObject(new Engine::Label(std::string("Stage ") + std::to_string(MapId), "pirulen.ttf", 32, 1294, 0));
     }
     else{
-        UIGroup->AddNewObject(new Engine::Label(std::string("custom tage ") + std::to_string(MapId), "pirulen.ttf", 18, 1294, 0));
+        UIGroup->AddNewObject(new Engine::Label(std::string("custom stage ") + std::to_string(MapId), "pirulen.ttf", 18, 1294, 0));
     }
 
     UIGroup->AddNewObject(UIMoney = new Engine::Label(std::string("$") + std::to_string(money), "pirulen.ttf", 24, 1294, 48));
