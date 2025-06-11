@@ -8,8 +8,8 @@
 PlayScene *TurretButton::getPlayScene() {
     return dynamic_cast<PlayScene *>(Engine::GameEngine::GetInstance().GetActiveScene());
 }
-TurretButton::TurretButton(std::string img, std::string imgIn, Engine::Sprite Base, Engine::Sprite Turret, float x, float y, int money) : ImageButton(img, imgIn, x, y), money(money), Base(Base), Turret(Turret) {
-}
+TurretButton::TurretButton(std::string img, std::string imgIn, Engine::Sprite Base, Engine::Sprite Turret, float x, float y, int money) : ImageButton(img, imgIn, x, y), money(money), Base(Base), Turret(Turret) {}
+
 void TurretButton::Update(float deltaTime) {
     ImageButton::Update(deltaTime);
     if (getPlayScene()->GetMoney() >= money) {

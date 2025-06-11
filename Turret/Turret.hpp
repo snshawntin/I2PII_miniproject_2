@@ -22,10 +22,14 @@ protected:
     virtual void CreateBullet() = 0;
 
 public:
+    int type; //1:machinegun, 2:grow, 3:laser
+
     bool Enabled = true;
     bool Preview = false;
     Enemy *Target = nullptr;
-    Turret(std::string imgBase, std::string imgTurret, float x, float y, float radius, int price, float coolDown);
+    int on_playing_level = 0;
+
+    Turret(int type, std::string imgBase, std::string imgTurret, float x, float y, float radius, int price, float coolDown);
     void Update(float deltaTime) override;
     void Draw() const override;
     int GetPrice() const;

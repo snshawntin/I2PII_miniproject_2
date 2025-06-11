@@ -224,6 +224,30 @@ Bullet/LaserBullet.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Bullet/LaserBullet.cpp.s
 .PHONY : Bullet/LaserBullet.cpp.s
 
+Bullet/StrongBullet.obj: Bullet/StrongBullet.cpp.obj
+.PHONY : Bullet/StrongBullet.obj
+
+# target to build an object file
+Bullet/StrongBullet.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Bullet/StrongBullet.cpp.obj
+.PHONY : Bullet/StrongBullet.cpp.obj
+
+Bullet/StrongBullet.i: Bullet/StrongBullet.cpp.i
+.PHONY : Bullet/StrongBullet.i
+
+# target to preprocess a source file
+Bullet/StrongBullet.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Bullet/StrongBullet.cpp.i
+.PHONY : Bullet/StrongBullet.cpp.i
+
+Bullet/StrongBullet.s: Bullet/StrongBullet.cpp.s
+.PHONY : Bullet/StrongBullet.s
+
+# target to generate assembly for a file
+Bullet/StrongBullet.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Bullet/StrongBullet.cpp.s
+.PHONY : Bullet/StrongBullet.cpp.s
+
 Enemy/Enemy.obj: Enemy/Enemy.cpp.obj
 .PHONY : Enemy/Enemy.obj
 
@@ -1349,6 +1373,9 @@ help:
 	@echo ... Bullet/LaserBullet.obj
 	@echo ... Bullet/LaserBullet.i
 	@echo ... Bullet/LaserBullet.s
+	@echo ... Bullet/StrongBullet.obj
+	@echo ... Bullet/StrongBullet.i
+	@echo ... Bullet/StrongBullet.s
 	@echo ... Enemy/Enemy.obj
 	@echo ... Enemy/Enemy.i
 	@echo ... Enemy/Enemy.s

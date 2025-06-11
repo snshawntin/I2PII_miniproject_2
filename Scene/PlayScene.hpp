@@ -38,10 +38,16 @@ protected:
     int money;
     int p2money;
     int SpeedMult;
+    const int upgrade_money[5] = {50, 250, 1500, 5000, 9999};
     std::vector<Engine::Image *> lifeIcons;
 
     Engine::Image *soldier_key, *plane_key, *tank_key, *shield_key;
     Engine::Image *soldier_unable, *plane_unable, *tank_unable, *shield_unable;
+
+    Engine::Label *machinegun_level_text, *laser_level_text, *grow_level_text;
+    Engine::Label *machinegun_upgrade_text, *laser_upgrade_text, *grow_upgrade_text;
+
+    int p2_earn_money_cooldown;
 
 public:
     static bool DebugMode;
@@ -74,7 +80,7 @@ public:
     int tank_enemy_cooldown;
     int shield_enemy_cooldown;
 
-    int p2_earn_money_cooldown;
+    int machinegunturret_lv, laserturret_lv, growturret_lv;
 
     // Map tiles.
     Group *TileMapGroup;
@@ -117,6 +123,7 @@ public:
     void ReadEnemyWave();
     void ConstructUI();
     void UIBtnClicked(int id);
+    void UIBtnRightClicked(int id);
     bool CheckSpaceValid(int x, int y);
     std::vector<std::vector<int>> CalculateBFSDistance();
     void UpdateLifeIcons(bool isP2);

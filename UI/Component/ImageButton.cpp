@@ -18,10 +18,17 @@ namespace Engine {
     void ImageButton::SetOnClickCallback(std::function<void(void)> onClickCallback) {
         OnClickCallback = onClickCallback;
     }
+    void ImageButton::SetOnRightClickCallback(std::function<void(void)> onRightClickCallback) {
+        OnRightClickCallback = onRightClickCallback;
+    }
     void ImageButton::OnMouseDown(int button, int mx, int my) {
         if ((button & 1) && mouseIn && Enabled) {
             if (OnClickCallback)
                 OnClickCallback();
+        }
+        if ((button & 2) && mouseIn) {
+            if (OnRightClickCallback)
+                OnRightClickCallback();
         }
     }
     void ImageButton::OnMouseMove(int mx, int my) {

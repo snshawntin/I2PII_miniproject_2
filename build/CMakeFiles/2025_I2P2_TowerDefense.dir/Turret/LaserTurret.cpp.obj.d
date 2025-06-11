@@ -727,15 +727,36 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/Turret/LaserTurret.cpp.obj: \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__bit/byteswap.h \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__bit/endian.h \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__bit/has_single_bit.h \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Bullet/LaserBullet.hpp \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Bullet/Bullet.hpp \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/Sprite.hpp \
-  C:/allegro/include/allegro5/color.h \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/Point.hpp \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/Image.hpp \
-  C:/allegro/include/allegro5/bitmap.h \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/IObject.hpp \
-  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/list \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/random \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/bernoulli_distribution.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/uniform_real_distribution.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/generate_canonical.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/binomial_distribution.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/cauchy_distribution.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/chi_squared_distribution.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/gamma_distribution.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/exponential_distribution.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/clamp_to_integral.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/default_random_engine.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/linear_congruential_engine.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/is_seed_sequence.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/discard_block_engine.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/discrete_distribution.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/numeric \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__numeric/accumulate.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__numeric/adjacent_difference.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__numeric/exclusive_scan.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__numeric/gcd_lcm.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__numeric/inclusive_scan.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__numeric/inner_product.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__numeric/iota.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__numeric/midpoint.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__numeric/partial_sum.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__numeric/pstl_reduce.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__numeric/reduce.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__numeric/saturation_arithmetic.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__numeric/transform_exclusive_scan.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__numeric/transform_inclusive_scan.h \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/functional \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__functional/binary_negate.h \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__functional/bind.h \
@@ -814,6 +835,35 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/Turret/LaserTurret.cpp.obj: \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__functional/pointer_to_binary_function.h \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__functional/pointer_to_unary_function.h \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__functional/unary_negate.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/extreme_value_distribution.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/fisher_f_distribution.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/geometric_distribution.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/negative_binomial_distribution.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/poisson_distribution.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/normal_distribution.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/independent_bits_engine.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/knuth_b.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/shuffle_order_engine.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/lognormal_distribution.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/mersenne_twister_engine.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/piecewise_constant_distribution.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/piecewise_linear_distribution.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/random_device.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/ranlux.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/subtract_with_carry_engine.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/seed_seq.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/student_t_distribution.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__random/weibull_distribution.h \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Bullet/LaserBullet.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Bullet/Bullet.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/Sprite.hpp \
+  C:/allegro/include/allegro5/color.h \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/Point.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/Image.hpp \
+  C:/allegro/include/allegro5/bitmap.h \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/IObject.hpp \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/list \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Bullet/StrongBullet.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/AudioHelper.hpp \
   C:/allegro/include/allegro5/allegro_audio.h \
   C:/allegro/include/allegro5/allegro.h \

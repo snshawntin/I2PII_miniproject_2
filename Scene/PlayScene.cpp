@@ -36,6 +36,9 @@
 #include "UI/Animation/Plane.hpp"
 #include "UI/Component/Label.hpp"
 
+//! KNOWN BUG: THE PLAYER CAN PUT TURRET ON (SOME) PATH WHEN IN CUSTOM MAP.
+//! WILL FIX IT IN NEXT COMMIT. SRY
+
 bool PlayScene::DebugMode = false;
 int PlayScene::CheatCodeSeqNowAt = 0;
 const std::vector<Engine::Point> PlayScene::directions = {Engine::Point(-1, 0), Engine::Point(0, -1), Engine::Point(1, 0), Engine::Point(0, 1)};
@@ -67,6 +70,7 @@ void PlayScene::Initialize(){
     to_win_scene_lockdown = -1;
     infiniteTicks = 0.0f;
     p2_earn_money_cooldown = 30;
+    machinegunturret_lv = growturret_lv = laserturret_lv = 0;
     // Add groups from bottom to top.
     AddNewObject(TileMapGroup = new Group());
     AddNewObject(GroundEffectGroup = new Group());
@@ -157,7 +161,7 @@ void PlayScene::Update(float deltaTime)
                         deathBGMInstance = AudioHelper::PlaySample("astronomia.ogg", false, AudioHelper::BGMVolume, pos);
                 }
 
-                //& will not able death indicator in multi mode.
+                //& will not enable death indicator in multi mode.
                 if(!isMultiPlayer){
                     float alpha = pos / DangerTime;
                     alpha = std::max(0, std::min(255, static_cast<int>(alpha * alpha * 255)));
@@ -428,7 +432,7 @@ void PlayScene::Update(float deltaTime)
         else{
             std::random_device dev;
             std::mt19937 rng(dev());
-            std::uniform_int_distribution<std::mt19937::result_type> dist(50, 500);
+            std::uniform_int_distribution<std::mt19937::result_type> dist(50, 200);
             P2EarnMoney(dist(rng));
 
             p2_earn_money_cooldown += 60;
@@ -668,6 +672,10 @@ void PlayScene::Hit()
 {
     lives--;
     UpdateLifeIcons(0);
+    if(isMultiPlayer){
+        P2EarnMoney(999);
+    }
+
     if (lives <= 0)
     {
         MultiWinScene *scene = dynamic_cast<MultiWinScene *>(Engine::GameEngine::GetInstance().GetScene("multi_win"));
@@ -692,7 +700,7 @@ void PlayScene::EarnMoney(int money)
         max_money_indication = "(max)";
     }
 
-    UIMoney->Text = std::string("$") + std::to_string(this->money) + max_money_indication;
+    UIMoney->Text = "money: " + std::string("$") + std::to_string(this->money) + max_money_indication;
 }
 
 void PlayScene::P2EarnMoney(int money)
@@ -724,7 +732,7 @@ void PlayScene::ReadMap()
     std::ifstream fin(filename);
     while (fin >> c)
     {
-        std::cout << "read a char." << std::endl;
+        //std::cout << "read a char." << std::endl;
         switch (c)
         {
         case '0':
@@ -781,6 +789,7 @@ void PlayScene::ReadEnemyWave()
         enemyWaveData.clear();
     }
 }
+
 void PlayScene::UpdateLifeIcons(bool isP2){
     int hearts;
     bool half;
@@ -840,7 +849,7 @@ void PlayScene::ConstructUI()
     // Add 5 heart icons (each is 24*26), spaced by 30 pixels.
     for (int i = 0; i < 5; ++i)
     {
-        auto icon = new Engine::Image("play/full.png", 1294 + i * 30, 88 + multi_ui_btn_shift, 32, 32);
+        auto icon = new Engine::Image("play/full.png", 1294 + i * 30, 68 + multi_ui_btn_shift, 32, 32);
         lifeIcons.push_back(icon);
         UIGroup->AddNewObject(icon);
     }
@@ -851,31 +860,50 @@ void PlayScene::ConstructUI()
 
     // Button 1 (machine gun turret)
     btn = new TurretButton("play/floor.png", "play/dirt.png",
-                           Engine::Sprite("play/tower-base.png", 1294, 136 + multi_ui_btn_shift, 0, 0, 0, 0),
-                           Engine::Sprite("play/turret-1.png", 1294, 136 - 8 + multi_ui_btn_shift, 0, 0, 0, 0), 1294, 136 + multi_ui_btn_shift, MachineGunTurret::Price);
+                           Engine::Sprite("play/tower-base.png", 1294, 116 + multi_ui_btn_shift, 0, 0, 0, 0),
+                           Engine::Sprite("play/turret-1.png", 1294, 116 - 8 + multi_ui_btn_shift, 0, 0, 0, 0), 1294, 116 + multi_ui_btn_shift, MachineGunTurret::Price);
     // Reference: Class Member Function Pointer and std::bind.
     btn->SetOnClickCallback(std::bind(&PlayScene::UIBtnClicked, this, 0));
     UIGroup->AddNewControlObject(btn);
+    //& lv.
+    UIGroup->AddNewObject(machinegun_level_text = new Engine::Label("lv."+ std::to_string(machinegunturret_lv), "pirulen.ttf", 16, 1294 + 10, 185 + multi_ui_btn_shift));
+    
+    UIGroup->AddNewObject(new Engine::Label("lvup:", "pirulen.ttf", 16, 1294 + 30, 185 + 25 + multi_ui_btn_shift, 0, 0, 0, 255, 0.5, 0.5));
+    UIGroup->AddNewObject(machinegun_upgrade_text = new Engine::Label("$" + std::to_string(upgrade_money[machinegunturret_lv]), "pirulen.ttf", 16, 1294 + 30, 185 + 40 + multi_ui_btn_shift, 0, 0, 0, 255, 0.5, 0.5));
+    
+    btn->SetOnRightClickCallback(std::bind(&PlayScene::UIBtnRightClicked, this, 0));
 
     // Button 2 (grow turret)
     btn = new TurretButton("play/floor.png", "play/dirt.png",
-                           Engine::Sprite("play/tower-base.png", 1370, 136 + multi_ui_btn_shift, 0, 0, 0, 0),
-                           Engine::Sprite("play/turret-6.png", 1370, 136 - 8 + multi_ui_btn_shift, 0, 0, 0, 0), 1370, 136 + multi_ui_btn_shift, GrowTurret::Price);
+                           Engine::Sprite("play/tower-base.png", 1370, 116 + multi_ui_btn_shift, 0, 0, 0, 0),
+                           Engine::Sprite("play/turret-6.png", 1370, 116 - 8 + multi_ui_btn_shift, 0, 0, 0, 0), 1370, 116 + multi_ui_btn_shift, GrowTurret::Price);
     btn->SetOnClickCallback(std::bind(&PlayScene::UIBtnClicked, this, 1));
     UIGroup->AddNewControlObject(btn);
+    UIGroup->AddNewObject(grow_level_text = new Engine::Label("lv."+ std::to_string(growturret_lv), "pirulen.ttf", 16, 1370 + 10, 185 + multi_ui_btn_shift));
+    
+    UIGroup->AddNewObject(new Engine::Label("lvup:", "pirulen.ttf", 16, 1370 + 30, 185 + 25 + multi_ui_btn_shift, 0, 0, 0, 255, 0.5, 0.5));
+    UIGroup->AddNewObject(grow_upgrade_text = new Engine::Label("$"+ std::to_string(upgrade_money[growturret_lv]), "pirulen.ttf", 16, 1370 + 30, 185 + 40 + multi_ui_btn_shift, 0, 0, 0, 255, 0.5, 0.5));
+    
+    btn->SetOnRightClickCallback(std::bind(&PlayScene::UIBtnRightClicked, this, 1));
 
     // Button 3 (laser turret)
     btn = new TurretButton("play/floor.png", "play/dirt.png",
-                           Engine::Sprite("play/tower-base.png", 1446, 136 + multi_ui_btn_shift, 0, 0, 0, 0),
-                           Engine::Sprite("play/turret-2.png", 1446, 136 - 8 + multi_ui_btn_shift, 0, 0, 0, 0), 1446, 136 + multi_ui_btn_shift, LaserTurret::Price);
+                           Engine::Sprite("play/tower-base.png", 1446, 116 + multi_ui_btn_shift, 0, 0, 0, 0),
+                           Engine::Sprite("play/turret-2.png", 1446, 116 - 8 + multi_ui_btn_shift, 0, 0, 0, 0), 1446, 116 + multi_ui_btn_shift, LaserTurret::Price);
     btn->SetOnClickCallback(std::bind(&PlayScene::UIBtnClicked, this, 2));
     UIGroup->AddNewControlObject(btn);
+    UIGroup->AddNewObject(laser_level_text = new Engine::Label("lv."+ std::to_string(laserturret_lv), "pirulen.ttf", 16, 1446 + 10, 185 + multi_ui_btn_shift));
+    
+    UIGroup->AddNewObject(new Engine::Label("lvup:", "pirulen.ttf", 16, 1446 + 30, 185 + 25 + multi_ui_btn_shift, 0, 0, 0, 255, 0.5, 0.5));
+    UIGroup->AddNewObject(laser_upgrade_text = new Engine::Label("$"+ std::to_string(upgrade_money[laserturret_lv]), "pirulen.ttf", 16, 1446 + 30, 185 + 40 + multi_ui_btn_shift, 0, 0, 0, 255, 0.5, 0.5));
+    
+    btn->SetOnRightClickCallback(std::bind(&PlayScene::UIBtnRightClicked, this, 2));
 
     // Button 4 (shovel)
     ToolButton *tool_btn;
     tool_btn = new ToolButton("play/floor.png", "play/dirt.png",
-                              Engine::Sprite("play/shovel.png", 1299, 230 + 5 + multi_ui_btn_shift, 54, 54, 0, 0),
-                              1294, 230 + multi_ui_btn_shift);
+                              Engine::Sprite("play/shovel.png", 1299, 250 + 5 + multi_ui_btn_shift, 54, 54, 0, 0),
+                              1294, 250 + multi_ui_btn_shift);
     tool_btn->SetOnClickCallback(std::bind(&PlayScene::UIBtnClicked, this, 100));
     UIGroup->AddNewControlObject(tool_btn);
 
@@ -887,7 +915,7 @@ void PlayScene::ConstructUI()
         //& p2 money
         UIGroup->AddNewObject(UIMoney_P2 = new Engine::Label("money: " + std::string("$") + std::to_string(p2money), "pirulen.ttf", 25, 1294, 418));
         for (int i = 0; i < 5; i++){
-            auto icon = new Engine::Image("play/full.png", 1294 + i * 30, 470, 32, 32);
+            auto icon = new Engine::Image("play/full.png", 1294 + i * 30, 450, 32, 32);
 
             lifeIcons.push_back(icon);
             UIGroup->AddNewObject(icon);
@@ -973,6 +1001,58 @@ void PlayScene::UIBtnClicked(int id)
         preview_tool->Preview = true;
         UIGroup->AddNewObject(preview_tool);
         OnMouseMove(Engine::GameEngine::GetInstance().GetMousePosition().x, Engine::GameEngine::GetInstance().GetMousePosition().y);
+    }
+}
+
+void PlayScene::UIBtnRightClicked(int id){
+    if (id == 0 && money >= upgrade_money[machinegunturret_lv] && machinegunturret_lv < 5){
+        EarnMoney(-1 * upgrade_money[machinegunturret_lv]);
+        machinegun_level_text->SetText("lv." + std::to_string(++machinegunturret_lv));
+        machinegun_upgrade_text->SetText("$"+ std::to_string(upgrade_money[machinegunturret_lv]));
+
+        if(machinegunturret_lv == 5){
+            machinegun_level_text->SetText("MAX");
+        }
+
+        //update all the turrets' lv.
+        for (auto obj : TowerGroup->GetObjects()) {
+            Turret* tur = dynamic_cast<Turret*>(obj);
+            if(tur->type == 0){
+                tur->on_playing_level = machinegunturret_lv;
+            }
+        }
+    }
+    else if (id == 1 && money >= upgrade_money[growturret_lv] && growturret_lv < 5){
+        EarnMoney(-1 * upgrade_money[growturret_lv]);
+        grow_level_text->SetText("lv." + std::to_string(++growturret_lv));
+        grow_upgrade_text->SetText("$"+ std::to_string(upgrade_money[growturret_lv]));
+
+        if(growturret_lv == 5){
+            grow_level_text->SetText("MAX");
+        }
+
+        for (auto obj : TowerGroup->GetObjects()) {
+            Turret* tur = dynamic_cast<Turret*>(obj);
+            if(tur->type == 1){
+                tur->on_playing_level = growturret_lv;
+            }
+        }
+    }
+    else if (id == 2 && money >= upgrade_money[laserturret_lv] && laserturret_lv < 5){
+        EarnMoney(-1 * upgrade_money[laserturret_lv]);
+        laser_level_text->SetText("lv." + std::to_string(++laserturret_lv));
+        laser_upgrade_text->SetText("$"+ std::to_string(upgrade_money[laserturret_lv]));
+
+        if(laserturret_lv == 5){
+            laser_level_text->SetText("MAX");
+        }
+
+        for (auto obj : TowerGroup->GetObjects()) {
+            Turret* tur = dynamic_cast<Turret*>(obj);
+            if(tur->type == 2){
+                tur->on_playing_level = laserturret_lv;
+            }
+        }
     }
 }
 

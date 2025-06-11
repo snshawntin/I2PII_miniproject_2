@@ -43,6 +43,13 @@ void ShieldEnemy::Hit(float damage){
         hp -= damage;
     }
 
+    //feature: the shield will broke if receive a damage >= 999.
+    //and the damage will be 1% of original.
+    else if(damage >= 999){
+        shield_countdown = 0;
+        hp -= (damage * 0.01);
+    }
+
     if (hp <= 0) {
         OnExplode();
         // Remove all turret's reference to target.

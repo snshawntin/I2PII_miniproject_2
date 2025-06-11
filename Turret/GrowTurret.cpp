@@ -3,10 +3,12 @@
 #include <string>
 #include <sstream>
 #include <random>
+#include <cmath>
 
 #include <iostream>
 
 #include "Bullet/GrowBullet.hpp"
+#include "Bullet/StrongBullet.hpp"
 #include "Engine/AudioHelper.hpp"
 #include "Engine/Group.hpp"
 #include "Engine/Point.hpp"
@@ -21,7 +23,7 @@ static int shoot_count = 0;
 
 const int GrowTurret::Price = 100;
 GrowTurret::GrowTurret(float x, float y)
-    : Turret("play/tower-base.png", "play/turret-6-lv0.png", x, y, 100, Price, 0.7) {
+    : Turret(1, "play/tower-base.png", "play/turret-6-lv0.png", x, y, 100, Price, 0.7) {
     // Move center downward, since we the turret head is slightly biased upward.
     Anchor.y += 8.0f / GetBitmapHeight();
     level = 0;
@@ -29,11 +31,24 @@ GrowTurret::GrowTurret(float x, float y)
 }
 
 void GrowTurret::CreateBullet() {
+    coolDown = 0.7 * pow(0.8, level) * (1 - on_playing_level * 0.1);
+    CollisionRadius = 100 + (20 * level) * (1 + on_playing_level * 0.2);
+
     Engine::Point diff = Engine::Point(cos(Rotation - ALLEGRO_PI / 2), sin(Rotation - ALLEGRO_PI / 2));
     float rotation = atan2(diff.y, diff.x);
     Engine::Point normalized = diff.Normalize();
     // Change bullet position to the front of the gun barrel.
-    getPlayScene()->BulletGroup->AddNewObject(new GrowBullet(Position + normalized * 36, diff, attack, rotation, this));
+    
+    // have a small chance of shooting strong bullet.
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist(0, 100);
+    if(dist(rng) < on_playing_level){
+        getPlayScene()->BulletGroup->AddNewObject(new StrongBullet(Position + normalized * 36, diff, 1000, rotation, this));
+    }
+    else{
+        getPlayScene()->BulletGroup->AddNewObject(new GrowBullet(Position + normalized * 36, diff, attack + on_playing_level, rotation, this));
+    }
     AudioHelper::PlayAudio("gun.wav");
 
     if(level < 9){

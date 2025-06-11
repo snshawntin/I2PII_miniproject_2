@@ -22,6 +22,7 @@ namespace Engine {
         std::shared_ptr<ALLEGRO_BITMAP> imgIn;
         // The callback function to call when button clicked.
         std::function<void()> OnClickCallback;
+        std::function<void()> OnRightClickCallback;
 
     public:
         // Whether the button can be pressed.
@@ -43,6 +44,7 @@ namespace Engine {
         /// </summary>
         /// <param name="onClickCallback"></param>
         void SetOnClickCallback(std::function<void(void)> onClickCallback);
+        void SetOnRightClickCallback(std::function<void(void)> onClickCallback); //the right-click version of above.
         /// <summary>
         /// Delegated from scene when mouse button down.
         /// </summary>

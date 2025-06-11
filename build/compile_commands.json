@@ -25,6 +25,12 @@
 },
 {
   "directory": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/build",
+  "command": "c:\\llvm-mingw-20240417-msvcrt-x86_64\\bin\\clang++.exe  @CMakeFiles/2025_I2P2_TowerDefense.dir/includes_CXX.rsp -g -o CMakeFiles\\2025_I2P2_TowerDefense.dir\\Bullet\\StrongBullet.cpp.obj -c C:\\Users\\haoen\\Desktop\\2025_I2P2_TowerDefense-main\\Bullet\\StrongBullet.cpp",
+  "file": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Bullet/StrongBullet.cpp",
+  "output": "CMakeFiles/2025_I2P2_TowerDefense.dir/Bullet/StrongBullet.cpp.obj"
+},
+{
+  "directory": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/build",
   "command": "c:\\llvm-mingw-20240417-msvcrt-x86_64\\bin\\clang++.exe  @CMakeFiles/2025_I2P2_TowerDefense.dir/includes_CXX.rsp -g -o CMakeFiles\\2025_I2P2_TowerDefense.dir\\Enemy\\Enemy.cpp.obj -c C:\\Users\\haoen\\Desktop\\2025_I2P2_TowerDefense-main\\Enemy\\Enemy.cpp",
   "file": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Enemy/Enemy.cpp",
   "output": "CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/Enemy.cpp.obj"
