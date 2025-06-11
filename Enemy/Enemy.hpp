@@ -21,6 +21,7 @@ protected:
     virtual void OnExplode();
 
 public:
+    bool is_enemybase = 0;
     float reachEndTime;
     std::list<Turret *> lockedTurrets;
     std::list<Bullet *> lockedBullets;

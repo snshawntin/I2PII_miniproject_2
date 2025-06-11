@@ -2,6 +2,7 @@
 #include <allegro5/color.h>
 #include <cmath>
 #include <utility>
+#include <random>
 
 #include "Enemy/Enemy.hpp"
 #include "Engine/GameEngine.hpp"
@@ -41,6 +42,17 @@ void Turret::Update(float deltaTime) {
             Engine::Point diff = it->Position - Position;
             if (diff.Magnitude() <= CollisionRadius) {
                 Target = dynamic_cast<Enemy *>(it);
+
+                if(Target->is_enemybase && std::next(it, 1) != nullptr){
+                    std::random_device dev;
+                    std::mt19937 rng(dev());
+                    std::uniform_int_distribution<std::mt19937::result_type> dist(1, 10);
+
+                    if(dist(rng) > 4){
+                        continue;
+                    }
+                }
+
                 Target->lockedTurrets.push_back(this);
                 lockedTurretIterator = std::prev(Target->lockedTurrets.end());
                 break;
@@ -69,6 +81,17 @@ void Turret::Update(float deltaTime) {
             // shoot.
             reload = coolDown;
             CreateBullet();
+        }
+
+        //& prevent the turret from continuously attacking enemy base.
+        if(Target->is_enemybase){
+            std::random_device dev;
+            std::mt19937 rng(dev());
+            std::uniform_int_distribution<std::mt19937::result_type> dist(1, 10);
+
+            if(dist(rng) > 4){
+                Target = nullptr;
+            }
         }
     }
 }

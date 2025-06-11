@@ -40,6 +40,9 @@ protected:
     int SpeedMult;
     std::vector<Engine::Image *> lifeIcons;
 
+    Engine::Image *soldier_key, *plane_key, *tank_key, *shield_key;
+    Engine::Image *soldier_unable, *plane_unable, *tank_unable, *shield_unable;
+
 public:
     static bool DebugMode;
     static int CheatCodeSeqNowAt;

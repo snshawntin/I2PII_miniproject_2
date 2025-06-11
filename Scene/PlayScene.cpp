@@ -24,6 +24,7 @@
 #include "Engine/LOG.hpp"
 #include "Engine/Resources.hpp"
 #include "PlayScene.hpp"
+#include "MultiWin.hpp"
 #include "Turret/LaserTurret.hpp"
 #include "Turret/MachineGunTurret.hpp"
 #include "Turret/GrowTurret.hpp"
@@ -245,7 +246,9 @@ void PlayScene::Update(float deltaTime)
 
                 // Win.
                 if (to_win_scene_lockdown == 0){
-                    Engine::GameEngine::GetInstance().ChangeScene("win");
+                    MultiWinScene *scene = dynamic_cast<MultiWinScene *>(Engine::GameEngine::GetInstance().GetScene("multi-win"));
+                    scene->which_player_win = 1;
+                    Engine::GameEngine::GetInstance().ChangeScene("multi-win");
                 }
             }
             continue;
@@ -362,25 +365,78 @@ void PlayScene::Update(float deltaTime)
         }
     }
 
-    //reduce the cooldown.
-    if(soldier_enemy_cooldown != 0){ soldier_enemy_cooldown--; }
-    if(plane_enemy_cooldown != 0){ plane_enemy_cooldown--; }
-    if(tank_enemy_cooldown != 0){ tank_enemy_cooldown--; }
-    if(shield_enemy_cooldown != 0){ shield_enemy_cooldown--; }
+    if(isMultiPlayer){
+        //&reduce the cooldown/update the indicators.
+        if(soldier_enemy_cooldown != 0){
+            soldier_key->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/keyboard_a_cd.png"));
+            soldier_unable->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/no_time.png"));
+            soldier_enemy_cooldown--; 
+        }
+        else if(p2money < soldier_enemy_price){
+            soldier_key->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/keyboard_a_cd.png"));
+            soldier_unable->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/no_money.png"));
+        }
+        else{
+            soldier_key->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/keyboard_a.png"));
+            soldier_unable->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/empty.png"));
+        }
 
-    //p2 will automatically earn money.(random value)
-    if(p2_earn_money_cooldown > 0){ p2_earn_money_cooldown--; }
-    else{
-        std::random_device dev;
-        std::mt19937 rng(dev());
-        std::uniform_int_distribution<std::mt19937::result_type> dist(50, 500);
-        P2EarnMoney(dist(rng));
+        if(plane_enemy_cooldown != 0){
+            plane_key->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/keyboard_s_cd.png"));
+            plane_unable->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/no_time.png"));
+            plane_enemy_cooldown--; 
+        }
+        else if(p2money < plane_enemy_price){
+            plane_key->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/keyboard_s_cd.png"));
+            plane_unable->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/no_money.png"));
+        }
+        else{
+            plane_key->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/keyboard_s.png"));
+            plane_unable->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/empty.png"));
+        }
 
-        p2_earn_money_cooldown += 60;
+        if(tank_enemy_cooldown != 0){
+            tank_key->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/keyboard_d_cd.png"));
+            tank_unable->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/no_time.png"));
+            tank_enemy_cooldown--; 
+        }
+        else if(p2money < tank_enemy_price){
+            tank_key->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/keyboard_d_cd.png"));
+            tank_unable->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/no_money.png"));
+        }
+        else{
+            tank_key->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/keyboard_d.png"));
+            tank_unable->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/empty.png"));
+        }
+
+        if(shield_enemy_cooldown != 0){
+            shield_key->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/keyboard_f_cd.png"));
+            shield_unable->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/no_time.png"));
+            shield_enemy_cooldown--; 
+        }
+        else if(p2money < shield_enemy_price){
+            shield_key->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/keyboard_f_cd.png"));
+            shield_unable->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/no_money.png"));
+        }
+        else{
+            shield_key->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/keyboard_f.png"));
+            shield_unable->SetBitmap(Engine::Resources::GetInstance().GetBitmap("play/empty.png"));
+        }
+
+        //p2 will automatically earn money.(random value)
+        if(p2_earn_money_cooldown > 0){ p2_earn_money_cooldown--; }
+        else{
+            std::random_device dev;
+            std::mt19937 rng(dev());
+            std::uniform_int_distribution<std::mt19937::result_type> dist(50, 500);
+            P2EarnMoney(dist(rng));
+
+            p2_earn_money_cooldown += 60;
+        }
+
+        //update p2 lives.
+        UpdateLifeIcons(1);
     }
-
-    //update p2 lives.
-    UpdateLifeIcons(1);
 
     if (preview)
     {
@@ -614,7 +670,9 @@ void PlayScene::Hit()
     UpdateLifeIcons(0);
     if (lives <= 0)
     {
-        Engine::GameEngine::GetInstance().ChangeScene("lose");
+        MultiWinScene *scene = dynamic_cast<MultiWinScene *>(Engine::GameEngine::GetInstance().GetScene("multi_win"));
+        scene->which_player_win = 2;
+        Engine::GameEngine::GetInstance().ChangeScene("multi-win");
     }
 }
 
@@ -626,13 +684,28 @@ int PlayScene::GetMoney() const
 void PlayScene::EarnMoney(int money)
 {
     this->money += money;
-    UIMoney->Text = std::string("$") + std::to_string(this->money);
+
+    //& max money:99999
+    std::string max_money_indication = "";
+    if(this->money > 99999){
+        this->money = 99999;
+        max_money_indication = "(max)";
+    }
+
+    UIMoney->Text = std::string("$") + std::to_string(this->money) + max_money_indication;
 }
 
 void PlayScene::P2EarnMoney(int money)
 {
-    this->p2money += money;
-    UIMoney_P2->Text = "money: " + std::string("$") + std::to_string(this->p2money);
+    p2money += money;
+
+    std::string max_money_indication = "";
+    if(p2money > 99999){
+        p2money = 99999;
+        max_money_indication = "(max)";
+    }
+
+    UIMoney_P2->Text = "money: " + std::string("$") + std::to_string(p2money) + max_money_indication;
 }
 
 void PlayScene::ReadMap()
@@ -714,7 +787,7 @@ void PlayScene::UpdateLifeIcons(bool isP2){
     if(isP2){
         int hp2 = p2_base->gethp();
         hearts = hp2 / 20;
-        half = (hp2 % 10) % 2;
+        half = (hp2 / 10) % 2;
     }
     else{
         hearts = lives / 2;
@@ -741,10 +814,10 @@ void PlayScene::UpdateLifeIcons(bool isP2){
 
 void PlayScene::ConstructUI()
 {
-    // Background
+    //& Background
     UIGroup->AddNewObject(new Engine::Image("play/sand.png", 1280, 0, 320, 832));
 
-    // Text
+    //& stage name
     if(!IsCustom){
         UIGroup->AddNewObject(new Engine::Label(std::string("Stage ") + std::to_string(MapId), "pirulen.ttf", 32, 1294, 0));
     }
@@ -752,14 +825,17 @@ void PlayScene::ConstructUI()
         UIGroup->AddNewObject(new Engine::Label(std::string("custom stage ") + std::to_string(MapId), "pirulen.ttf", 24, 1294, 0));
     }
 
+    //& "P1"
     if(isMultiPlayer){
         UIGroup->AddNewObject(new Engine::Label(std::string("player 1"), "pirulen.ttf", 32, 1294, 48));
     }
 
-    UIGroup->AddNewObject(UIMoney = new Engine::Label("money: " + std::string("$") + std::to_string(money), "pirulen.ttf", 25, 1294, 86));
-    
     int multi_ui_btn_shift = (isMultiPlayer) ? 50 : 0;
 
+    //& p1 money
+    UIGroup->AddNewObject(UIMoney = new Engine::Label("money: " + std::string("$") + std::to_string(money), "pirulen.ttf", 25, 1294, 36 + multi_ui_btn_shift));
+
+    //& p1 life
     // Add 5 heart icons (each is 24*26), spaced by 30 pixels.
     for (int i = 0; i < 5; ++i)
     {
@@ -769,6 +845,7 @@ void PlayScene::ConstructUI()
     }
     UpdateLifeIcons(0); // initialize
 
+    //& turret and tool buttons for p1
     TurretButton *btn;
 
     // Button 1 (machine gun turret)
@@ -801,9 +878,12 @@ void PlayScene::ConstructUI()
     tool_btn->SetOnClickCallback(std::bind(&PlayScene::UIBtnClicked, this, 100));
     UIGroup->AddNewControlObject(tool_btn);
 
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!add p2 uis!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+    //all p2 uis...
     if(isMultiPlayer){
+        //& "P2"
         UIGroup->AddNewObject(new Engine::Label(std::string("player 2"), "pirulen.ttf", 32, 1294, 380));
+        
+        //& p2 money
         UIGroup->AddNewObject(UIMoney_P2 = new Engine::Label("money: " + std::string("$") + std::to_string(p2money), "pirulen.ttf", 25, 1294, 418));
         for (int i = 0; i < 5; i++){
             auto icon = new Engine::Image("play/full.png", 1294 + i * 30, 470, 32, 32);
@@ -813,15 +893,27 @@ void PlayScene::ConstructUI()
         }
 
         //TODO: add press ... key & countdown ui.
+        //&instructions of enemies p2 can put.
         UIGroup->AddNewObject(new Engine::Image("play/enemy-1.png", 1294, 520, 64, 64));
-        UIGroup->AddNewObject(new Engine::Label(std::string("$") + std::to_string(soldier_enemy_price), "pirulen.ttf", 20, 1370, 525));
+        UIGroup->AddNewObject(new Engine::Label(std::string("$") + std::to_string(soldier_enemy_price), "pirulen.ttf", 15, 1340, 525 + 35));
+        UIGroup->AddNewObject(soldier_key = new Engine::Image("play/keyboard_a.png", 1360, 515, 45, 45));
+        UIGroup->AddNewObject(soldier_unable = new Engine::Image("play/empty.png", 1365, 520, 35, 35));
+
         UIGroup->AddNewObject(new Engine::Image("play/enemy-2.png", 1294, 590, 64, 64));
-        UIGroup->AddNewObject(new Engine::Label(std::string("$") + std::to_string(plane_enemy_price), "pirulen.ttf", 20, 1370, 595));
+        UIGroup->AddNewObject(new Engine::Label(std::string("$") + std::to_string(plane_enemy_price), "pirulen.ttf", 15, 1340, 595 + 40));
+        UIGroup->AddNewObject(plane_key = new Engine::Image("play/keyboard_s.png", 1360, 590, 45, 45));
+        UIGroup->AddNewObject(plane_unable = new Engine::Image("play/empty.png", 1365, 595, 35, 35));
+
         UIGroup->AddNewObject(new Engine::Image("play/enemy-3.png", 1294, 660, 64, 64));
         UIGroup->AddNewObject(new Engine::Image("play/enemy-3-head.png", 1294, 660, 64, 64));
-        UIGroup->AddNewObject(new Engine::Label(std::string("$") + std::to_string(tank_enemy_price), "pirulen.ttf", 20, 1370, 665));
+        UIGroup->AddNewObject(new Engine::Label(std::string("$") + std::to_string(tank_enemy_price), "pirulen.ttf", 15, 1340, 665 + 35));
+        UIGroup->AddNewObject(tank_key = new Engine::Image("play/keyboard_d.png", 1360, 655, 45, 45));
+        UIGroup->AddNewObject(tank_unable = new Engine::Image("play/empty.png", 1365, 660, 35, 35));
+
         UIGroup->AddNewObject(new Engine::Image("play/enemy-4.png", 1294, 730, 64, 64));
-        UIGroup->AddNewObject(new Engine::Label(std::string("$") + std::to_string(shield_enemy_price), "pirulen.ttf", 20, 1370, 735));
+        UIGroup->AddNewObject(new Engine::Label(std::string("$") + std::to_string(shield_enemy_price), "pirulen.ttf", 15, 1340, 735 + 55));
+        UIGroup->AddNewObject(shield_key = new Engine::Image("play/keyboard_f.png", 1360, 745, 45, 45));
+        UIGroup->AddNewObject(shield_unable = new Engine::Image("play/empty.png", 1365, 750, 35, 35));
 
         UpdateLifeIcons(1);
     }

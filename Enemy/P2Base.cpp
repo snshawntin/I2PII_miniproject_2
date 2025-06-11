@@ -2,7 +2,9 @@
 
 #include "P2Base.hpp"
 
-P2Base::P2Base(int x, int y) : Enemy("play/p2base.png", x, y, 10, 0, 100, 0) {}
+P2Base::P2Base(int x, int y) : Enemy("play/p2base.png", x, y, 10, 0, 100, 0) {
+    is_enemybase = 1;
+}
 
 float P2Base::gethp(){ return hp; }
 void P2Base::addhp(float f) { hp += f; }

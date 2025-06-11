@@ -920,5 +920,6 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/main.cpp.obj: \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/MapEditScene.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/ScoreboardScene.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/WinScene.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/MultiWin.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/StartScene.h \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/SettingsScene.hpp
