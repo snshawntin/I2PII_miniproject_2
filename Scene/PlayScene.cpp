@@ -712,10 +712,10 @@ void PlayScene::ReadMap()
 {
     std::string filename;
     if(!IsCustom){
-        filename = std::string("../Resource/map") + std::to_string(MapId) + ".txt";
+        filename = std::string("Resource/map") + std::to_string(MapId) + ".txt";
     }
     else{
-        filename = std::string("../Resource/custom_map/cm0") + std::to_string(MapId) + ".txt";
+        filename = std::string("Resource/custom_map/cm0") + std::to_string(MapId) + ".txt";
     }
 
     // Read map file.
@@ -724,6 +724,7 @@ void PlayScene::ReadMap()
     std::ifstream fin(filename);
     while (fin >> c)
     {
+        std::cout << "read a char." << std::endl;
         switch (c)
         {
         case '0':
