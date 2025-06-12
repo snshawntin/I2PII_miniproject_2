@@ -123,6 +123,8 @@ void PlayScene::Update(float deltaTime)
     // If we use deltaTime directly, then we might have Bullet-through-paper problem.
     // Reference: Bullet-Through-Paper
     if(!map_rereaded){
+        std::cout << "reread map." << std::endl;
+        mapState.clear();
         ReadMap();
         map_rereaded = 1;
     }
@@ -523,7 +525,7 @@ void PlayScene::OnMouseUp(int button, int mx, int my)
                 return;
             }
             // Check if valid.
-            if (!CheckSpaceValid(x, y))
+            if (!preview_tool && preview && !CheckSpaceValid(x, y))
             {
                 Engine::Sprite *sprite;
                 GroundEffectGroup->AddNewObject(sprite = new DirtyEffect("play/target-invalid.png", 1, x * BlockSize + BlockSize / 2, y * BlockSize + BlockSize / 2));
@@ -759,10 +761,30 @@ void PlayScene::ReadMap()
         {
             const int num = mapData[i * MapWidth + j];
             mapState[i][j] = num ? TILE_FLOOR : TILE_DIRT;
-            if (num)
-                TileMapGroup->AddNewObject(new Engine::Image("play/floor.png", j * BlockSize, i * BlockSize, BlockSize, BlockSize));
-            else
-                TileMapGroup->AddNewObject(new Engine::Image("play/dirt.png", j * BlockSize, i * BlockSize, BlockSize, BlockSize));
+            if (num == 0){
+                std::random_device dev;
+                std::mt19937 rng(dev());
+                std::uniform_int_distribution<std::mt19937::result_type> dist(0, 100);
+
+                std::string tile_pic_str;
+                if (dist(rng) == 0){ tile_pic_str = "play/dirt_alt5.png"; }
+                else if(dist(rng) <= 20){ tile_pic_str = "play/dirt_alt1.png"; }
+                else if(dist(rng) <= 40){ tile_pic_str = "play/dirt_alt2.png"; }
+                else if(dist(rng) <= 60){ tile_pic_str = "play/dirt_alt3.png"; }
+                else if(dist(rng) <= 80){ tile_pic_str = "play/dirt_alt4.png"; }
+                else{ tile_pic_str = "play/dirt.png"; }
+                TileMapGroup->AddNewObject(new Engine::Image(tile_pic_str, j * BlockSize, i * BlockSize, BlockSize, BlockSize));
+            }
+            else{
+                std::random_device dev;
+                std::mt19937 rng(dev());
+                std::uniform_int_distribution<std::mt19937::result_type> dist(0, 100);
+
+                std::string tile_pic_str;
+                if(dist(rng) <= 50){ tile_pic_str = "play/floor_map.png"; }
+                else{ tile_pic_str = "play/floor_alt.png"; }
+                TileMapGroup->AddNewObject(new Engine::Image(tile_pic_str, j * BlockSize, i * BlockSize, BlockSize, BlockSize));
+            }
         }
     }
 }
