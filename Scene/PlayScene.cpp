@@ -336,9 +336,32 @@ void PlayScene::Update(float deltaTime)
                 boss->Initialize(5.0f / bossSpawnCount);
                 EnemyGroup->AddNewObject(boss);
                 boss->UpdatePath(mapDistance);
+                bossWarningShown = false;
+            }
+        }
+
+        // boss incoming warning massage
+        if (!bossWarningShown && bossTicks >= bossSpawnInterval - 3.0f)
+        {
+            bossWarningLabel->Visible = true;
+            bossWarningShown = true;
+
+            // 從螢幕最左邊外側開始
+            bossWarningLabel->Position.x = -bossWarningLabel->GetTextWidth();
+        }
+
+        if (bossWarningLabel->Visible)
+        {
+            bossWarningLabel->Position.x += 300 * deltaTime;
+
+            // 如果整段文字滑出畫面右側就隱藏
+            if (bossWarningLabel->Position.x > Engine::GameEngine::GetInstance().GetScreenSize().x)
+            {
+                bossWarningLabel->Visible = false;
             }
         }
     }
+
     if (preview)
     {
         preview->Position = Engine::GameEngine::GetInstance().GetMousePosition();
@@ -703,6 +726,11 @@ void PlayScene::ConstructUI()
     dangerIndicator = new Engine::Sprite("play/benjamin.png", w - shift, h - shift);
     dangerIndicator->Tint.a = 0;
     UIGroup->AddNewObject(dangerIndicator);
+
+    // boss incoming warning
+    bossWarningLabel = new Engine::Label("WARNING: BOSS INCOMING", "pirulen.ttf", 72, 0, Engine::GameEngine::GetInstance().GetScreenSize().y / 2 - 36, 255, 0, 0, 255);
+    bossWarningLabel->Visible = false;
+    UIGroup->AddNewObject(bossWarningLabel);
 }
 
 void PlayScene::UIBtnClicked(int id)

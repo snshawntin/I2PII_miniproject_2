@@ -58,7 +58,10 @@ public:
     float infiniteTicks = 0.0f;
     int bossSpawnCount = 0;
     float bossTicks = 0.0f;
-    const float bossSpawnInterval = 500;
+    const float bossSpawnInterval = 50;
+    float bossWarningTimer = 0;
+    bool bossWarningShown = false;
+    Engine::Label *bossWarningLabel = nullptr;
 
     // Map tiles.
     Group *TileMapGroup;
