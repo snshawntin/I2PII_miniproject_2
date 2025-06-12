@@ -191,7 +191,7 @@ void PlayScene::Update(float deltaTime)
         ticks += deltaTime;
         infiniteTicks += deltaTime;
 
-        if (!isMultiPlayer && enemyWaveData.empty())
+        if (!isMultiPlayer && !isInfiniteMode && enemyWaveData.empty())
         {
             if (EnemyGroup->GetObjects().empty())
             {
@@ -717,12 +717,13 @@ void PlayScene::P2EarnMoney(int money)
 
 void PlayScene::ReadMap()
 {
+    //! if map edit scene cannot recognize the modified map, modify here.
     std::string filename;
     if(!IsCustom){
-        filename = std::string("Resource/map") + std::to_string(MapId) + ".txt";
+        filename = std::string("../Resource/map") + std::to_string(MapId) + ".txt";
     }
     else{
-        filename = std::string("Resource/custom_map/cm0") + std::to_string(MapId) + ".txt";
+        filename = std::string("../Resource/custom_map/cm0") + std::to_string(MapId) + ".txt";
     }
 
     // Read map file.
