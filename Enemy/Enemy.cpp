@@ -140,6 +140,11 @@ void Enemy::Draw() const
     if (PlayScene::DebugMode)
     {
         // Draw collision radius.
-        al_draw_circle(Position.x, Position.y, CollisionRadius, al_map_rgb(255, 0, 0), 2);
+        al_draw_circle(
+            Position.x + Engine::IObject::GlobalDrawOffset.x,
+            Position.y + Engine::IObject::GlobalDrawOffset.y,
+            CollisionRadius,
+            al_map_rgb(255, 0, 0),
+            2);
     }
 }

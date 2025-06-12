@@ -62,6 +62,10 @@ public:
     float bossWarningTimer = 0;
     bool bossWarningShown = false;
     Engine::Label *bossWarningLabel = nullptr;
+    bool isShaking = false;
+    float shakeDuration = 5.0f;
+    float shakeMagnitude = 10.0f;
+    Engine::Point shakeOffset = Engine::Point(0, 0);
 
     // Map tiles.
     Group *TileMapGroup;
@@ -104,6 +108,7 @@ public:
     bool CheckSpaceValid(int x, int y);
     std::vector<std::vector<int>> CalculateBFSDistance();
     void UpdateLifeIcons();
+    void StartShake(float duration, float magnitude);
 
     std::map<std::pair<int, int>, Turret *> turret_map;
     // void ModifyReadMapTiles();

@@ -102,12 +102,6 @@ void PlayScene::Terminate()
 }
 void PlayScene::Update(float deltaTime)
 {
-    // if (isInfiniteMode)
-    //     printf("INF");
-    // else
-    //     printf("NORM");
-    // If we use deltaTime directly, then we might have Bullet-through-paper problem.
-    // Reference: Bullet-Through-Paper
     if (!map_rereaded)
     {
         ReadMap();
@@ -337,6 +331,9 @@ void PlayScene::Update(float deltaTime)
                 EnemyGroup->AddNewObject(boss);
                 boss->UpdatePath(mapDistance);
                 bossWarningShown = false;
+                isShaking = true;
+
+                AudioHelper::PlayAudio("boss_debut.mp3");
             }
         }
 
@@ -352,7 +349,7 @@ void PlayScene::Update(float deltaTime)
 
         if (bossWarningLabel->Visible)
         {
-            bossWarningLabel->Position.x += 300 * deltaTime;
+            bossWarningLabel->Position.x += 200 * deltaTime;
 
             // 如果整段文字滑出畫面右側就隱藏
             if (bossWarningLabel->Position.x > Engine::GameEngine::GetInstance().GetScreenSize().x)
@@ -360,7 +357,32 @@ void PlayScene::Update(float deltaTime)
                 bossWarningLabel->Visible = false;
             }
         }
+        if (isShaking)
+        {
+            printf("SHAKING");
+            shakeDuration -= deltaTime;
+            if (shakeDuration <= 0)
+            {
+                shakeDuration = 0;
+                isShaking = false;
+                shakeOffset = Engine::Point(0, 0);
+            }
+            else
+            {
+                shakeOffset.x = (static_cast<float>(rand()) / RAND_MAX * 2.0f - 1.0f) * shakeMagnitude;
+                shakeOffset.y = (static_cast<float>(rand()) / RAND_MAX * 2.0f - 1.0f) * shakeMagnitude;
+            }
+        }
+        else
+        {
+            shakeOffset = Engine::Point(0, 0);
+        }
+
+        // 設定全局偏移
+        Engine::IObject::GlobalDrawOffset = shakeOffset;
     }
+
+    Engine::IObject::GlobalDrawOffset = shakeOffset;
 
     if (preview)
     {
@@ -377,25 +399,39 @@ void PlayScene::Update(float deltaTime)
 }
 void PlayScene::Draw() const
 {
-    IScene::Draw();
+    // 1. 設定畫面偏移
+    ALLEGRO_TRANSFORM transform;
+    al_identity_transform(&transform);
+    al_translate_transform(&transform, Engine::IObject::GlobalDrawOffset.x, Engine::IObject::GlobalDrawOffset.y);
+    al_use_transform(&transform);
+
+    // 2. 畫整個畫面
+    IScene::Draw(); // 要畫在偏移後的畫布上
+
+    // 3. 如果有 debug mode 額外畫
     if (DebugMode)
     {
-        // Draw reverse BFS distance on all reachable blocks.
         for (int i = 0; i < MapHeight; i++)
         {
             for (int j = 0; j < MapWidth; j++)
             {
                 if (mapDistance[i][j] != -1)
                 {
-                    // Not elegant nor efficient, but it's quite enough for debugging.
-                    Engine::Label label(std::to_string(mapDistance[i][j]), "pirulen.ttf", 32, (j + 0.5) * BlockSize, (i + 0.5) * BlockSize);
+                    Engine::Label label(std::to_string(mapDistance[i][j]), "pirulen.ttf", 32,
+                                        (j + 0.5) * BlockSize, (i + 0.5) * BlockSize);
                     label.Anchor = Engine::Point(0.5, 0.5);
                     label.Draw();
                 }
             }
         }
     }
+
+    // 4. 還原 transform，避免影響後續其他場景
+    ALLEGRO_TRANSFORM identity;
+    al_identity_transform(&identity);
+    al_use_transform(&identity);
 }
+
 void PlayScene::OnMouseDown(int button, int mx, int my)
 {
     if ((button & 1) && !imgTarget->Visible && preview)
@@ -854,4 +890,11 @@ std::vector<std::vector<int>> PlayScene::CalculateBFSDistance()
     }
 
     return map;
+}
+void PlayScene::StartShake(float duration, float magnitude)
+{
+    isShaking = true;
+    shakeDuration = duration;
+    shakeMagnitude = magnitude;
+    Engine::Point shakeOffset = Engine::Point(0, 0);
 }
