@@ -12,85 +12,13 @@
 [INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 40
 [INFO] Game initialized
 [INFO] Game start event loop
-[INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 60
-[INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 36
-[INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 38
-[INFO] Loaded Resource<audio>: Resource/audios/select.ogg
-[INFO] Created<sample_instance>: Resource/audios/select.ogg
-[INFO] Changed to mode-select scene
-[INFO] stopped audio (sample)
-[INFO] Created<sample_instance>: Resource/audios/select.ogg
-[INFO] Changed to stage-select scene
-[INFO] stopped audio (sample)
-[INFO] Loaded Resource<image>: Resource/images/play/dirt.png scaled to 64x64
-[INFO] Loaded Resource<image>: Resource/images/play/floor.png scaled to 64x64
-[INFO] Loaded Resource<image>: Resource/images/play/sand.png scaled to 320x832
-[INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 32
-[INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 24
-[INFO] Loaded Resource<image>: Resource/images/play/full.png scaled to 32x32
-[INFO] Loaded Resource<image>: Resource/images/play/full.png
-[INFO] Loaded Resource<image>: Resource/images/play/turret-1.png
-[INFO] Loaded Resource<image>: Resource/images/play/tower-base.png
-[INFO] Loaded Resource<image>: Resource/images/play/floor.png
-[INFO] Loaded Resource<image>: Resource/images/play/dirt.png
-[INFO] Loaded Resource<image>: Resource/images/play/turret-6.png
-[INFO] Loaded Resource<image>: Resource/images/play/turret-2.png
-[INFO] Loaded Resource<image>: Resource/images/play/shovel.png scaled to 54x54
-[INFO] Loaded Resource<image>: Resource/images/play/benjamin.png
-[INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 72
-[INFO] Loaded Resource<image>: Resource/images/play/target.png
-[INFO] Loaded Resource<audio>: Resource/audios/astronomia.ogg
-[INFO] Created<sample_instance>: Resource/audios/astronomia.ogg
-[INFO] Loaded Resource<image>: Resource/images/lose/benjamin-happy.png
-[INFO] Loaded Resource<audio>: Resource/audios/play.ogg
-[INFO] played audio (bgm)
-[INFO] Changed to play scene
-[INFO] Loaded Resource<image>: Resource/images/play/enemy-1.png
-[INFO] Loaded Resource<image>: Resource/images/play/enemy-3.png
-[INFO] Loaded Resource<image>: Resource/images/play/enemy-3-head.png
-[INFO] Loaded Resource<image>: Resource/images/play/snail_boss.png
-[INFO] Loaded Resource<audio>: Resource/audios/boss_debut.mp3
-[INFO] Loaded Resource<image>: Resource/images/play/snail_enemy.png
 [INFO] Game Terminating...
-[INFO] stopped audio (bgm)
 [INFO] Game terminated
 [INFO] Game end
-[INFO] Destroyed Resource<image>: play/snail_boss.png
-[INFO] Destroyed Resource<image>: play/enemy-3.png
-[INFO] Destroyed Resource<image>: play/enemy-1.png
-[INFO] Destroyed Resource<image>: play/enemy-3-head.png
-[INFO] Destroyed Resource<image>: play/benjamin.png
-[INFO] Destroyed Resource<image>: play/shovel.png?54x54
-[INFO] Destroyed Resource<image>: play/turret-2.png
-[INFO] Destroyed Resource<image>: play/turret-6.png
-[INFO] Destroyed Resource<image>: play/snail_enemy.png
-[INFO] Destroyed Resource<image>: icon.png
-[INFO] Destroyed Resource<image>: play/sand.png?320x832
-[INFO] Destroyed Resource<image>: play/tower-base.png
-[INFO] Destroyed Resource<image>: play/floor.png?64x64
-[INFO] Destroyed Resource<image>: stage-select/dirt.png
 [INFO] Destroyed Resource<image>: stage-select/floor.png
-[INFO] Destroyed Resource<image>: lose/benjamin-happy.png
-[INFO] Destroyed Resource<image>: play/target.png
-[INFO] Destroyed Resource<image>: play/dirt.png?64x64
-[INFO] Destroyed Resource<image>: play/turret-1.png
+[INFO] Destroyed Resource<image>: stage-select/dirt.png
 [INFO] Destroyed Resource<image>: stage-select/dirt.png?400x100
-[INFO] Destroyed Resource<image>: play/full.png
-[INFO] Destroyed Resource<image>: play/floor.png
-[INFO] Destroyed Resource<image>: play/full.png?32x32
-[INFO] Destroyed Resource<image>: play/dirt.png
-[INFO] Destroyed Resource<font>: pirulen.ttf?24
-[INFO] Destroyed Resource<font>: pirulen.ttf?32
-[INFO] Destroyed Resource<font>: pirulen.ttf?38
-[INFO] Destroyed Resource<font>: pirulen.ttf?72
+[INFO] Destroyed Resource<image>: icon.png
 [INFO] Destroyed Resource<font>: pirulen.ttf?40
-[INFO] Destroyed Resource<font>: pirulen.ttf?60
 [INFO] Destroyed Resource<font>: pirulen.ttf?48
-[INFO] Destroyed Resource<font>: pirulen.ttf?36
 [INFO] Destroyed Resource<font>: pirulen.ttf?120
-[INFO] Destroyed<sample_instance>: astronomia.ogg
-[INFO] Destroyed<sample_instance>: select.ogg
-[INFO] Destroyed Resource<audio>: boss_debut.mp3
-[INFO] Destroyed Resource<audio>: play.ogg
-[INFO] Destroyed Resource<audio>: astronomia.ogg
-[INFO] Destroyed Resource<audio>: select.ogg

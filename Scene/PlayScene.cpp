@@ -343,7 +343,7 @@ void PlayScene::Update(float deltaTime)
             bossWarningLabel->Visible = true;
             bossWarningShown = true;
 
-            // 從螢幕最左邊外側開始
+            // start on the left
             bossWarningLabel->Position.x = -bossWarningLabel->GetTextWidth();
         }
 
@@ -351,7 +351,7 @@ void PlayScene::Update(float deltaTime)
         {
             bossWarningLabel->Position.x += 200 * deltaTime;
 
-            // 如果整段文字滑出畫面右側就隱藏
+            // hide if go out of the screen
             if (bossWarningLabel->Position.x > Engine::GameEngine::GetInstance().GetScreenSize().x)
             {
                 bossWarningLabel->Visible = false;
@@ -378,7 +378,7 @@ void PlayScene::Update(float deltaTime)
             shakeOffset = Engine::Point(0, 0);
         }
 
-        // 設定全局偏移
+        // set offset
         Engine::IObject::GlobalDrawOffset = shakeOffset;
     }
 
@@ -399,16 +399,15 @@ void PlayScene::Update(float deltaTime)
 }
 void PlayScene::Draw() const
 {
-    // 1. 設定畫面偏移
+    // 1. set offset
     ALLEGRO_TRANSFORM transform;
     al_identity_transform(&transform);
     al_translate_transform(&transform, Engine::IObject::GlobalDrawOffset.x, Engine::IObject::GlobalDrawOffset.y);
     al_use_transform(&transform);
 
-    // 2. 畫整個畫面
-    IScene::Draw(); // 要畫在偏移後的畫布上
-
-    // 3. 如果有 debug mode 額外畫
+    // 2. draw the whole screen
+    IScene::Draw();
+    // 3. draw debug mode if needed
     if (DebugMode)
     {
         for (int i = 0; i < MapHeight; i++)
@@ -426,7 +425,7 @@ void PlayScene::Draw() const
         }
     }
 
-    // 4. 還原 transform，避免影響後續其他場景
+    // 4. reset
     ALLEGRO_TRANSFORM identity;
     al_identity_transform(&identity);
     al_use_transform(&identity);
