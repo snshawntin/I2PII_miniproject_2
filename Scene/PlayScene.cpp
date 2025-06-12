@@ -36,9 +36,6 @@
 #include "UI/Animation/Plane.hpp"
 #include "UI/Component/Label.hpp"
 
-//! KNOWN BUG: THE PLAYER CAN PUT TURRET ON (SOME) PATH WHEN IN CUSTOM MAP.
-//! WILL FIX IT IN NEXT COMMIT. SRY
-
 bool PlayScene::DebugMode = false;
 int PlayScene::CheatCodeSeqNowAt = 0;
 const std::vector<Engine::Point> PlayScene::directions = {Engine::Point(-1, 0), Engine::Point(0, -1), Engine::Point(1, 0), Engine::Point(0, 1)};
@@ -1058,8 +1055,14 @@ void PlayScene::UIBtnRightClicked(int id){
 
 bool PlayScene::CheckSpaceValid(int x, int y)
 {
-    if (x < 0 || x >= MapWidth || y < 0 || y >= MapHeight)
+    if (x < 0 || x >= MapWidth || y < 0 || y >= MapHeight){
         return false;
+    }
+
+    if(mapState[y][x] != TILE_FLOOR){
+        return false;
+    }
+
     auto map00 = mapState[y][x];
     mapState[y][x] = TILE_OCCUPIED;
     std::vector<std::vector<int>> map = CalculateBFSDistance();
