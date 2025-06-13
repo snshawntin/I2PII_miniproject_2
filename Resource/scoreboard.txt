@@ -1,3 +1,4 @@
+tester 2600
 <no name> 150
 Daniel 80
 XiaoLiang 70

@@ -12,69 +12,13 @@
 [INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 40
 [INFO] Game initialized
 [INFO] Game start event loop
-[INFO] Loaded Resource<image>: Resource/images/stage-select/slider.png
-[INFO] Loaded Resource<image>: Resource/images/stage-select/slider-blue.png
-[INFO] Loaded Resource<image>: Resource/images/stage-select/bar.png scaled to 190x4
-[INFO] Loaded Resource<image>: Resource/images/stage-select/end.png
-[INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 28
-[INFO] Loaded Resource<audio>: Resource/audios/select.ogg
-[INFO] Created<sample_instance>: Resource/audios/select.ogg
-[INFO] Created<sample_instance>: Resource/audios/select.ogg
-[INFO] Changed to settings scene
-[INFO] stopped audio (sample)
-[INFO] Changed to start scene
-[INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 60
-[INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 36
-[INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 38
-[INFO] Created<sample_instance>: Resource/audios/select.ogg
-[INFO] Changed to mode-select scene
-[INFO] stopped audio (sample)
-[INFO] Created<sample_instance>: Resource/audios/select.ogg
-[INFO] Changed to stage-select scene
-[INFO] stopped audio (sample)
-[INFO] Loaded Resource<image>: Resource/images/play/dirt_alt1.png scaled to 64x64
-[INFO] Loaded Resource<image>: Resource/images/play/dirt_alt2.png scaled to 64x64
-[INFO] Loaded Resource<image>: Resource/images/play/dirt_alt3.png scaled to 64x64
-[INFO] Loaded Resource<image>: Resource/images/play/dirt_alt4.png scaled to 64x64
-[INFO] Loaded Resource<image>: Resource/images/play/dirt.png scaled to 64x64
-[INFO] Loaded Resource<image>: Resource/images/play/floor_alt.png scaled to 64x64
-[INFO] Loaded Resource<image>: Resource/images/play/floor_map.png scaled to 64x64
-[INFO] Loaded Resource<image>: Resource/images/play/sand.png scaled to 320x832
-[INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 32
-[INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 25
-[INFO] Loaded Resource<image>: Resource/images/play/full.png scaled to 32x32
-[INFO] Loaded Resource<image>: Resource/images/play/full.png
-[INFO] Loaded Resource<image>: Resource/images/play/tower-base.png
-[INFO] Loaded Resource<image>: Resource/images/play/turret-1.png
-[INFO] Loaded Resource<image>: Resource/images/play/floor.png
-[INFO] Loaded Resource<image>: Resource/images/play/dirt.png
-[INFO] Loaded Resource<font>: Resource/fonts/pirulen.ttf with size 16
-[INFO] Loaded Resource<image>: Resource/images/play/turret-6.png
-[INFO] Loaded Resource<image>: Resource/images/play/turret-2.png
-[INFO] Loaded Resource<image>: Resource/images/play/shovel.png scaled to 54x54
-[INFO] Loaded Resource<image>: Resource/images/play/benjamin.png
-[INFO] Loaded Resource<image>: Resource/images/play/target.png
-[INFO] Loaded Resource<audio>: Resource/audios/astronomia.ogg
-[INFO] Created<sample_instance>: Resource/audios/astronomia.ogg
-[INFO] Loaded Resource<image>: Resource/images/lose/benjamin-happy.png
-[INFO] Loaded Resource<audio>: Resource/audios/play.ogg
-[INFO] played audio (bgm)
-[INFO] Changed to play scene
-[INFO] Loaded Resource<image>: Resource/images/play/dirt_alt5.png scaled to 64x64
-[INFO] Loaded Resource<image>: Resource/images/play/enemy-1.png
-[INFO] Loaded Resource<image>: Resource/images/play/enemy-4.png
-[INFO] Loaded Resource<image>: Resource/images/play/target-invalid.png
-[INFO] Loaded Resource<image>: Resource/images/play/explosion-1.png
-[INFO] Loaded Resource<image>: Resource/images/play/explosion-2.png
-[INFO] Loaded Resource<image>: Resource/images/play/explosion-3.png
-[INFO] Loaded Resource<image>: Resource/images/play/explosion-4.png
-[INFO] Loaded Resource<image>: Resource/images/play/explosion-5.png
-[INFO] Loaded Resource<image>: Resource/images/play/dirty-1.png
-[INFO] Loaded Resource<image>: Resource/images/play/dirty-3.png
-[INFO] Loaded Resource<image>: Resource/images/play/dirty-2.png
-[INFO] Loaded Resource<audio>: Resource/audios/explosion.wav
-[INFO] Loaded Resource<image>: Resource/images/play/half.png
-[INFO] Loaded Resource<image>: Resource/images/play/enemy-3.png
-[INFO] Loaded Resource<image>: Resource/images/play/enemy-3-head.png
-[INFO] Loaded Resource<image>: Resource/images/play/empty.png
-[INFO] Created<sample_instance>: Resource/audios/astronomia.ogg
+[INFO] Game Terminating...
+[INFO] Game terminated
+[INFO] Game end
+[INFO] Destroyed Resource<image>: stage-select/floor.png
+[INFO] Destroyed Resource<image>: stage-select/dirt.png?400x100
+[INFO] Destroyed Resource<image>: stage-select/dirt.png
+[INFO] Destroyed Resource<image>: icon.png
+[INFO] Destroyed Resource<font>: pirulen.ttf?40
+[INFO] Destroyed Resource<font>: pirulen.ttf?48
+[INFO] Destroyed Resource<font>: pirulen.ttf?120

@@ -198,7 +198,6 @@ void MapEditScene::ReadMap() {
 
     // Validate map data.
     if (static_cast<int>(mapData.size()) != MapWidth * MapHeight){
-        std::cout << static_cast<int>(mapData.size()) << " != " << MapWidth * MapHeight << std::endl;
         throw std::ios_base::failure("Map data is corrupted.");
     }
 

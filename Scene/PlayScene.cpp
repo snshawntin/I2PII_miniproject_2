@@ -25,6 +25,7 @@
 #include "Engine/Resources.hpp"
 #include "PlayScene.hpp"
 #include "MultiWin.hpp"
+#include "LoseScene.hpp"
 #include "Turret/LaserTurret.hpp"
 #include "Turret/MachineGunTurret.hpp"
 #include "Turret/GrowTurret.hpp"
@@ -112,6 +113,7 @@ void PlayScene::Initialize(){
 
 void PlayScene::Terminate()
 {
+    lifeIcons.resize(0);
     AudioHelper::StopBGM(bgmId);
     AudioHelper::StopSample(deathBGMInstance);
     deathBGMInstance = std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE>();
@@ -123,7 +125,7 @@ void PlayScene::Update(float deltaTime)
     // If we use deltaTime directly, then we might have Bullet-through-paper problem.
     // Reference: Bullet-Through-Paper
     if(!map_rereaded){
-        std::cout << "reread map." << std::endl;
+        Engine::LOG(Engine::INFO) << "reread map.";
         mapState.clear();
         ReadMap();
         map_rereaded = 1;
@@ -689,11 +691,45 @@ void PlayScene::Hit()
         P2EarnMoney(999);
     }
 
-    if (lives <= 0)
-    {
-        MultiWinScene *scene = dynamic_cast<MultiWinScene *>(Engine::GameEngine::GetInstance().GetScene("multi_win"));
-        scene->which_player_win = 2;
-        Engine::GameEngine::GetInstance().ChangeScene("multi-win");
+    if (lives <= 0){
+        if (isMultiPlayer){
+            std::ofstream tmp_file("../Resource/new_score.tmp");
+            if (tmp_file.is_open()){
+                tmp_file << money; // score
+
+                tmp_file.close();
+            }
+            else{
+                Engine::LOG(Engine::ERROR) << "Can't create temporary file";
+            }
+
+            MultiWinScene *scene = dynamic_cast<MultiWinScene *>(Engine::GameEngine::GetInstance().GetScene("multi-win"));
+            scene->which_player_win = 2;
+            Engine::GameEngine::GetInstance().ChangeScene("multi-win");
+        }
+
+        else{
+            LoseScene *scene = dynamic_cast<LoseScene *>(Engine::GameEngine::GetInstance().GetScene("lose"));
+
+            if(isInfiniteMode){
+                std::ofstream tmp_file("../Resource/new_score.tmp");
+                if (tmp_file.is_open()){
+                    tmp_file << money; // score
+
+                    tmp_file.close();
+                }
+                else{
+                    Engine::LOG(Engine::ERROR) << "Can't create temporary file";
+                }
+
+                scene->record_score = 1;
+            }
+            else{   
+                scene->record_score = 0;
+            }
+                        
+            Engine::GameEngine::GetInstance().ChangeScene("lose");
+        }
     }
 }
 
@@ -746,7 +782,6 @@ void PlayScene::ReadMap()
     std::ifstream fin(filename);
     while (fin >> c)
     {
-        //std::cout << "read a char." << std::endl;
         switch (c)
         {
         case '0':

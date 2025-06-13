@@ -69,29 +69,19 @@ void MultiWinScene::Terminate() {
             std::string line;
             unsigned now_score = 2147483647, next_score;
 
-            bool no_data = 1;
             bool inserted = 0;
             while (std::getline(scoreboard_file, line)){
-                if(!no_data){
-                    new_scoreboard_file << "\n";
-                }
+                int old_score = std::stoi(line.substr(line.find_last_of(' ') + 1));
 
-                no_data = 0;
-                next_score = std::stoi(line.substr(line.find_last_of(' ') + 1, line.length()));
-
-                if(stoi(score_str) < now_score && stoi(score_str) > next_score){
+                if (!inserted && std::stoi(score_str) > old_score) {
                     new_scoreboard_file << EnterNameBox->text << " " << score_str << "\n";
                     inserted = 1;
                 }
-                new_scoreboard_file << line;
-
-                now_score = next_score;
+                
+                new_scoreboard_file << line << "\n";
             }
-            if(no_data){ // no data, insert straightly
-                new_scoreboard_file << EnterNameBox->text << " " << score_str;
-            }
-            if(!inserted){
-                new_scoreboard_file << "\n" << EnterNameBox->text << " " << score_str;
+            if (!inserted) {
+                new_scoreboard_file << EnterNameBox->text << " " << score_str << "\n";
             }
         }
         else{
@@ -114,10 +104,6 @@ void MultiWinScene::Terminate() {
         else{
             if(std::rename(scoreboard_tmp.c_str(), scoreboard_name.c_str()) != 0){
                 Engine::LOG(Engine::ERROR) << "Can't replace scoreboard file (DATA LOSS)";
-            }
-
-            else{
-                std::cout << scoreboard_tmp.c_str() << " replaced by " << scoreboard_name.c_str() << " completed." << std::endl;
             }
         }
     }

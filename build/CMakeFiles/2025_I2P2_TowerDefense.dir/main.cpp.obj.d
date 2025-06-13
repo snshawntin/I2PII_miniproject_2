@@ -903,6 +903,9 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/main.cpp.obj: \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/IControl.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/IObject.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/Point.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/TextBox.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/ImageButton.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/Image.hpp \
   C:/allegro/include/allegro5/allegro_audio.h \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/PlayScene.hpp \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/map \
@@ -910,7 +913,6 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/main.cpp.obj: \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Enemy/P2Base.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Enemy/Enemy.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/Sprite.hpp \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/Image.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/StageSelectScene.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/Label.hpp \
   C:/allegro/include/allegro5/allegro_font.h \
@@ -921,8 +923,6 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/main.cpp.obj: \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/ScoreboardScene.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/ScoreboardSelect.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/WinScene.hpp \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/TextBox.hpp \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/ImageButton.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/MultiWin.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/StartScene.h \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/SettingsScene.hpp

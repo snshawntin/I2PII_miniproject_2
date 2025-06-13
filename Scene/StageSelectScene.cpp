@@ -82,7 +82,7 @@ void StageSelectScene::PlayOnClick(int stage)
         scene->isInfiniteMode = isInfiniteMode; // 傳遞無限模式設定
         scene->isMultiPlayer = isMultiplayer;
         scene->IsCustom = 0;
-        scene->map_rereaded = 0;
+        scene->map_rereaded = 1;
     }
     Engine::GameEngine::GetInstance().ChangeScene("play");
 }

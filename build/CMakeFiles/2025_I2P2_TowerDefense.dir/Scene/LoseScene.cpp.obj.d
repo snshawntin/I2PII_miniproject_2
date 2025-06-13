@@ -792,6 +792,53 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/LoseScene.cpp.obj: \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__functional/pointer_to_binary_function.h \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__functional/pointer_to_unary_function.h \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__functional/unary_negate.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/fstream \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/filesystem \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/copy_options.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/directory_entry.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/file_status.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/file_type.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/perms.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/file_time_type.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__chrono/file_clock.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/filesystem_error.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/path.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/iomanip \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/istream \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/ostream \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/bitset \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/format \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/container_adaptor.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/range_default_formatter.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__chrono/statically_widen.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/range_formatter.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/format_context.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/format_arg_store.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/format_args.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__ranges/ref_view.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/queue \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/deque \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/stack \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/format_functions.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/formatter_char.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/write_escaped.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/escaped_output_table.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/formatter_floating_point.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__charconv/chars_format.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__charconv/to_chars_floating_point.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/formatter_integer.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/formatter_pointer.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/formatter_string.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/formatter_tuple.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/print \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/operations.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/perm_options.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/space_info.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/directory_iterator.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/directory_options.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/path_iterator.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/recursive_directory_iterator.h \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/u8path.h \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/AudioHelper.hpp \
   C:/allegro/include/allegro5/allegro_audio.h \
   C:/allegro/include/allegro5/allegro.h \
@@ -849,19 +896,22 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/LoseScene.cpp.obj: \
   C:/allegro/include/allegro5/platform/alwin.h \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/GameEngine.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/Point.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/LOG.hpp \
+  c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/iostream \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/LoseScene.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/IScene.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/Group.hpp \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/list \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/IControl.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/IObject.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/TextBox.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/ImageButton.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/Image.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/PlayScene.hpp \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/map \
   c:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__tree \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Enemy/P2Base.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Enemy/Enemy.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/Sprite.hpp \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/Image.hpp \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/ImageButton.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/Label.hpp \
   C:/allegro/include/allegro5/allegro_font.h

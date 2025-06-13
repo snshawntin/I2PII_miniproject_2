@@ -968,6 +968,7 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/PlayScene.cpp.obj: \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/MultiWin.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/TextBox.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/ImageButton.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/LoseScene.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Turret/LaserTurret.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Turret/Turret.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Turret/MachineGunTurret.hpp \

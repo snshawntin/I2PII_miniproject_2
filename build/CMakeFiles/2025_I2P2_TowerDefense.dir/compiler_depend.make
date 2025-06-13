@@ -20622,11 +20622,13 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/LoseScene.cpp.obj: C:/Users/haoen/De
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Engine/IControl.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Engine/IObject.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Engine/IScene.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Engine/LOG.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Engine/Point.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Engine/Sprite.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/UI/Component/Image.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/UI/Component/ImageButton.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/UI/Component/Label.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/UI/Component/TextBox.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/LoseScene.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/PlayScene.hpp \
   C:/allegro/include/allegro5/alcompat.h \
@@ -20966,14 +20968,18 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/LoseScene.cpp.obj: C:/Users/haoen/De
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__bit/popcount.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__bit/rotate.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__bit_reference \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__charconv/chars_format.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__charconv/tables.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__charconv/to_chars_base_10.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__charconv/to_chars_floating_point.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__charconv/to_chars_integral.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__charconv/to_chars_result.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__charconv/traits.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__chrono/convert_to_timespec.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__chrono/duration.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__chrono/file_clock.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__chrono/high_resolution_clock.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__chrono/statically_widen.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__chrono/steady_clock.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__chrono/system_clock.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__chrono/time_point.h \
@@ -21022,23 +21028,54 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/LoseScene.cpp.obj: C:/Users/haoen/De
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__exception/nested_exception.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__exception/operations.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__exception/terminate.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/copy_options.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/directory_entry.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/directory_iterator.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/directory_options.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/file_status.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/file_time_type.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/file_type.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/filesystem_error.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/operations.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/path.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/path_iterator.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/perm_options.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/perms.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/recursive_directory_iterator.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/space_info.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__filesystem/u8path.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/buffer.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/concepts.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/container_adaptor.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/enable_insertable.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/escaped_output_table.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/extended_grapheme_cluster_table.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/format_arg.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/format_arg_store.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/format_args.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/format_context.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/format_error.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/format_functions.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/format_fwd.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/format_parse_context.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/format_string.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/format_to_n_result.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/formatter.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/formatter_bool.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/formatter_char.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/formatter_floating_point.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/formatter_integer.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/formatter_integral.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/formatter_output.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/formatter_pointer.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/formatter_string.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/formatter_tuple.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/parser_std_format_spec.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/range_default_formatter.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/range_formatter.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/unicode.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/width_estimation_table.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__format/write_escaped.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__functional/binary_function.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__functional/binary_negate.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__functional/bind.h \
@@ -21199,6 +21236,7 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/LoseScene.cpp.obj: C:/Users/haoen/De
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__ranges/enable_view.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__ranges/from_range.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__ranges/movable_box.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__ranges/ref_view.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__ranges/size.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__ranges/subrange.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/__ranges/view_interface.h \
@@ -21393,6 +21431,7 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/LoseScene.cpp.obj: C:/Users/haoen/De
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/array \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/atomic \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/bit \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/bitset \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/cctype \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/cerrno \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/climits \
@@ -21410,14 +21449,21 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/LoseScene.cpp.obj: C:/Users/haoen/De
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/ctype.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/cwchar \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/cwctype \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/deque \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/errno.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/exception \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/execution \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/filesystem \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/format \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/fstream \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/functional \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/initializer_list \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/inttypes.h \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/iomanip \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/ios \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/iosfwd \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/iostream \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/istream \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/iterator \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/limits \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/list \
@@ -21429,7 +21475,11 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/LoseScene.cpp.obj: C:/Users/haoen/De
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/mutex \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/new \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/optional \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/ostream \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/print \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/queue \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/ratio \
+  C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/stack \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/stddef.h \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/stdexcept \
   C:/llvm-mingw-20240417-msvcrt-x86_64/include/c++/v1/stdint.h \
@@ -24226,6 +24276,7 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/PlayScene.cpp.obj: C:/Users/haoen/De
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/UI/Component/ImageButton.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/UI/Component/Label.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/UI/Component/TextBox.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/LoseScene.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/MultiWin.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/PlayScene.hpp \
   C:/allegro/include/allegro5/alcompat.h \

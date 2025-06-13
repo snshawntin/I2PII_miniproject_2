@@ -65,7 +65,6 @@ void ShieldEnemy::Hit(float damage){
         std::random_device dev;
         std::mt19937 rng(dev());
         std::uniform_int_distribution<std::mt19937::result_type> dist(0, 100);
-        std::cout << dist(rng) << std::endl;
         if(dist(rng) < 10){
             shield_countdown = 120;
         }
