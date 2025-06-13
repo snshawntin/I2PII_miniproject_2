@@ -1,0 +1,13 @@
+Daniel 80
+XiaoLiang 70
+XiaoWang 60
+DaWang 50
+DaMei 40
+DaHua 30
+DaNiu 30
+KaiJie 20
+MeiHua 20
+XiaoHua 15
+XiaoMei 10
+XiaoMin 10
+tako 0

@@ -133,12 +133,14 @@ void PlayScene::Update(float deltaTime)
         deathCountDown = -1;
     else if (deathCountDown != -1)
         SpeedMult = 1;
+
     // Calculate danger zone.
     std::vector<float> reachEndTimes;
     for (auto &it : EnemyGroup->GetObjects())
     {
         reachEndTimes.push_back(dynamic_cast<Enemy *>(it)->reachEndTime);
     }
+
     // Can use Heap / Priority-Queue instead. But since we won't have too many enemies, sorting is fast enough.
     std::sort(reachEndTimes.begin(), reachEndTimes.end());
     float newDeathCountDown = -1;
@@ -249,6 +251,18 @@ void PlayScene::Update(float deltaTime)
 
                 // Win.
                 if (to_win_scene_lockdown == 0){
+                    //& ofstream: write(**output**) data in code to files.
+                    //& just like "w" mode in python
+                    std::ofstream tmp_file("../Resource/new_score.tmp");
+                    if (tmp_file.is_open()){
+                        tmp_file << money; // score
+
+                        tmp_file.close();
+                    }
+                    else{
+                        Engine::LOG(Engine::ERROR) << "Can't create temporary file";
+                    }
+
                     MultiWinScene *scene = dynamic_cast<MultiWinScene *>(Engine::GameEngine::GetInstance().GetScene("multi-win"));
                     scene->which_player_win = 1;
                     Engine::GameEngine::GetInstance().ChangeScene("multi-win");

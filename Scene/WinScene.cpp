@@ -58,6 +58,7 @@ void WinScene::Terminate() {
             unsigned now_score = 2147483647, next_score;
 
             bool no_data = 1;
+            bool inserted = 0;
             while (std::getline(scoreboard_file, line)){
                 if(!no_data){
                     new_scoreboard_file << "\n";
@@ -75,6 +76,9 @@ void WinScene::Terminate() {
             }
             if(no_data){ // no data, insert straightly
                 new_scoreboard_file << EnterNameBox->text << " " << score_str;
+            }
+            if(!inserted){
+                new_scoreboard_file << "\n" << EnterNameBox->text << " " << score_str;
             }
         }
         else{

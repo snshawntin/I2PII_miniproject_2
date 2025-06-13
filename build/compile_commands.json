@@ -211,6 +211,12 @@
 },
 {
   "directory": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/build",
+  "command": "c:\\llvm-mingw-20240417-msvcrt-x86_64\\bin\\clang++.exe  @CMakeFiles/2025_I2P2_TowerDefense.dir/includes_CXX.rsp -g -o CMakeFiles\\2025_I2P2_TowerDefense.dir\\Scene\\ScoreboardSelect.cpp.obj -c C:\\Users\\haoen\\Desktop\\2025_I2P2_TowerDefense-main\\Scene\\ScoreboardSelect.cpp",
+  "file": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Scene/ScoreboardSelect.cpp",
+  "output": "CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/ScoreboardSelect.cpp.obj"
+},
+{
+  "directory": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/build",
   "command": "c:\\llvm-mingw-20240417-msvcrt-x86_64\\bin\\clang++.exe  @CMakeFiles/2025_I2P2_TowerDefense.dir/includes_CXX.rsp -g -o CMakeFiles\\2025_I2P2_TowerDefense.dir\\Turret\\GrowTurret.cpp.obj -c C:\\Users\\haoen\\Desktop\\2025_I2P2_TowerDefense-main\\Turret\\GrowTurret.cpp",
   "file": "C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/Turret/GrowTurret.cpp",
   "output": "CMakeFiles/2025_I2P2_TowerDefense.dir/Turret/GrowTurret.cpp.obj"

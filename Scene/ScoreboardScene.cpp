@@ -22,8 +22,27 @@ void ScoreboardScene::Initialize() {
     int halfW = w / 2;
     int halfH = h / 2;
 
-    //& title
-    AddNewObject(new Engine::Label("Scoreboard", "pirulen.ttf", 60, halfW, halfH / 5 + 50, 10, 255, 255, 255, 0.5, 0.5));
+    //& title & filepath
+    //! if the scoreboard is not updating, modify here.
+    std::string scoreboard_filepath = "";
+    switch(type){
+    case NORMAL:
+        AddNewObject(new Engine::Label("Scoreboard-normal mode", "pirulen.ttf", 60, halfW, halfH / 5 + 50, 10, 255, 255, 255, 0.5, 0.5));
+        scoreboard_filepath = "../Resource/scoreboard.txt";
+        break;
+    case INFINITE:
+        AddNewObject(new Engine::Label("Scoreboard-infinite mode", "pirulen.ttf", 60, halfW, halfH / 5 + 50, 10, 255, 255, 255, 0.5, 0.5));
+        scoreboard_filepath = "../Resource/scoreboard_infinite.txt";
+        break;
+    case MULTIP1:
+        AddNewObject(new Engine::Label("Scoreboard-multi mode(P1)", "pirulen.ttf", 60, halfW, halfH / 5 + 50, 10, 255, 255, 255, 0.5, 0.5));
+        scoreboard_filepath = "../Resource/scoreboard_multi_def.txt";
+        break;
+    case MULTIP2:
+        AddNewObject(new Engine::Label("Scoreboard-multi mode(P2)", "pirulen.ttf", 60, halfW, halfH / 5 + 50, 10, 255, 255, 255, 0.5, 0.5));
+        scoreboard_filepath = "../Resource/scoreboard_multi_atk.txt";
+        break;
+    }
 
     //(END) TODO PROJECT-2 (1/5)-2: Add a way to exit ScoreboardScene.
     Engine::ImageButton *btn;
@@ -52,8 +71,7 @@ void ScoreboardScene::Initialize() {
     //& ifstream: input (**read**) file data to code.
     //& just like "r" mode in python
     //(END) TODO PROJECT-2 (5/5): The scoreboard must be stored in a file to be permanent.
-    //! if the scoreboard is not updating, modify here.
-    std::ifstream ifs("../Resource/scoreboard.txt", std::ios::in); //std::ios::in means the mode is input
+    std::ifstream ifs(scoreboard_filepath, std::ios::in); //std::ios::in means the mode is input
     if (!ifs.is_open()) {
         Engine::LOG(Engine::ERROR) << "Can't open scoreboard data file";
     }
@@ -121,5 +139,5 @@ void ScoreboardScene::OnNextPgClick(int stage){
 }
 
 void ScoreboardScene::BackOnClick(int stage) {
-    Engine::GameEngine::GetInstance().ChangeScene("start");
+    Engine::GameEngine::GetInstance().ChangeScene("scoreboard-select");
 }

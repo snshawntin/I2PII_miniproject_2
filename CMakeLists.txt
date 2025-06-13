@@ -88,6 +88,8 @@ add_executable(2025_I2P2_TowerDefense
     Scene/SettingsScene.hpp
     Scene/ScoreboardScene.cpp
     Scene/ScoreboardScene.hpp
+    Scene/ScoreboardSelect.cpp
+    Scene/ScoreboardSelect.hpp
 
     Turret/GrowTurret.cpp
     Turret/GrowTurret.hpp

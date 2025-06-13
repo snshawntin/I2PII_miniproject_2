@@ -1,20 +1,23 @@
-#ifndef MULTIWIN_HPP
-#define MULTIWIN_HPP
+#ifndef MULTIWINSCENE_HPP
+#define MULTIWINSCENE_HPP
 #include "Engine/IScene.hpp"
+#include "UI/Component/TextBox.hpp"
 #include <allegro5/allegro_audio.h>
-#include <memory>
 
 class MultiWinScene final : public Engine::IScene {
 private:
-    std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE> bgmInstance;
+    float ticks;
+    ALLEGRO_SAMPLE_ID bgmId;
+    Engine::TextBox *EnterNameBox;
 
 public:
     explicit MultiWinScene() = default;
     void Initialize() override;
     void Terminate() override;
+    void Update(float deltaTime) override;
     void BackOnClick(int stage);
 
     int which_player_win;
 };
 
-#endif   // MULTIWIN_HPP
+#endif   // MULTIWINSCENE_HPP
