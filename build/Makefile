@@ -1328,6 +1328,30 @@ UI/Component/Slider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/UI/Component/Slider.cpp.s
 .PHONY : UI/Component/Slider.cpp.s
 
+UI/Component/TextBox.obj: UI/Component/TextBox.cpp.obj
+.PHONY : UI/Component/TextBox.obj
+
+# target to build an object file
+UI/Component/TextBox.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/UI/Component/TextBox.cpp.obj
+.PHONY : UI/Component/TextBox.cpp.obj
+
+UI/Component/TextBox.i: UI/Component/TextBox.cpp.i
+.PHONY : UI/Component/TextBox.i
+
+# target to preprocess a source file
+UI/Component/TextBox.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/UI/Component/TextBox.cpp.i
+.PHONY : UI/Component/TextBox.cpp.i
+
+UI/Component/TextBox.s: UI/Component/TextBox.cpp.s
+.PHONY : UI/Component/TextBox.s
+
+# target to generate assembly for a file
+UI/Component/TextBox.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/UI/Component/TextBox.cpp.s
+.PHONY : UI/Component/TextBox.cpp.s
+
 main.obj: main.cpp.obj
 .PHONY : main.obj
 
@@ -1511,6 +1535,9 @@ help:
 	@echo ... UI/Component/Slider.obj
 	@echo ... UI/Component/Slider.i
 	@echo ... UI/Component/Slider.s
+	@echo ... UI/Component/TextBox.obj
+	@echo ... UI/Component/TextBox.i
+	@echo ... UI/Component/TextBox.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

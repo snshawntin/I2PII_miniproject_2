@@ -102,6 +102,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/2025_I2P2_TowerDefense.dir/UI/Component/Label.cpp.obj.d"
   "CMakeFiles/2025_I2P2_TowerDefense.dir/UI/Component/Slider.cpp.obj"
   "CMakeFiles/2025_I2P2_TowerDefense.dir/UI/Component/Slider.cpp.obj.d"
+  "CMakeFiles/2025_I2P2_TowerDefense.dir/UI/Component/TextBox.cpp.obj"
+  "CMakeFiles/2025_I2P2_TowerDefense.dir/UI/Component/TextBox.cpp.obj.d"
   "CMakeFiles/2025_I2P2_TowerDefense.dir/main.cpp.obj"
   "CMakeFiles/2025_I2P2_TowerDefense.dir/main.cpp.obj.d"
   "lib2025_I2P2_TowerDefense.dll.a"

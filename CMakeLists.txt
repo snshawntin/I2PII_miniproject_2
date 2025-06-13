@@ -122,6 +122,8 @@ add_executable(2025_I2P2_TowerDefense
     UI/Component/Label.hpp
     UI/Component/Slider.cpp
     UI/Component/Slider.hpp
+    UI/Component/TextBox.cpp
+    UI/Component/TextBox.hpp
     
     main.cpp
 )

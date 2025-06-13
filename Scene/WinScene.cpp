@@ -11,6 +11,7 @@
 #include "UI/Component/Image.hpp"
 #include "UI/Component/ImageButton.hpp"
 #include "UI/Component/Label.hpp"
+#include "UI/Component/TextBox.hpp"
 #include "WinScene.hpp"
 
 void WinScene::Initialize() {
@@ -20,7 +21,7 @@ void WinScene::Initialize() {
     int halfW = w / 2;
     int halfH = h / 2;
 
-    AddNewObject(new Engine::Image("win/benjamin-sad.png", halfW, halfH, 0, 0, 0.5, 0.5));
+    AddNewObject(new Engine::Image("win/benjamin-sad.png", halfW, halfH - 75, 0, 0, 0.5, 0.5));
     AddNewObject(new Engine::Label("You Win!", "pirulen.ttf", 48, halfW, halfH / 4 - 10, 255, 255, 255, 255, 0.5, 0.5));
     
     Engine::ImageButton *btn;
@@ -30,6 +31,9 @@ void WinScene::Initialize() {
     AddNewObject(new Engine::Label("Back", "pirulen.ttf", 48, halfW, halfH * 7 / 4, 0, 0, 0, 255, 0.5, 0.5));
     
     // TODO PROJECT-bonus (2): Add a text box in WinScene to record the user’s name.
+    // test the finctionality of this.
+    AddNewObject(new Engine::Label("Enter your name:", "pirulen.ttf", 36, halfW - 570, halfH * 7 / 4 - 155, 255, 255, 100, 255));
+    AddNewControlObject(EnterNameBox = new Engine::TextBox(halfW - 50, halfH * 7 / 4 - 155, 500, 50, 36));
 
     bgmId = AudioHelper::PlayAudio("win.wav");
 }
@@ -46,6 +50,10 @@ void WinScene::Terminate() {
         std::ifstream scoreboard_file("../Resource/scoreboard.txt", std::ios::in);
         std::ofstream new_scoreboard_file("../Resource/scoreboard.tmp");
         if(new_scoreboard_file.is_open() && scoreboard_file.is_open()){
+            if(EnterNameBox->text.size() == 0){
+                EnterNameBox->text = "<no name>";
+            }
+
             std::string line;
             unsigned now_score = 2147483647, next_score;
 
@@ -59,14 +67,14 @@ void WinScene::Terminate() {
                 next_score = std::stoi(line.substr(line.find_last_of(' ') + 1, line.length()));
 
                 if(stoi(score_str) < now_score && stoi(score_str) > next_score){
-                    new_scoreboard_file << "new user " << score_str << "\n";
+                    new_scoreboard_file << EnterNameBox->text << " " << score_str << "\n";
                 }
                 new_scoreboard_file << line;
 
                 now_score = next_score;
             }
             if(no_data){ // no data, insert straightly
-                new_scoreboard_file << "new user " << score_str;
+                new_scoreboard_file << EnterNameBox->text << " " << score_str;
             }
         }
         else{
