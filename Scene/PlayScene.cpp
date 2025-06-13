@@ -66,7 +66,7 @@ void PlayScene::Initialize()
     ticks = 0;
     deathCountDown = -1;
     lives = 10;
-    money = 150;
+    money = 2000;
     SpeedMult = 1;
     to_win_scene_lockdown = -1;
     infiniteTicks = 0.0f;
@@ -771,7 +771,7 @@ void PlayScene::ConstructUI()
         "play/floor.png",  // 滑鼠移上圖
         1294, 400, 275, 64 // x, y, width, height
     );
-    autoBuildBtn->SetOnClickCallback(std::bind(&PlayScene::auto_build, this));
+    autoBuildBtn->SetOnClickCallback(std::bind(&PlayScene::ToggleAutoBuild, this));
     UIGroup->AddNewControlObject(autoBuildBtn);
     Engine::Label *autoLabel = new Engine::Label("Auto", "pirulen.ttf", 28, 1294 + 80, 420, 255, 255, 255, 255);
     UIGroup->AddNewObject(autoLabel);
@@ -829,12 +829,43 @@ void PlayScene::UIBtnClicked(int id)
         OnMouseMove(Engine::GameEngine::GetInstance().GetMousePosition().x, Engine::GameEngine::GetInstance().GetMousePosition().y);
     }
 }
+bool PlayScene::CheckSpaceValid(int x, int y)
+{
+    if (x < 0 || x >= MapWidth || y < 0 || y >= MapHeight)
+        return false;
+    auto map00 = mapState[y][x];
+    mapState[y][x] = TILE_OCCUPIED;
+    std::vector<std::vector<int>> map = CalculateBFSDistance();
+    mapState[y][x] = map00;
+    if (map[0][0] == -1)
+        return false;
+    for (auto &it : EnemyGroup->GetObjects())
+    {
+        Engine::Point pnt;
+        pnt.x = floor(it->Position.x / BlockSize);
+        pnt.y = floor(it->Position.y / BlockSize);
+        if (pnt.x < 0)
+            pnt.x = 0;
+        if (pnt.x >= MapWidth)
+            pnt.x = MapWidth - 1;
+        if (pnt.y < 0)
+            pnt.y = 0;
+        if (pnt.y >= MapHeight)
+            pnt.y = MapHeight - 1;
+        if (map[pnt.y][pnt.x] == -1)
+            return false;
+    }
+    // All enemy have path to exit.
+    mapState[y][x] = TILE_OCCUPIED;
+    mapDistance = map;
+    for (auto &it : EnemyGroup->GetObjects())
+        dynamic_cast<Enemy *>(it)->UpdatePath(mapDistance);
+    return true;
+}
+
 const Engine::Point bfs_dxdy[4] = {
-    Engine::Point(0, 1),  // down
-    Engine::Point(1, 0),  // right
-    Engine::Point(0, -1), // up
-    Engine::Point(-1, 0)  // left
-};
+    Engine::Point(1, 0), Engine::Point(-1, 0), Engine::Point(0, 1), Engine::Point(0, -1)};
+
 std::vector<std::vector<int>> PlayScene::CalculateBFSDistance()
 {
     // Reverse BFS to find path.
@@ -883,12 +914,15 @@ void PlayScene::StartShake(float duration, float magnitude)
 // MCTS 一次建塔
 void PlayScene::ToggleAutoBuild()
 {
+    std::cout << "toggleautobind called";
     AutoBuild();
 }
 
 void PlayScene::AutoBuild()
 {
-    const int SIM_TIME = 300; // 模擬 5 秒（60 frame/s）
+    Turret::simulateMode = true;
+    std::cout << "Enemy count: " << EnemyGroup->GetObjects().size() << "\n";
+    const int SIM_TIME = 180; // 模擬 10 秒（60 frame/s）
     const int TURRET_TYPES = 3;
 
     int bestX = -1, bestY = -1, bestType = -1, maxKilled = -1;
@@ -897,75 +931,117 @@ void PlayScene::AutoBuild()
     {
         for (int x = 0; x < MapWidth; ++x)
         {
-            if (mapState[y][x] != TILE_DIRT || !CheckSpaceValid(x, y))
+            if (!CheckSpaceValid(x, y))
                 continue;
 
             for (int t = 0; t < TURRET_TYPES; ++t)
             {
+                std::cout << "Simulating turret type " << t << " at (" << x << "," << y << ")\n";
+
                 std::vector<Enemy *> simEnemies;
                 for (auto &obj : EnemyGroup->GetObjects())
                 {
                     Enemy *e = dynamic_cast<Enemy *>(obj);
                     if (e)
-                        simEnemies.push_back(e->Clone());
+                    {
+                        Enemy *cloned = e->Clone();
+                        if (!cloned)
+                        {
+                            std::cout << "[WARN] Clone returned nullptr at (" << e->Position.x << "," << e->Position.y << ")\n";
+                            continue;
+                        }
+                        simEnemies.push_back(cloned);
+                        std::cout << "Enemy cloned at (" << e->Position.x << "," << e->Position.y << ")\n";
+                    }
                 }
 
                 Turret *turret = CreateTurret(t, x, y);
                 if (!turret)
-                    continue;
-                turret->Update(0);
-                std::vector<Bullet *> bullets;
-
-                int killed = 0;
-                for (int i = 0; i < SIM_TIME; ++i)
                 {
-                    turret->Update(1.0 / 60);
-                    Bullet *b = turret->CreateBulletForSimulate();
-                    if (b)
+                    std::cout << "[ERROR] Failed to create turret.\n";
+                    continue;
+                }
+
+                std::vector<Bullet *> bullets;
+                int killed = 0;
+
+                try
+                {
+                    turret->Update(0); // 初始化
+                    for (int i = 0; i < SIM_TIME; ++i)
+                    {
+                        turret->Update(1.0 / 60);
+
+                        Bullet *b = turret->CreateBulletForSimulate();
+                        if (b == nullptr)
+                            continue;
+
                         bullets.push_back(b);
 
-                    for (auto it = bullets.begin(); it != bullets.end();)
-                    {
-                        Bullet *bullet = *it;
-                        bullet->Update(1.0 / 60);
-                        bool hit = false;
-                        for (auto &e : simEnemies)
+                        for (auto it = bullets.begin(); it != bullets.end();)
                         {
-                            float dist = std::hypot(e->Position.x - bullet->Position.x, e->Position.y - bullet->Position.y);
-                            if (dist <= e->CollisionRadius)
+                            Bullet *bullet = *it;
+
+                            // Update 裡如果有 getPlayScene，必須先檢查
+                            try
                             {
-                                e->Hit(bullet->GetDamage());
-                                hit = true;
-                                break;
+                                bullet->Update(1.0 / 60);
+                            }
+                            catch (...)
+                            {
+                                std::cout << "[EXCEPTION] Bullet update crash caught.\n";
+                                delete bullet;
+                                it = bullets.erase(it);
+                                continue;
+                            }
+
+                            bool hit = false;
+                            for (auto &e : simEnemies)
+                            {
+                                if (!e)
+                                    continue;
+                                float dist = std::hypot(e->Position.x - bullet->Position.x, e->Position.y - bullet->Position.y);
+                                if (dist <= e->CollisionRadius)
+                                {
+                                    e->Hit(bullet->GetDamage());
+                                    hit = true;
+                                    break;
+                                }
+                            }
+
+                            if (hit)
+                            {
+                                delete bullet;
+                                it = bullets.erase(it);
+                            }
+                            else
+                            {
+                                ++it;
                             }
                         }
-                        if (hit)
+
+                        for (auto &e : simEnemies)
+                            if (e)
+                                e->Update(1.0 / 60);
+
+                        for (auto it = simEnemies.begin(); it != simEnemies.end();)
                         {
-                            delete bullet;
-                            it = bullets.erase(it);
-                        }
-                        else
-                        {
-                            ++it;
+                            if (*it && (*it)->GetHP() <= 0)
+                            {
+                                delete *it;
+                                it = simEnemies.erase(it);
+                                killed++;
+                            }
+                            else
+                            {
+                                ++it;
+                            }
                         }
                     }
-
-                    for (auto &e : simEnemies)
-                        e->Update(1.0 / 60);
-
-                    for (auto it = simEnemies.begin(); it != simEnemies.end();)
-                    {
-                        if ((*it)->GetHP() <= 0)
-                        {
-                            delete *it;
-                            it = simEnemies.erase(it);
-                            killed++;
-                        }
-                        else
-                        {
-                            ++it;
-                        }
-                    }
+                }
+                catch (...)
+                {
+                    std::cout << "[EXCEPTION] Simulation loop crashed.\n";
                 }
 
                 delete turret;
@@ -973,6 +1049,8 @@ void PlayScene::AutoBuild()
                     delete b;
                 for (auto *e : simEnemies)
                     delete e;
+
+                std::cout << "Killed = " << killed << " by type " << t << " at (" << x << "," << y << ")\n";
 
                 if (killed > maxKilled)
                 {
@@ -987,6 +1065,7 @@ void PlayScene::AutoBuild()
 
     if (bestX != -1 && bestY != -1 && bestType != -1)
     {
+        std::cout << "Placing turret type " << bestType << " at (" << bestX << "," << bestY << "), kills = " << maxKilled << "\n";
         Turret *turret = CreateTurret(bestType, bestX, bestY);
         if (turret && money >= turret->GetPrice())
         {
@@ -998,8 +1077,15 @@ void PlayScene::AutoBuild()
         else
         {
             delete turret;
+            std::cout << "[ERROR] Not enough money or turret creation failed.\n";
         }
     }
+    else
+    {
+        std::cout << "[INFO] No suitable location found for auto-build.\n";
+    }
+
+    Turret::simulateMode = false;
 }
 
 Turret *PlayScene::CreateTurret(int type, int x, int y)
@@ -1015,12 +1101,4 @@ Turret *PlayScene::CreateTurret(int type, int x, int y)
         return new LaserTurret(pos.x, pos.y);
     }
     return nullptr;
-}
-bool PlayScene::CheckSpaceValid(int x, int y)
-{
-    if (x < 0 || x >= MapWidth || y < 0 || y >= MapHeight)
-        return false;
-    if (mapState[y][x] != TILE_DIRT)
-        return false;
-    return true;
 }

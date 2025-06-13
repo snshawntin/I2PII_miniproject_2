@@ -66,7 +66,6 @@ public:
     float shakeDuration = 5.0f;
     float shakeMagnitude = 10.0f;
     Engine::Point shakeOffset = Engine::Point(0, 0);
-    bool auto_build = false;
 
     // Map tiles.
     Group *TileMapGroup;

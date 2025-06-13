@@ -8,6 +8,8 @@
 #include "LaserBullet.hpp"
 #include "Scene/PlayScene.hpp"
 #include "UI/Animation/DirtyEffect.hpp"
+#include "Turret/Turret.hpp"
+#include <iostream>;
 
 class Turret;
 
@@ -16,12 +18,24 @@ LaserBullet::LaserBullet(Engine::Point position, Engine::Point forwardDirection,
 }
 void LaserBullet::OnExplode(Enemy *enemy)
 {
+    std::cout << "Turret::simulateMode" << Turret::simulateMode;
+    if (Turret::simulateMode)
+        return; // 防止模擬時崩潰
+
+    PlayScene *scene = getPlayScene();
+    if (!scene)
+        return;
+
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist(2, 10);
-    getPlayScene()->GroundEffectGroup->AddNewObject(new DirtyEffect("play/dirty-2.png", dist(rng), enemy->Position.x, enemy->Position.y));
+    scene->GroundEffectGroup->AddNewObject(new DirtyEffect("play/dirty-2.png", dist(rng), enemy->Position.x, enemy->Position.y));
 }
+
 Bullet *LaserBullet::CreateBulletForSimulate() const
 {
-    return new LaserBullet(Position, Engine::Point(1, 0), Rotation, parent);
+    float dirX = cos(Rotation);
+    float dirY = sin(Rotation);
+    Engine::Point forwardDirection(dirX, dirY);
+    return new LaserBullet(Position, forwardDirection, Rotation, parent);
 }

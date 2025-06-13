@@ -41,6 +41,11 @@ Enemy::Enemy(std::string img, float x, float y, float radius, float speed, float
 }
 void Enemy::Hit(float damage)
 {
+    if (Turret::simulateMode)
+    {
+        hp -= damage;
+        return;
+    }
     hp -= damage;
     if (hp <= 0)
     {
