@@ -7,11 +7,13 @@
 class Enemy;
 class PlayScene;
 class Turret;
-namespace Engine {
+namespace Engine
+{
     struct Point;
-}   // namespace Engine
+} // namespace Engine
 
-class Bullet : public Engine::Sprite {
+class Bullet : public Engine::Sprite
+{
 protected:
     float speed;
     float damage;
@@ -23,5 +25,7 @@ public:
     Enemy *Target = nullptr;
     explicit Bullet(std::string img, float speed, float damage, Engine::Point position, Engine::Point forwardDirection, float rotation, Turret *parent);
     void Update(float deltaTime) override;
+    virtual Bullet *CreateBulletForSimulate() const { return nullptr; }
+    float GetDamage() const { return damage; }
 };
-#endif   // BULLET_HPP
+#endif // BULLET_HPP

@@ -11,11 +11,13 @@
 
 const int LaserTurret::Price = 200;
 LaserTurret::LaserTurret(float x, float y)
-    : Turret("play/tower-base.png", "play/turret-2.png", x, y, 300, Price, 0.5) {
+    : Turret("play/tower-base.png", "play/turret-2.png", x, y, 300, Price, 0.5)
+{
     // Move center downward, since we the turret head is slightly biased upward.
     Anchor.y += 8.0f / GetBitmapHeight();
 }
-void LaserTurret::CreateBullet() {
+void LaserTurret::CreateBullet()
+{
     Engine::Point diff = Engine::Point(cos(Rotation - ALLEGRO_PI / 2), sin(Rotation - ALLEGRO_PI / 2));
     float rotation = atan2(diff.y, diff.x);
     Engine::Point normalized = diff.Normalize();
@@ -24,4 +26,11 @@ void LaserTurret::CreateBullet() {
     getPlayScene()->BulletGroup->AddNewObject(new LaserBullet(Position + normalized * 36 - normal * 6, diff, rotation, this));
     getPlayScene()->BulletGroup->AddNewObject(new LaserBullet(Position + normalized * 36 + normal * 6, diff, rotation, this));
     AudioHelper::PlayAudio("laser.wav");
+}
+Bullet *LaserTurret::CreateBulletForSimulate() const
+{
+    Engine::Point dir(cos(Rotation - ALLEGRO_PI / 2), sin(Rotation - ALLEGRO_PI / 2));
+    Engine::Point normal(-dir.y, dir.x);
+    float rot = atan2(dir.y, dir.x);
+    return new LaserBullet(Position + dir * 36 + normal * 6, dir, rot, const_cast<LaserTurret *>(this));
 }

@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <random>
 
 #include <iostream>
 
@@ -28,12 +29,14 @@
 #include "Turret/MachineGunTurret.hpp"
 #include "Turret/GrowTurret.hpp"
 #include "Turret/TurretButton.hpp"
+#include "Turret/Turret.hpp"
 #include "Tool/ToolButton.hpp"
 #include "Tool/Tool.hpp"
 #include "Tool/Shovel.hpp"
 #include "UI/Animation/DirtyEffect.hpp"
 #include "UI/Animation/Plane.hpp"
 #include "UI/Component/Label.hpp"
+#include "Bullet/Bullet.hpp"
 
 bool PlayScene::DebugMode = false;
 bool PlayScene::isInfiniteMode = false;
@@ -762,6 +765,17 @@ void PlayScene::ConstructUI()
     dangerIndicator->Tint.a = 0;
     UIGroup->AddNewObject(dangerIndicator);
 
+    // auto mode
+    Engine::ImageButton *autoBuildBtn = new Engine::ImageButton(
+        "play/dirt.png",   // 預設圖
+        "play/floor.png",  // 滑鼠移上圖
+        1294, 400, 275, 64 // x, y, width, height
+    );
+    autoBuildBtn->SetOnClickCallback(std::bind(&PlayScene::auto_build, this));
+    UIGroup->AddNewControlObject(autoBuildBtn);
+    Engine::Label *autoLabel = new Engine::Label("Auto", "pirulen.ttf", 28, 1294 + 80, 420, 255, 255, 255, 255);
+    UIGroup->AddNewObject(autoLabel);
+
     // boss incoming warning
     bossWarningLabel = new Engine::Label("WARNING: BOSS INCOMING", "pirulen.ttf", 72, 0, Engine::GameEngine::GetInstance().GetScreenSize().y / 2 - 36, 255, 0, 0, 255);
     bossWarningLabel->Visible = false;
@@ -815,44 +829,12 @@ void PlayScene::UIBtnClicked(int id)
         OnMouseMove(Engine::GameEngine::GetInstance().GetMousePosition().x, Engine::GameEngine::GetInstance().GetMousePosition().y);
     }
 }
-
-bool PlayScene::CheckSpaceValid(int x, int y)
-{
-    if (x < 0 || x >= MapWidth || y < 0 || y >= MapHeight)
-        return false;
-    auto map00 = mapState[y][x];
-    mapState[y][x] = TILE_OCCUPIED;
-    std::vector<std::vector<int>> map = CalculateBFSDistance();
-    mapState[y][x] = map00;
-    if (map[0][0] == -1)
-        return false;
-    for (auto &it : EnemyGroup->GetObjects())
-    {
-        Engine::Point pnt;
-        pnt.x = floor(it->Position.x / BlockSize);
-        pnt.y = floor(it->Position.y / BlockSize);
-        if (pnt.x < 0)
-            pnt.x = 0;
-        if (pnt.x >= MapWidth)
-            pnt.x = MapWidth - 1;
-        if (pnt.y < 0)
-            pnt.y = 0;
-        if (pnt.y >= MapHeight)
-            pnt.y = MapHeight - 1;
-        if (map[pnt.y][pnt.x] == -1)
-            return false;
-    }
-    // All enemy have path to exit.
-    mapState[y][x] = TILE_OCCUPIED;
-    mapDistance = map;
-    for (auto &it : EnemyGroup->GetObjects())
-        dynamic_cast<Enemy *>(it)->UpdatePath(mapDistance);
-    return true;
-}
-
 const Engine::Point bfs_dxdy[4] = {
-    Engine::Point(1, 0), Engine::Point(-1, 0), Engine::Point(0, 1), Engine::Point(0, -1)};
-
+    Engine::Point(0, 1),  // down
+    Engine::Point(1, 0),  // right
+    Engine::Point(0, -1), // up
+    Engine::Point(-1, 0)  // left
+};
 std::vector<std::vector<int>> PlayScene::CalculateBFSDistance()
 {
     // Reverse BFS to find path.
@@ -896,4 +878,149 @@ void PlayScene::StartShake(float duration, float magnitude)
     shakeDuration = duration;
     shakeMagnitude = magnitude;
     Engine::Point shakeOffset = Engine::Point(0, 0);
+}
+
+// MCTS 一次建塔
+void PlayScene::ToggleAutoBuild()
+{
+    AutoBuild();
+}
+
+void PlayScene::AutoBuild()
+{
+    const int SIM_TIME = 300; // 模擬 5 秒（60 frame/s）
+    const int TURRET_TYPES = 3;
+
+    int bestX = -1, bestY = -1, bestType = -1, maxKilled = -1;
+
+    for (int y = 0; y < MapHeight; ++y)
+    {
+        for (int x = 0; x < MapWidth; ++x)
+        {
+            if (mapState[y][x] != TILE_DIRT || !CheckSpaceValid(x, y))
+                continue;
+
+            for (int t = 0; t < TURRET_TYPES; ++t)
+            {
+                std::vector<Enemy *> simEnemies;
+                for (auto &obj : EnemyGroup->GetObjects())
+                {
+                    Enemy *e = dynamic_cast<Enemy *>(obj);
+                    if (e)
+                        simEnemies.push_back(e->Clone());
+                }
+
+                Turret *turret = CreateTurret(t, x, y);
+                if (!turret)
+                    continue;
+                turret->Update(0);
+                std::vector<Bullet *> bullets;
+
+                int killed = 0;
+                for (int i = 0; i < SIM_TIME; ++i)
+                {
+                    turret->Update(1.0 / 60);
+                    Bullet *b = turret->CreateBulletForSimulate();
+                    if (b)
+                        bullets.push_back(b);
+
+                    for (auto it = bullets.begin(); it != bullets.end();)
+                    {
+                        Bullet *bullet = *it;
+                        bullet->Update(1.0 / 60);
+                        bool hit = false;
+                        for (auto &e : simEnemies)
+                        {
+                            float dist = std::hypot(e->Position.x - bullet->Position.x, e->Position.y - bullet->Position.y);
+                            if (dist <= e->CollisionRadius)
+                            {
+                                e->Hit(bullet->GetDamage());
+                                hit = true;
+                                break;
+                            }
+                        }
+                        if (hit)
+                        {
+                            delete bullet;
+                            it = bullets.erase(it);
+                        }
+                        else
+                        {
+                            ++it;
+                        }
+                    }
+
+                    for (auto &e : simEnemies)
+                        e->Update(1.0 / 60);
+
+                    for (auto it = simEnemies.begin(); it != simEnemies.end();)
+                    {
+                        if ((*it)->GetHP() <= 0)
+                        {
+                            delete *it;
+                            it = simEnemies.erase(it);
+                            killed++;
+                        }
+                        else
+                        {
+                            ++it;
+                        }
+                    }
+                }
+
+                delete turret;
+                for (auto *b : bullets)
+                    delete b;
+                for (auto *e : simEnemies)
+                    delete e;
+
+                if (killed > maxKilled)
+                {
+                    maxKilled = killed;
+                    bestX = x;
+                    bestY = y;
+                    bestType = t;
+                }
+            }
+        }
+    }
+
+    if (bestX != -1 && bestY != -1 && bestType != -1)
+    {
+        Turret *turret = CreateTurret(bestType, bestX, bestY);
+        if (turret && money >= turret->GetPrice())
+        {
+            EarnMoney(-turret->GetPrice());
+            turret->Position = Engine::Point(bestX * BlockSize + BlockSize / 2, bestY * BlockSize + BlockSize / 2);
+            TowerGroup->AddNewObject(turret);
+            mapState[bestY][bestX] = TILE_OCCUPIED;
+        }
+        else
+        {
+            delete turret;
+        }
+    }
+}
+
+Turret *PlayScene::CreateTurret(int type, int x, int y)
+{
+    Engine::Point pos(x * BlockSize + BlockSize / 2, y * BlockSize + BlockSize / 2);
+    switch (type)
+    {
+    case 0:
+        return new MachineGunTurret(pos.x, pos.y);
+    case 1:
+        return new GrowTurret(pos.x, pos.y);
+    case 2:
+        return new LaserTurret(pos.x, pos.y);
+    }
+    return nullptr;
+}
+bool PlayScene::CheckSpaceValid(int x, int y)
+{
+    if (x < 0 || x >= MapWidth || y < 0 || y >= MapHeight)
+        return false;
+    if (mapState[y][x] != TILE_DIRT)
+        return false;
+    return true;
 }

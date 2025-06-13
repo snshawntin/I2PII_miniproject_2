@@ -3,7 +3,7 @@
 #include "SnailEnemy.hpp"
 
 SnailBoss::SnailBoss(int x, int y)
-    : Enemy("play/snail_boss.png", x, y, 20, 8, 3000, 350) // 參數可調整
+    : Enemy("play/snail_boss.png", x, y, 20, 8, 3000, 350)
 {
     spawnInterval = 5.0f;
     spawnTimer = 0.0f;
@@ -40,4 +40,15 @@ void SnailBoss::Update(float deltaTime)
             printf("Spawn Position: %d, %d\n", spawnX, spawnY);
         }
     }
+}
+Enemy *SnailBoss::Clone() const
+{
+    auto *e = new SnailBoss(Position.x, Position.y);
+    e->hp = this->hp;
+    e->path = this->path;
+    e->Velocity = this->Velocity;
+    e->reachEndTime = this->reachEndTime;
+    e->spawnInterval = this->spawnInterval;
+    e->spawnTimer = this->spawnTimer;
+    return e;
 }

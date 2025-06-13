@@ -3,7 +3,8 @@
 #include "Enemy.hpp"
 #include "Engine/Sprite.hpp"
 
-class ShieldEnemy : public Enemy {
+class ShieldEnemy : public Enemy
+{
 private:
     Sprite shield;
     int shield_countdown;
@@ -13,5 +14,6 @@ public:
     void Draw() const override;
     void Update(float deltaTime) override;
     virtual void Hit(float damage) override;
+    Enemy *Clone() const override;
 };
-#endif   // SHIELDENEMY_HPP
+#endif // SHIELDENEMY_HPP

@@ -9,9 +9,10 @@ public:
     SnailBoss(int x, int y);
     void Update(float deltaTime) override;
     void Initialize(float interval); // 覆寫初始化
+    Enemy *Clone() const override;
 
 private:
-    float spawnInterval = 5.0f; // 預設每5秒生一次
+    float spawnInterval = 5.0f; // initialize
     float spawnTimer = 0.0f;
 };
 

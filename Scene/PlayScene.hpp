@@ -66,6 +66,7 @@ public:
     float shakeDuration = 5.0f;
     float shakeMagnitude = 10.0f;
     Engine::Point shakeOffset = Engine::Point(0, 0);
+    bool auto_build = false;
 
     // Map tiles.
     Group *TileMapGroup;
@@ -109,8 +110,11 @@ public:
     std::vector<std::vector<int>> CalculateBFSDistance();
     void UpdateLifeIcons();
     void StartShake(float duration, float magnitude);
-
+    void AutoBuild();
+    void ToggleAutoBuild();
     std::map<std::pair<int, int>, Turret *> turret_map;
+    Turret *CreateTurret(int type, int x, int y);
+
     // void ModifyReadMapTiles();
 };
 #endif // PLAYSCENE_HPP

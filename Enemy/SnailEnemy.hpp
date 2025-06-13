@@ -5,6 +5,7 @@
 class SnailEnemy : public Enemy
 {
 public:
-    SnailEnemy(int x, int y); // 構造函數
+    SnailEnemy(int x, int y);
+    Enemy *Clone() const override;
 };
 #endif // SNAILENEMY_HPP

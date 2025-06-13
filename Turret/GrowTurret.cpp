@@ -16,19 +16,21 @@
 #include "Scene/PlayScene.hpp"
 
 //(END) TODO PROJECT-3 (1/3): Add new turret: can be placed and will automatically attack enemies.
-//have chance to update every shot.
+// have chance to update every shot.
 static int shoot_count = 0;
 
 const int GrowTurret::Price = 100;
 GrowTurret::GrowTurret(float x, float y)
-    : Turret("play/tower-base.png", "play/turret-6-lv0.png", x, y, 100, Price, 0.7) {
+    : Turret("play/tower-base.png", "play/turret-6-lv0.png", x, y, 100, Price, 0.7)
+{
     // Move center downward, since we the turret head is slightly biased upward.
     Anchor.y += 8.0f / GetBitmapHeight();
     level = 0;
     attack = 1;
 }
 
-void GrowTurret::CreateBullet() {
+void GrowTurret::CreateBullet()
+{
     Engine::Point diff = Engine::Point(cos(Rotation - ALLEGRO_PI / 2), sin(Rotation - ALLEGRO_PI / 2));
     float rotation = atan2(diff.y, diff.x);
     Engine::Point normalized = diff.Normalize();
@@ -36,15 +38,18 @@ void GrowTurret::CreateBullet() {
     getPlayScene()->BulletGroup->AddNewObject(new GrowBullet(Position + normalized * 36, diff, attack, rotation, this));
     AudioHelper::PlayAudio("gun.wav");
 
-    if(level < 9){
-        if(shoot_count == 4 + 2 * (level % 3)){
+    if (level < 9)
+    {
+        if (shoot_count == 4 + 2 * (level % 3))
+        {
             shoot_count = 0;
 
             std::random_device dev;
             std::mt19937 rng(dev());
             std::uniform_int_distribution<std::mt19937::result_type> dist(0, 100);
 
-            if(dist(rng) < 50 - 5 * level){
+            if (dist(rng) < 50 - 5 * level)
+            {
                 //& have chance to update every shot.
                 //& level++, cooldown--, radius++, attack++.
                 level++;
@@ -57,12 +62,17 @@ void GrowTurret::CreateBullet() {
                 std::string new_turretmap;
                 sst >> new_turretmap;
                 bmp = Engine::Resources::GetInstance().GetBitmap(new_turretmap);
-                
             }
         }
-        else{
+        else
+        {
             shoot_count++;
         }
-
     }
+}
+Bullet *GrowTurret::CreateBulletForSimulate() const
+{
+    Engine::Point dir(cos(Rotation - ALLEGRO_PI / 2), sin(Rotation - ALLEGRO_PI / 2));
+    float rot = atan2(dir.y, dir.x);
+    return new GrowBullet(Position + dir * 36, dir, attack, rot, const_cast<GrowTurret *>(this));
 }

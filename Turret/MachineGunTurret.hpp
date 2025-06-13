@@ -2,10 +2,12 @@
 #define MACHINEGUNTURRET_HPP
 #include "Turret.hpp"
 
-class MachineGunTurret : public Turret {
+class MachineGunTurret : public Turret
+{
 public:
     static const int Price;
     MachineGunTurret(float x, float y);
     void CreateBullet() override;
+    Bullet *CreateBulletForSimulate() const override;
 };
-#endif   // MACHINEGUNTURRET_HPP
+#endif // MACHINEGUNTURRET_HPP

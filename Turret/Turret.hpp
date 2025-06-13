@@ -9,7 +9,8 @@
 class Enemy;
 class PlayScene;
 
-class Turret : public Engine::Sprite {
+class Turret : public Engine::Sprite
+{
 protected:
     int price;
     float coolDown;
@@ -29,5 +30,6 @@ public:
     void Update(float deltaTime) override;
     void Draw() const override;
     int GetPrice() const;
+    virtual Bullet *CreateBulletForSimulate() const { return nullptr; }
 };
-#endif   // TURRET_HPP
+#endif // TURRET_HPP
