@@ -405,7 +405,7 @@ void PlayScene::Update(float deltaTime)
                 boss->UpdatePath(mapDistance);
                 bossWarningShown = false;
                 isShaking = true;
-
+                shakeDuration = 5.0f;
                 AudioHelper::PlayAudio("boss_debut.mp3");
             }
         }
@@ -1241,20 +1241,20 @@ void PlayScene::UIBtnRightClicked(int id){
 
 bool PlayScene::CheckSpaceValid(int x, int y)
 {
-    if (x < 0 || x >= MapWidth || y < 0 || y >= MapHeight){
+    if (x < 0 || x >= MapWidth || y < 0 || y >= MapHeight)
         return false;
-    }
 
-    if(mapState[y][x] != TILE_FLOOR){
+    if (mapState[y][x] != TILE_FLOOR)
         return false;
-    }
 
     auto map00 = mapState[y][x];
     mapState[y][x] = TILE_OCCUPIED;
     std::vector<std::vector<int>> map = CalculateBFSDistance();
     mapState[y][x] = map00;
+
     if (map[0][0] == -1)
         return false;
+
     for (auto &it : EnemyGroup->GetObjects())
     {
         Engine::Point pnt;
@@ -1271,11 +1271,15 @@ bool PlayScene::CheckSpaceValid(int x, int y)
         if (map[pnt.y][pnt.x] == -1)
             return false;
     }
-    // All enemy have path to exit.
-    mapState[y][x] = TILE_OCCUPIED;
-    mapDistance = map;
-    for (auto &it : EnemyGroup->GetObjects())
-        dynamic_cast<Enemy *>(it)->UpdatePath(mapDistance);
+
+    if (!Turret::simulateMode)
+    {
+        mapState[y][x] = TILE_OCCUPIED;
+        mapDistance = map;
+        for (auto &it : EnemyGroup->GetObjects())
+            dynamic_cast<Enemy *>(it)->UpdatePath(mapDistance);
+    }
+
     return true;
 }
 
