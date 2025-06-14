@@ -224,7 +224,7 @@ void PlayScene::Update(float deltaTime)
                 {
                     //& ofstream: write(**output**) data in code to files.
                     //& just like "w" mode in python
-                    std::ofstream tmp_file("../Resource/new_score.tmp");
+                    std::ofstream tmp_file("Resource/new_score.tmp");
                     if (tmp_file.is_open())
                     {
                         tmp_file << money; // score
@@ -261,7 +261,7 @@ void PlayScene::Update(float deltaTime)
                 if (to_win_scene_lockdown == 0){
                     //& ofstream: write(**output**) data in code to files.
                     //& just like "w" mode in python
-                    std::ofstream tmp_file("../Resource/new_score.tmp");
+                    std::ofstream tmp_file("Resource/new_score.tmp");
                     if (tmp_file.is_open()){
                         tmp_file << money; // score
 
@@ -778,7 +778,7 @@ void PlayScene::Hit()
 
     if (lives <= 0){
         if (isMultiPlayer){
-            std::ofstream tmp_file("../Resource/new_score.tmp");
+            std::ofstream tmp_file("Resource/new_score.tmp");
             if (tmp_file.is_open()){
                 tmp_file << money; // score
 
@@ -797,7 +797,7 @@ void PlayScene::Hit()
             LoseScene *scene = dynamic_cast<LoseScene *>(Engine::GameEngine::GetInstance().GetScene("lose"));
 
             if(isInfiniteMode){
-                std::ofstream tmp_file("../Resource/new_score.tmp");
+                std::ofstream tmp_file("Resource/new_score.tmp");
                 if (tmp_file.is_open()){
                     tmp_file << money; // score
 
@@ -856,11 +856,11 @@ void PlayScene::ReadMap()
     std::string filename;
     if (!IsCustom)
     {
-        filename = std::string("../Resource/map") + std::to_string(MapId) + ".txt";
+        filename = std::string("Resource/map") + std::to_string(MapId) + ".txt";
     }
     else
     {
-        filename = std::string("../Resource/custom_map/cm0") + std::to_string(MapId) + ".txt";
+        filename = std::string("Resource/custom_map/cm0") + std::to_string(MapId) + ".txt";
     }
 
     // Read map file.
@@ -1120,15 +1120,18 @@ void PlayScene::ConstructUI()
     UIGroup->AddNewObject(dangerIndicator);
 
     // auto mode
-    Engine::ImageButton *autoBuildBtn = new Engine::ImageButton(
-        "play/dirt.png",   // 預設圖
-        "play/floor.png",  // 滑鼠移上圖
-        1294, 400, 275, 64 // x, y, width, height
-    );
-    autoBuildBtn->SetOnClickCallback(std::bind(&PlayScene::ToggleAutoBuild, this));
-    UIGroup->AddNewControlObject(autoBuildBtn);
-    Engine::Label *autoLabel = new Engine::Label("Auto", "pirulen.ttf", 28, 1294 + 80, 420, 255, 255, 255, 255);
-    UIGroup->AddNewObject(autoLabel);
+    if(!isMultiPlayer){
+        Engine::ImageButton *autoBuildBtn = new Engine::ImageButton(
+            "play/dirt.png",   // 預設圖
+            "play/floor.png",  // 滑鼠移上圖
+            1294, 400, 275, 64 // x, y, width, height
+        );
+        autoBuildBtn->SetOnClickCallback(std::bind(&PlayScene::ToggleAutoBuild, this));
+        UIGroup->AddNewControlObject(autoBuildBtn);
+        Engine::Label *autoLabel = new Engine::Label("Auto", "pirulen.ttf", 28, 1294 + 80, 420, 255, 255, 255, 255);
+        UIGroup->AddNewObject(autoLabel);
+    }
+
 
     // boss incoming warning
     bossWarningLabel = new Engine::Label("WARNING: BOSS INCOMING", "pirulen.ttf", 72, 0, Engine::GameEngine::GetInstance().GetScreenSize().y / 2 - 36, 255, 0, 0, 255);
@@ -1323,7 +1326,8 @@ void PlayScene::StartShake(float duration, float magnitude)
 // MCTS 一次建塔
 void PlayScene::ToggleAutoBuild()
 {
-    std::cout << "toggleautobind called";
+    std::cout << "toggleautobuild called." << std::endl;
+
     AutoBuild();
 }
 

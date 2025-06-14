@@ -28,19 +28,19 @@ void ScoreboardScene::Initialize() {
     switch(type){
     case NORMAL:
         AddNewObject(new Engine::Label("Scoreboard-normal mode", "pirulen.ttf", 60, halfW, halfH / 5 + 50, 10, 255, 255, 255, 0.5, 0.5));
-        scoreboard_filepath = "../Resource/scoreboard.txt";
+        scoreboard_filepath = "Resource/scoreboard.txt";
         break;
     case INFINITE:
         AddNewObject(new Engine::Label("Scoreboard-infinite mode", "pirulen.ttf", 60, halfW, halfH / 5 + 50, 10, 255, 255, 255, 0.5, 0.5));
-        scoreboard_filepath = "../Resource/scoreboard_infinite.txt";
+        scoreboard_filepath = "Resource/scoreboard_infinite.txt";
         break;
     case MULTIP1:
         AddNewObject(new Engine::Label("Scoreboard-multi mode(P1)", "pirulen.ttf", 60, halfW, halfH / 5 + 50, 10, 255, 255, 255, 0.5, 0.5));
-        scoreboard_filepath = "../Resource/scoreboard_multi_def.txt";
+        scoreboard_filepath = "Resource/scoreboard_multi_def.txt";
         break;
     case MULTIP2:
         AddNewObject(new Engine::Label("Scoreboard-multi mode(P2)", "pirulen.ttf", 60, halfW, halfH / 5 + 50, 10, 255, 255, 255, 0.5, 0.5));
-        scoreboard_filepath = "../Resource/scoreboard_multi_atk.txt";
+        scoreboard_filepath = "Resource/scoreboard_multi_atk.txt";
         break;
     }
 

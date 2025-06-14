@@ -41,14 +41,14 @@ void WinScene::Initialize() {
 void WinScene::Terminate() {
     //(END) TODO PROJECT-2 (2/5)-2: You need to save the score when the player wins.
     //(END) TODO                    (save tmp file's score into txt file)
-    std::ifstream tmp_file("../Resource/new_score.tmp", std::ios::in);
+    std::ifstream tmp_file("Resource/new_score.tmp", std::ios::in);
     if(tmp_file.is_open()) {
         std::string score_str;
         std::getline(tmp_file, score_str);
 
         //(END) TODO PROJECT-2 (3/5): Sort the scoreboard entries in a certain way. (insertion sort)
-        std::ifstream scoreboard_file("../Resource/scoreboard.txt", std::ios::in);
-        std::ofstream new_scoreboard_file("../Resource/scoreboard.tmp");
+        std::ifstream scoreboard_file("Resource/scoreboard.txt", std::ios::in);
+        std::ofstream new_scoreboard_file("Resource/scoreboard.tmp");
         if(new_scoreboard_file.is_open() && scoreboard_file.is_open()){
             if(EnterNameBox->text.size() == 0){
                 EnterNameBox->text = "<no name>";
@@ -81,16 +81,16 @@ void WinScene::Terminate() {
         new_scoreboard_file.close();
 
         //delete the tmp file from PlayScene.cpp
-        if(std::remove("../Resource/new_score.tmp") != 0){
+        if(std::remove("Resource/new_score.tmp") != 0){
             Engine::LOG(Engine::ERROR) << "Can't delete temporary file";
         }
 
         //remove old scoreboard file, rename new scoreboard file
-        if(std::remove("../Resource/scoreboard.txt") != 0){
+        if(std::remove("Resource/scoreboard.txt") != 0){
             Engine::LOG(Engine::ERROR) << "Can't delete old scoreboard file";
         }
         else{
-            if(std::rename("../Resource/scoreboard.tmp", "../Resource/scoreboard.txt") != 0){
+            if(std::rename("Resource/scoreboard.tmp", "Resource/scoreboard.txt") != 0){
                 Engine::LOG(Engine::ERROR) << "Can't replace scoreboard file (DATA LOSS)";
             }
         }

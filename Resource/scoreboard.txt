@@ -1,4 +1,6 @@
+teko 2750
 tester 2600
+override 2450
 <no name> 150
 Daniel 80
 XiaoLiang 70

@@ -42,14 +42,14 @@ void LoseScene::Terminate() {
     IScene::Terminate();
 
     if(record_score){
-        std::ifstream tmp_file("../Resource/new_score.tmp", std::ios::in);
+        std::ifstream tmp_file("Resource/new_score.tmp", std::ios::in);
         if(tmp_file.is_open()) {
             std::string score_str;
             std::getline(tmp_file, score_str);
 
             //(END) TODO PROJECT-2 (3/5): Sort the scoreboard entries in a certain way. (insertion sort)
-            std::ifstream scoreboard_file("../Resource/scoreboard_infinite.txt", std::ios::in);
-            std::ofstream new_scoreboard_file("../Resource/scoreboard_infinite.tmp");
+            std::ifstream scoreboard_file("Resource/scoreboard_infinite.txt", std::ios::in);
+            std::ofstream new_scoreboard_file("Resource/scoreboard_infinite.tmp");
             if(new_scoreboard_file.is_open() && scoreboard_file.is_open()){
                 if(EnterNameBox->text.size() == 0){
                     EnterNameBox->text = "<no name>";
@@ -82,16 +82,16 @@ void LoseScene::Terminate() {
             new_scoreboard_file.close();
 
             //delete the tmp file from PlayScene.cpp
-            if(std::remove("../Resource/new_score.tmp") != 0){
+            if(std::remove("Resource/new_score.tmp") != 0){
                 Engine::LOG(Engine::ERROR) << "Can't delete temporary file";
             }
 
             //remove old scoreboard file, rename new scoreboard file
-            if(std::remove("../Resource/scoreboard_infinite.txt") != 0){
+            if(std::remove("Resource/scoreboard_infinite.txt") != 0){
                 Engine::LOG(Engine::ERROR) << "Can't delete old scoreboard file";
             }
             else{
-                if(std::rename("../Resource/scoreboard_infinite.tmp", "../Resource/scoreboard_infinite.txt") != 0){
+                if(std::rename("Resource/scoreboard_infinite.tmp", "Resource/scoreboard_infinite.txt") != 0){
                     Engine::LOG(Engine::ERROR) << "Can't replace scoreboard file (DATA LOSS)";
                 }
             }

@@ -41,7 +41,7 @@ void MultiWinScene::Initialize() {
 void MultiWinScene::Terminate() {
     //(END) TODO PROJECT-2 (2/5)-2: You need to save the score when the player wins.
     //(END) TODO                    (save tmp file's score into txt file)
-    std::ifstream tmp_file("../Resource/new_score.tmp", std::ios::in);
+    std::ifstream tmp_file("Resource/new_score.tmp", std::ios::in);
     if(tmp_file.is_open()) {
         std::string score_str;
         std::getline(tmp_file, score_str);
@@ -49,13 +49,13 @@ void MultiWinScene::Terminate() {
         std::string scoreboard_name, scoreboard_tmp;
         switch (which_player_win){
         case 1:
-            scoreboard_name = "../Resource/scoreboard_multi_def.txt";
-            scoreboard_tmp = "../Resource/scoreboard_multi_def.tmp";
+            scoreboard_name = "Resource/scoreboard_multi_def.txt";
+            scoreboard_tmp = "Resource/scoreboard_multi_def.tmp";
             break;
         
         case 2:
-            scoreboard_name = "../Resource/scoreboard_multi_atk.txt";
-            scoreboard_tmp = "../Resource/scoreboard_multi_atk.tmp";
+            scoreboard_name = "Resource/scoreboard_multi_atk.txt";
+            scoreboard_tmp = "Resource/scoreboard_multi_atk.tmp";
             break;
         }
 
@@ -93,7 +93,7 @@ void MultiWinScene::Terminate() {
         new_scoreboard_file.close();
 
         //delete the tmp file from PlayScene.cpp
-        if(std::remove("../Resource/new_score.tmp") != 0){
+        if(std::remove("Resource/new_score.tmp") != 0){
             Engine::LOG(Engine::ERROR) << "Can't delete temporary file";
         }
 

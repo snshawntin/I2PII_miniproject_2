@@ -207,7 +207,7 @@ void MapEditScene::OnKeyDown(int keyCode)
 
 void MapEditScene::ReadMap()
 {
-    std::string filename = std::string("C:/Users/User/Downloads/final_project/2025_I2P2_TowerDefense-main/2025_I2P2_TowerDefense-main/Resource/custom_map/cm0") + std::to_string(CustomMapId) + ".txt";
+    std::string filename = std::string("Resource/custom_map/cm0") + std::to_string(CustomMapId) + ".txt";
     // Read map file.
     char c;
     std::vector<bool> mapData;
@@ -376,7 +376,7 @@ void MapEditScene::BackOnClick(bool save)
             return;
         }
 
-        std::string filename = std::string("C:/Users/User/Downloads/final_project/2025_I2P2_TowerDefense-main/2025_I2P2_TowerDefense-main/Resource/custom_map/cm0") + std::to_string(CustomMapId) + ".txt";
+        std::string filename = std::string("Resource/custom_map/cm0") + std::to_string(CustomMapId) + ".txt";
         std::ofstream fout(filename);
 
         for (int i = 0; i < MapHeight; i++)
