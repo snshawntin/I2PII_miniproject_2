@@ -45,3 +45,9 @@ void MachineGunTurret::CreateBullet() {
 
     AudioHelper::PlayAudio("gun.wav");
 }
+
+Bullet *MachineGunTurret::CreateBulletForSimulate() const
+{
+    Engine::Point dir(cos(Rotation - ALLEGRO_PI / 2), sin(Rotation - ALLEGRO_PI / 2));
+    return new FireBullet(Position + dir * 36, dir, 1 + on_playing_level, Rotation, const_cast<MachineGunTurret *>(this));
+}

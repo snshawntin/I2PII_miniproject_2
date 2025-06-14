@@ -19,10 +19,12 @@
 #include "UI/Animation/DirtyEffect.hpp"
 #include "UI/Animation/ExplosionEffect.hpp"
 
-PlayScene *Enemy::getPlayScene() {
+PlayScene *Enemy::getPlayScene()
+{
     return dynamic_cast<PlayScene *>(Engine::GameEngine::GetInstance().GetActiveScene());
 }
-void Enemy::OnExplode() {
+void Enemy::OnExplode()
+{
     getPlayScene()->EffectGroup->AddNewObject(new ExplosionEffect(Position.x, Position.y));
     std::random_device dev;
     std::mt19937 rng(dev());
@@ -33,13 +35,21 @@ void Enemy::OnExplode() {
         getPlayScene()->GroundEffectGroup->AddNewObject(new DirtyEffect("play/dirty-" + std::to_string(distId(rng)) + ".png", dist(rng), Position.x, Position.y));
     }
 }
-Enemy::Enemy(std::string img, float x, float y, float radius, float speed, float hp, int money) : Engine::Sprite(img, x, y), speed(speed), hp(hp), money(money) {
+Enemy::Enemy(std::string img, float x, float y, float radius, float speed, float hp, int money) : Engine::Sprite(img, x, y), speed(speed), hp(hp), money(money)
+{
     CollisionRadius = radius;
     reachEndTime = 0;
 }
-void Enemy::Hit(float damage) {
+void Enemy::Hit(float damage)
+{
+    if (Turret::simulateMode)
+    {
+        hp -= damage;
+        return;
+    }
     hp -= damage;
-    if (hp <= 0) {
+    if (hp <= 0)
+    {
         OnExplode();
         // Remove all turret's reference to target.
         for (auto &it : lockedTurrets)
@@ -51,23 +61,31 @@ void Enemy::Hit(float damage) {
         AudioHelper::PlayAudio("explosion.wav");
     }
 }
-void Enemy::UpdatePath(const std::vector<std::vector<int>> &mapDistance) {
+void Enemy::UpdatePath(const std::vector<std::vector<int>> &mapDistance)
+{
     int x = static_cast<int>(floor(Position.x / PlayScene::BlockSize));
     int y = static_cast<int>(floor(Position.y / PlayScene::BlockSize));
-    if (x < 0) x = 0;
-    if (x >= PlayScene::MapWidth) x = PlayScene::MapWidth - 1;
-    if (y < 0) y = 0;
-    if (y >= PlayScene::MapHeight) y = PlayScene::MapHeight - 1;
+    if (x < 0)
+        x = 0;
+    if (x >= PlayScene::MapWidth)
+        x = PlayScene::MapWidth - 1;
+    if (y < 0)
+        y = 0;
+    if (y >= PlayScene::MapHeight)
+        y = PlayScene::MapHeight - 1;
     Engine::Point pos(x, y);
     int num = mapDistance[y][x];
-    if (num == -1) {
+    if (num == -1)
+    {
         num = 0;
         Engine::LOG(Engine::ERROR) << "Enemy path finding error";
     }
     path = std::vector<Engine::Point>(num + 1);
-    while (num != 0) {
+    while (num != 0)
+    {
         std::vector<Engine::Point> nextHops;
-        for (auto &dir : PlayScene::directions) {
+        for (auto &dir : PlayScene::directions)
+        {
             int x = pos.x + dir.x;
             int y = pos.y + dir.y;
             if (x < 0 || x >= PlayScene::MapWidth || y < 0 || y >= PlayScene::MapHeight || mapDistance[y][x] != num - 1)
@@ -84,11 +102,14 @@ void Enemy::UpdatePath(const std::vector<std::vector<int>> &mapDistance) {
     }
     path[0] = PlayScene::EndGridPoint;
 }
-void Enemy::Update(float deltaTime) {
+void Enemy::Update(float deltaTime)
+{
     // Pre-calculate the velocity.
     float remainSpeed = speed * deltaTime;
-    while (remainSpeed != 0) {
-        if (path.empty()) {
+    while (remainSpeed != 0)
+    {
+        if (path.empty())
+        {
             // Reach end point.
             Hit(hp);
             getPlayScene()->Hit();
@@ -104,11 +125,14 @@ void Enemy::Update(float deltaTime) {
         // 4. to end point
         reachEndTime = (vec.Magnitude() + (path.size() - 1) * PlayScene::BlockSize - remainSpeed) / speed;
         Engine::Point normalized = vec.Normalize();
-        if (remainSpeed - vec.Magnitude() > 0) {
+        if (remainSpeed - vec.Magnitude() > 0)
+        {
             Position = target;
             path.pop_back();
             remainSpeed -= vec.Magnitude();
-        } else {
+        }
+        else
+        {
             Velocity = normalized * remainSpeed / deltaTime;
             remainSpeed = 0;
         }
@@ -116,10 +140,17 @@ void Enemy::Update(float deltaTime) {
     Rotation = atan2(Velocity.y, Velocity.x);
     Sprite::Update(deltaTime);
 }
-void Enemy::Draw() const {
+void Enemy::Draw() const
+{
     Sprite::Draw();
-    if (PlayScene::DebugMode) {
+    if (PlayScene::DebugMode)
+    {
         // Draw collision radius.
-        al_draw_circle(Position.x, Position.y, CollisionRadius, al_map_rgb(255, 0, 0), 2);
+        al_draw_circle(
+            Position.x + Engine::IObject::GlobalDrawOffset.x,
+            Position.y + Engine::IObject::GlobalDrawOffset.y,
+            CollisionRadius,
+            al_map_rgb(255, 0, 0),
+            2);
     }
 }

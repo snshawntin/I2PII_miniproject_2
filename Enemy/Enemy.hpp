@@ -11,7 +11,8 @@ class Bullet;
 class PlayScene;
 class Turret;
 
-class Enemy : public Engine::Sprite {
+class Enemy : public Engine::Sprite
+{
 protected:
     std::vector<Engine::Point> path;
     float speed;
@@ -30,5 +31,7 @@ public:
     void UpdatePath(const std::vector<std::vector<int>> &mapDistance);
     void Update(float deltaTime) override;
     void Draw() const override;
+    virtual Enemy *Clone() const = 0;
+    float GetHP() const { return hp; }
 };
-#endif   // ENEMY_HPP
+#endif // ENEMY_HPP

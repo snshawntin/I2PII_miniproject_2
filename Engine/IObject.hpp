@@ -5,11 +5,13 @@
 
 #include "Engine/Point.hpp"
 
-namespace Engine {
+namespace Engine
+{
     /// <summary>
     /// The base interface class for objects that needs to be drawn or rendered.
     /// </summary>
-    class IObject {
+    class IObject
+    {
         friend class Group;
 
     protected:
@@ -34,6 +36,7 @@ namespace Engine {
         explicit IObject(float x, float y, float w = 0, float h = 0, float anchorX = 0, float anchorY = 0);
 
     public:
+        static Point GlobalDrawOffset;
         // Determines whether this object should be drawn and updated.
         bool Visible = true;
         // The object's position, center depends on Anchor.
@@ -72,4 +75,4 @@ namespace Engine {
         virtual void Update(float deltaTime);
     };
 }
-#endif   // IOBJECT_HPP
+#endif // IOBJECT_HPP

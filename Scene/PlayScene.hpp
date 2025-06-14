@@ -81,6 +81,16 @@ public:
     int shield_enemy_cooldown;
 
     int machinegunturret_lv, laserturret_lv, growturret_lv;
+    int bossSpawnCount = 0;
+    float bossTicks = 0.0f;
+    const float bossSpawnInterval = 50;
+    float bossWarningTimer = 0;
+    bool bossWarningShown = false;
+    Engine::Label *bossWarningLabel = nullptr;
+    bool isShaking = false;
+    float shakeDuration = 5.0f;
+    float shakeMagnitude = 10.0f;
+    Engine::Point shakeOffset = Engine::Point(0, 0);
 
     // Map tiles.
     Group *TileMapGroup;
@@ -127,8 +137,12 @@ public:
     bool CheckSpaceValid(int x, int y);
     std::vector<std::vector<int>> CalculateBFSDistance();
     void UpdateLifeIcons(bool isP2);
-
+    void StartShake(float duration, float magnitude);
+    void AutoBuild();
+    void ToggleAutoBuild();
     std::map<std::pair<int, int>, Turret *> turret_map;
+    Turret *CreateTurret(int type, int x, int y);
+
     // void ModifyReadMapTiles();
 };
 #endif // PLAYSCENE_HPP

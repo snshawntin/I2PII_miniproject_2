@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <random>
 
 #include <iostream>
 
@@ -18,6 +19,8 @@
 #include "Enemy/TankEnemy.hpp"
 #include "Enemy/ShieldEnemy.hpp"
 #include "Enemy/P2Base.hpp"
+#include "Enemy/SnailBoss.hpp"
+#include "Enemy/SnailEnemy.hpp"
 #include "Engine/AudioHelper.hpp"
 #include "Engine/GameEngine.hpp"
 #include "Engine/Group.hpp"
@@ -30,12 +33,14 @@
 #include "Turret/MachineGunTurret.hpp"
 #include "Turret/GrowTurret.hpp"
 #include "Turret/TurretButton.hpp"
+#include "Turret/Turret.hpp"
 #include "Tool/ToolButton.hpp"
 #include "Tool/Tool.hpp"
 #include "Tool/Shovel.hpp"
 #include "UI/Animation/DirtyEffect.hpp"
 #include "UI/Animation/Plane.hpp"
 #include "UI/Component/Label.hpp"
+#include "Bullet/Bullet.hpp"
 
 bool PlayScene::DebugMode = false;
 int PlayScene::CheatCodeSeqNowAt = 0;
@@ -63,7 +68,7 @@ void PlayScene::Initialize(){
     ticks = 0;
     deathCountDown = -1;
     lives = 10;
-    money = 150;
+    money = 2000;
     SpeedMult = 1;
     to_win_scene_lockdown = -1;
     infiniteTicks = 0.0f;
@@ -194,6 +199,7 @@ void PlayScene::Update(float deltaTime)
         // Check if we should create new enemy.
         ticks += deltaTime;
         infiniteTicks += deltaTime;
+        bossTicks += deltaTime;
 
         if (!isMultiPlayer && !isInfiniteMode && enemyWaveData.empty())
         {
@@ -307,8 +313,8 @@ void PlayScene::Update(float deltaTime)
             static float infiniteTimer = 0.0f;
             infiniteTimer += deltaTime;
 
-            // 隨著遊戲時間增加，降低生成間隔，加快敵人生成速度（最小間隔 0.3 秒）
-            float difficultyFactor = std::max(0.3f, 2.0f - infiniteTimer * 0.003f);
+            // 隨著遊戲時間增加，降低生成間隔，加快敵人生成速度（最小間隔 0.2 秒）
+            float difficultyFactor = std::max(0.2f, 2.0f - infiniteTimer * 0.003f);
             infiniteSpawnInterval = difficultyFactor;
 
             if (infiniteTimer >= infiniteSpawnInterval)
@@ -322,7 +328,11 @@ void PlayScene::Update(float deltaTime)
                 int enemyType;
                 float r = static_cast<float>(rand()) / RAND_MAX;
 
-                if (infiniteTicks < 90)
+                if ((int)infiniteTicks % 500 >= 490)
+                {
+                    continue;
+                }
+                else if (infiniteTicks < 90)
                 {
                     enemyType = (r < 0.8f) ? 1 : 4;
                 }
@@ -381,7 +391,68 @@ void PlayScene::Update(float deltaTime)
                     enemy->UpdatePath(mapDistance);
                 }
             }
+            if (bossTicks >= bossSpawnInterval)
+            {
+                bossTicks = 0;
+                bossSpawnCount += 1;
+                const Engine::Point SpawnCoordinate = Engine::Point(
+                    SpawnGridPoint.x * BlockSize + BlockSize / 2,
+                    SpawnGridPoint.y * BlockSize + BlockSize / 2);
+
+                SnailBoss *boss = new SnailBoss(SpawnCoordinate.x, SpawnCoordinate.y);
+                boss->Initialize(5.0f / bossSpawnCount);
+                EnemyGroup->AddNewObject(boss);
+                boss->UpdatePath(mapDistance);
+                bossWarningShown = false;
+                isShaking = true;
+
+                AudioHelper::PlayAudio("boss_debut.mp3");
+            }
         }
+
+        // boss incoming warning massage
+        if (!bossWarningShown && bossTicks >= bossSpawnInterval - 3.0f)
+        {
+            bossWarningLabel->Visible = true;
+            bossWarningShown = true;
+
+            // start on the left
+            bossWarningLabel->Position.x = -bossWarningLabel->GetTextWidth();
+        }
+
+        if (bossWarningLabel->Visible)
+        {
+            bossWarningLabel->Position.x += 200 * deltaTime;
+
+            // hide if go out of the screen
+            if (bossWarningLabel->Position.x > Engine::GameEngine::GetInstance().GetScreenSize().x)
+            {
+                bossWarningLabel->Visible = false;
+            }
+        }
+        if (isShaking)
+        {
+            printf("SHAKING");
+            shakeDuration -= deltaTime;
+            if (shakeDuration <= 0)
+            {
+                shakeDuration = 0;
+                isShaking = false;
+                shakeOffset = Engine::Point(0, 0);
+            }
+            else
+            {
+                shakeOffset.x = (static_cast<float>(rand()) / RAND_MAX * 2.0f - 1.0f) * shakeMagnitude;
+                shakeOffset.y = (static_cast<float>(rand()) / RAND_MAX * 2.0f - 1.0f) * shakeMagnitude;
+            }
+        }
+        else
+        {
+            shakeOffset = Engine::Point(0, 0);
+        }
+
+        // set offset
+        Engine::IObject::GlobalDrawOffset = shakeOffset;
     }
 
     if(isMultiPlayer){
@@ -456,6 +527,7 @@ void PlayScene::Update(float deltaTime)
         //update p2 lives.
         UpdateLifeIcons(1);
     }
+    Engine::IObject::GlobalDrawOffset = shakeOffset;
 
     if (preview)
     {
@@ -473,24 +545,36 @@ void PlayScene::Update(float deltaTime)
 
 void PlayScene::Draw() const
 {
+    // 1. set offset
+    ALLEGRO_TRANSFORM transform;
+    al_identity_transform(&transform);
+    al_translate_transform(&transform, Engine::IObject::GlobalDrawOffset.x, Engine::IObject::GlobalDrawOffset.y);
+    al_use_transform(&transform);
+
+    // 2. draw the whole screen
     IScene::Draw();
+    // 3. draw debug mode if needed
     if (DebugMode)
     {
-        // Draw reverse BFS distance on all reachable blocks.
         for (int i = 0; i < MapHeight; i++)
         {
             for (int j = 0; j < MapWidth; j++)
             {
                 if (mapDistance[i][j] != -1)
                 {
-                    // Not elegant nor efficient, but it's quite enough for debugging.
-                    Engine::Label label(std::to_string(mapDistance[i][j]), "pirulen.ttf", 32, (j + 0.5) * BlockSize, (i + 0.5) * BlockSize);
+                    Engine::Label label(std::to_string(mapDistance[i][j]), "pirulen.ttf", 32,
+                                        (j + 0.5) * BlockSize, (i + 0.5) * BlockSize);
                     label.Anchor = Engine::Point(0.5, 0.5);
                     label.Draw();
                 }
             }
         }
     }
+
+    // 4. reset
+    ALLEGRO_TRANSFORM identity;
+    al_identity_transform(&identity);
+    al_use_transform(&identity);
 }
 
 void PlayScene::OnMouseDown(int button, int mx, int my)
@@ -579,7 +663,8 @@ void PlayScene::OnMouseUp(int button, int mx, int my)
                 UIGroup->RemoveObject(preview_tool->GetObjectIterator());
                 // real tool operated.
                 std::pair<int, int> shovel_place = std::make_pair(x * BlockSize + BlockSize / 2, y * BlockSize + BlockSize / 2);
-                if(turret_map.find(shovel_place) != turret_map.end()){
+                if (turret_map.find(shovel_place) != turret_map.end())
+                {
                     EarnMoney(turret_map[shovel_place]->GetPrice() * 0.5);
                     TowerGroup->RemoveObject(turret_map[shovel_place]->GetObjectIterator());
                     turret_map.erase(shovel_place);
@@ -769,11 +854,13 @@ void PlayScene::ReadMap()
 {
     //! if map edit scene cannot recognize the modified map, modify here.
     std::string filename;
-    if(!IsCustom){
-        filename = std::string("../Resource/map") + std::to_string(MapId) + ".txt";
+    if (!IsCustom)
+    {
+        filename = std::string("C:/Users/User/Downloads/final_project/2025_I2P2_TowerDefense-main/Resource/map") + std::to_string(MapId) + ".txt";
     }
-    else{
-        filename = std::string("../Resource/custom_map/cm0") + std::to_string(MapId) + ".txt";
+    else
+    {
+        filename = std::string("C:/Users/User/Downloads/final_project/2025_I2P2_TowerDefense-main/2025_I2P2_TowerDefense-main/Resource/custom_map/cm0") + std::to_string(MapId) + ".txt";
     }
 
     // Read map file.
@@ -916,8 +1003,10 @@ void PlayScene::ConstructUI()
 
     //& p1 life
     // Add 5 heart icons (each is 24*26), spaced by 30 pixels.
-    for (int i = 0; i < 5; ++i)
-    {
+    for (int i = 0; i < 5; ++i){
+        if (lifeIcons.size() == 5){
+            break;
+        }
         auto icon = new Engine::Image("play/full.png", 1294 + i * 30, 68 + multi_ui_btn_shift, 32, 32);
         lifeIcons.push_back(icon);
         UIGroup->AddNewObject(icon);
@@ -1023,6 +1112,28 @@ void PlayScene::ConstructUI()
         dangerIndicator->Tint.a = 0;
         UIGroup->AddNewObject(dangerIndicator);
     }
+    int w = Engine::GameEngine::GetInstance().GetScreenSize().x;
+    int h = Engine::GameEngine::GetInstance().GetScreenSize().y;
+    int shift = 135 + 25;
+    dangerIndicator = new Engine::Sprite("play/benjamin.png", w - shift, h - shift);
+    dangerIndicator->Tint.a = 0;
+    UIGroup->AddNewObject(dangerIndicator);
+
+    // auto mode
+    Engine::ImageButton *autoBuildBtn = new Engine::ImageButton(
+        "play/dirt.png",   // 預設圖
+        "play/floor.png",  // 滑鼠移上圖
+        1294, 400, 275, 64 // x, y, width, height
+    );
+    autoBuildBtn->SetOnClickCallback(std::bind(&PlayScene::ToggleAutoBuild, this));
+    UIGroup->AddNewControlObject(autoBuildBtn);
+    Engine::Label *autoLabel = new Engine::Label("Auto", "pirulen.ttf", 28, 1294 + 80, 420, 255, 255, 255, 255);
+    UIGroup->AddNewObject(autoLabel);
+
+    // boss incoming warning
+    bossWarningLabel = new Engine::Label("WARNING: BOSS INCOMING", "pirulen.ttf", 72, 0, Engine::GameEngine::GetInstance().GetScreenSize().y / 2 - 36, 255, 0, 0, 255);
+    bossWarningLabel->Visible = false;
+    UIGroup->AddNewObject(bossWarningLabel);
 }
 
 void PlayScene::UIBtnClicked(int id)
@@ -1184,7 +1295,8 @@ std::vector<std::vector<int>> PlayScene::CalculateBFSDistance()
     while (!que.empty()) {
         Engine::Point observing_point = que.front();
         que.pop();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++)
+        {
             int next_x = observing_point.x + bfs_dxdy[i].x;
             int next_y = observing_point.y + bfs_dxdy[i].y;
             if (next_x < 0 || next_x >= MapWidth || next_y < 0 || next_y >= MapHeight)
@@ -1197,7 +1309,205 @@ std::vector<std::vector<int>> PlayScene::CalculateBFSDistance()
             que.push(Engine::Point(next_x, next_y));
         }
     }
-    
 
     return map;
+}
+void PlayScene::StartShake(float duration, float magnitude)
+{
+    isShaking = true;
+    shakeDuration = duration;
+    shakeMagnitude = magnitude;
+    Engine::Point shakeOffset = Engine::Point(0, 0);
+}
+
+// MCTS 一次建塔
+void PlayScene::ToggleAutoBuild()
+{
+    std::cout << "toggleautobind called";
+    AutoBuild();
+}
+
+void PlayScene::AutoBuild()
+{
+    Turret::simulateMode = true;
+    std::cout << "Enemy count: " << EnemyGroup->GetObjects().size() << "\n";
+    const int SIM_TIME = 180; // 模擬 10 秒（60 frame/s）
+    const int TURRET_TYPES = 3;
+
+    int bestX = -1, bestY = -1, bestType = -1, maxKilled = -1;
+
+    for (int y = 0; y < MapHeight; ++y)
+    {
+        for (int x = 0; x < MapWidth; ++x)
+        {
+            if (!CheckSpaceValid(x, y))
+                continue;
+
+            for (int t = 0; t < TURRET_TYPES; ++t)
+            {
+                std::cout << "Simulating turret type " << t << " at (" << x << "," << y << ")\n";
+
+                std::vector<Enemy *> simEnemies;
+                for (auto &obj : EnemyGroup->GetObjects())
+                {
+                    Enemy *e = dynamic_cast<Enemy *>(obj);
+                    if (e)
+                    {
+                        Enemy *cloned = e->Clone();
+                        if (!cloned)
+                        {
+                            std::cout << "[WARN] Clone returned nullptr at (" << e->Position.x << "," << e->Position.y << ")\n";
+                            continue;
+                        }
+                        simEnemies.push_back(cloned);
+                        std::cout << "Enemy cloned at (" << e->Position.x << "," << e->Position.y << ")\n";
+                    }
+                }
+
+                Turret *turret = CreateTurret(t, x, y);
+                if (!turret)
+                {
+                    std::cout << "[ERROR] Failed to create turret.\n";
+                    continue;
+                }
+
+                std::vector<Bullet *> bullets;
+                int killed = 0;
+
+                try
+                {
+                    turret->Update(0); // 初始化
+                    for (int i = 0; i < SIM_TIME; ++i)
+                    {
+                        turret->Update(1.0 / 60);
+
+                        Bullet *b = turret->CreateBulletForSimulate();
+                        if (b == nullptr)
+                            continue;
+
+                        bullets.push_back(b);
+
+                        for (auto it = bullets.begin(); it != bullets.end();)
+                        {
+                            Bullet *bullet = *it;
+
+                            // Update 裡如果有 getPlayScene，必須先檢查
+                            try
+                            {
+                                bullet->Update(1.0 / 60);
+                            }
+                            catch (...)
+                            {
+                                std::cout << "[EXCEPTION] Bullet update crash caught.\n";
+                                delete bullet;
+                                it = bullets.erase(it);
+                                continue;
+                            }
+
+                            bool hit = false;
+                            for (auto &e : simEnemies)
+                            {
+                                if (!e)
+                                    continue;
+                                float dist = std::hypot(e->Position.x - bullet->Position.x, e->Position.y - bullet->Position.y);
+                                if (dist <= e->CollisionRadius)
+                                {
+                                    e->Hit(bullet->GetDamage());
+                                    hit = true;
+                                    break;
+                                }
+                            }
+
+                            if (hit)
+                            {
+                                delete bullet;
+                                it = bullets.erase(it);
+                            }
+                            else
+                            {
+                                ++it;
+                            }
+                        }
+
+                        for (auto &e : simEnemies)
+                            if (e)
+                                e->Update(1.0 / 60);
+
+                        for (auto it = simEnemies.begin(); it != simEnemies.end();)
+                        {
+                            if (*it && (*it)->GetHP() <= 0)
+                            {
+                                delete *it;
+                                it = simEnemies.erase(it);
+                                killed++;
+                            }
+                            else
+                            {
+                                ++it;
+                            }
+                        }
+                    }
+                }
+                catch (...)
+                {
+                    std::cout << "[EXCEPTION] Simulation loop crashed.\n";
+                }
+
+                delete turret;
+                for (auto *b : bullets)
+                    delete b;
+                for (auto *e : simEnemies)
+                    delete e;
+
+                std::cout << "Killed = " << killed << " by type " << t << " at (" << x << "," << y << ")\n";
+
+                if (killed > maxKilled)
+                {
+                    maxKilled = killed;
+                    bestX = x;
+                    bestY = y;
+                    bestType = t;
+                }
+            }
+        }
+    }
+
+    if (bestX != -1 && bestY != -1 && bestType != -1)
+    {
+        std::cout << "Placing turret type " << bestType << " at (" << bestX << "," << bestY << "), kills = " << maxKilled << "\n";
+        Turret *turret = CreateTurret(bestType, bestX, bestY);
+        if (turret && money >= turret->GetPrice())
+        {
+            EarnMoney(-turret->GetPrice());
+            turret->Position = Engine::Point(bestX * BlockSize + BlockSize / 2, bestY * BlockSize + BlockSize / 2);
+            TowerGroup->AddNewObject(turret);
+            mapState[bestY][bestX] = TILE_OCCUPIED;
+        }
+        else
+        {
+            delete turret;
+            std::cout << "[ERROR] Not enough money or turret creation failed.\n";
+        }
+    }
+    else
+    {
+        std::cout << "[INFO] No suitable location found for auto-build.\n";
+    }
+
+    Turret::simulateMode = false;
+}
+
+Turret *PlayScene::CreateTurret(int type, int x, int y)
+{
+    Engine::Point pos(x * BlockSize + BlockSize / 2, y * BlockSize + BlockSize / 2);
+    switch (type)
+    {
+    case 0:
+        return new MachineGunTurret(pos.x, pos.y);
+    case 1:
+        return new GrowTurret(pos.x, pos.y);
+    case 2:
+        return new LaserTurret(pos.x, pos.y);
+    }
+    return nullptr;
 }

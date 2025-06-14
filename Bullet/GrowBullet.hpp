@@ -4,13 +4,16 @@
 
 class Enemy;
 class Turret;
-namespace Engine {
+namespace Engine
+{
     struct Point;
-}   // namespace Engine
+} // namespace Engine
 
-class GrowBullet : public Bullet {
+class GrowBullet : public Bullet
+{
 public:
     explicit GrowBullet(Engine::Point position, Engine::Point forwardDirection, float damage, float rotation, Turret *parent);
     void OnExplode(Enemy *enemy) override;
+    Bullet *CreateBulletForSimulate() const override;
 };
 #endif // GROWBULLET_HPP

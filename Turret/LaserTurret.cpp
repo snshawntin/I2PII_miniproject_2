@@ -41,3 +41,10 @@ void LaserTurret::CreateBullet() {
 
     AudioHelper::PlayAudio("laser.wav");
 }
+Bullet *LaserTurret::CreateBulletForSimulate() const
+{
+    Engine::Point dir(cos(Rotation - ALLEGRO_PI / 2), sin(Rotation - ALLEGRO_PI / 2));
+    Engine::Point normal(-dir.y, dir.x);
+    float rot = atan2(dir.y, dir.x);
+    return new LaserBullet(Position + dir * 36 + normal * 6, dir, 2 + 2 * on_playing_level, rot, const_cast<LaserTurret *>(this));
+}
