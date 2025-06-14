@@ -856,11 +856,11 @@ void PlayScene::ReadMap()
     std::string filename;
     if (!IsCustom)
     {
-        filename = std::string("C:/Users/User/Downloads/final_project/2025_I2P2_TowerDefense-main/Resource/map") + std::to_string(MapId) + ".txt";
+        filename = std::string("../Resource/map") + std::to_string(MapId) + ".txt";
     }
     else
     {
-        filename = std::string("C:/Users/User/Downloads/final_project/2025_I2P2_TowerDefense-main/2025_I2P2_TowerDefense-main/Resource/custom_map/cm0") + std::to_string(MapId) + ".txt";
+        filename = std::string("../Resource/custom_map/cm0") + std::to_string(MapId) + ".txt";
     }
 
     // Read map file.

@@ -9,7 +9,7 @@
 #include "Scene/PlayScene.hpp"
 #include "UI/Animation/DirtyEffect.hpp"
 #include "Turret/Turret.hpp"
-#include <iostream>;
+#include <iostream>
 
 class Turret;
 
@@ -18,7 +18,7 @@ GrowBullet::GrowBullet(Engine::Point position, Engine::Point forwardDirection, f
 
 void GrowBullet::OnExplode(Enemy *enemy)
 {
-    std::cout << "Turret::simulateMode" << Turret::simulateMode;
+    std::cout << "Turret::simulateMode:" << Turret::simulateMode << std::endl;
     if (Turret::simulateMode)
         return; // 防止模擬時崩潰
 

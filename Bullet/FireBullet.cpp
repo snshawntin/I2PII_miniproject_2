@@ -9,7 +9,7 @@
 #include "Scene/PlayScene.hpp"
 #include "UI/Animation/DirtyEffect.hpp"
 #include "Turret/Turret.hpp"
-#include <iostream>;
+#include <iostream>
 
 class Turret;
 
@@ -17,7 +17,7 @@ FireBullet::FireBullet(Engine::Point position, Engine::Point forwardDirection, f
 }
 void FireBullet::OnExplode(Enemy *enemy)
 {
-    std::cout << "Turret::simulateMode" << Turret::simulateMode;
+    std::cout << "Turret::simulateMode:" << Turret::simulateMode << std::endl;
     if (Turret::simulateMode)
         return; // 模擬模式不用產生效果
 

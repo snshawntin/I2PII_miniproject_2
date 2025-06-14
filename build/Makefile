@@ -344,6 +344,54 @@ Enemy/ShieldEnemy.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/ShieldEnemy.cpp.s
 .PHONY : Enemy/ShieldEnemy.cpp.s
 
+Enemy/SnailBoss.obj: Enemy/SnailBoss.cpp.obj
+.PHONY : Enemy/SnailBoss.obj
+
+# target to build an object file
+Enemy/SnailBoss.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/SnailBoss.cpp.obj
+.PHONY : Enemy/SnailBoss.cpp.obj
+
+Enemy/SnailBoss.i: Enemy/SnailBoss.cpp.i
+.PHONY : Enemy/SnailBoss.i
+
+# target to preprocess a source file
+Enemy/SnailBoss.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/SnailBoss.cpp.i
+.PHONY : Enemy/SnailBoss.cpp.i
+
+Enemy/SnailBoss.s: Enemy/SnailBoss.cpp.s
+.PHONY : Enemy/SnailBoss.s
+
+# target to generate assembly for a file
+Enemy/SnailBoss.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/SnailBoss.cpp.s
+.PHONY : Enemy/SnailBoss.cpp.s
+
+Enemy/SnailEnemy.obj: Enemy/SnailEnemy.cpp.obj
+.PHONY : Enemy/SnailEnemy.obj
+
+# target to build an object file
+Enemy/SnailEnemy.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/SnailEnemy.cpp.obj
+.PHONY : Enemy/SnailEnemy.cpp.obj
+
+Enemy/SnailEnemy.i: Enemy/SnailEnemy.cpp.i
+.PHONY : Enemy/SnailEnemy.i
+
+# target to preprocess a source file
+Enemy/SnailEnemy.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/SnailEnemy.cpp.i
+.PHONY : Enemy/SnailEnemy.cpp.i
+
+Enemy/SnailEnemy.s: Enemy/SnailEnemy.cpp.s
+.PHONY : Enemy/SnailEnemy.s
+
+# target to generate assembly for a file
+Enemy/SnailEnemy.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\2025_I2P2_TowerDefense.dir\build.make CMakeFiles/2025_I2P2_TowerDefense.dir/Enemy/SnailEnemy.cpp.s
+.PHONY : Enemy/SnailEnemy.cpp.s
+
 Enemy/SoldierEnemy.obj: Enemy/SoldierEnemy.cpp.obj
 .PHONY : Enemy/SoldierEnemy.obj
 
@@ -1436,6 +1484,12 @@ help:
 	@echo ... Enemy/ShieldEnemy.obj
 	@echo ... Enemy/ShieldEnemy.i
 	@echo ... Enemy/ShieldEnemy.s
+	@echo ... Enemy/SnailBoss.obj
+	@echo ... Enemy/SnailBoss.i
+	@echo ... Enemy/SnailBoss.s
+	@echo ... Enemy/SnailEnemy.obj
+	@echo ... Enemy/SnailEnemy.i
+	@echo ... Enemy/SnailEnemy.s
 	@echo ... Enemy/SoldierEnemy.obj
 	@echo ... Enemy/SoldierEnemy.i
 	@echo ... Enemy/SoldierEnemy.s

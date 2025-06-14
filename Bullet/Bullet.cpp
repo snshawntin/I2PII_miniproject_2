@@ -9,7 +9,7 @@
 #include "Engine/Sprite.hpp"
 #include "Scene/PlayScene.hpp"
 #include "Turret/Turret.hpp"
-#include <iostream>;
+#include <iostream>
 
 PlayScene *Bullet::getPlayScene()
 {
@@ -44,6 +44,7 @@ void Bullet::Update(float deltaTime)
         if (Engine::Collider::IsCircleOverlap(Position, CollisionRadius, enemy->Position, enemy->CollisionRadius))
         {
             OnExplode(enemy);
+            enemy->Hit(damage);
             scene->BulletGroup->RemoveObject(objectIterator);
             return;
         }

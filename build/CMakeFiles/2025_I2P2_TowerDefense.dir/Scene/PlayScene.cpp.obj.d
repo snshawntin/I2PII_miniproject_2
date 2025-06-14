@@ -953,6 +953,8 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/PlayScene.cpp.obj: \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Enemy/TankEnemy.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Enemy/ShieldEnemy.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Enemy/P2Base.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Enemy/SnailBoss.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Enemy/SnailEnemy.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/AudioHelper.hpp \
   C:/allegro/include/allegro5/allegro_audio.h \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Engine/GameEngine.hpp \
@@ -979,4 +981,5 @@ CMakeFiles/2025_I2P2_TowerDefense.dir/Scene/PlayScene.cpp.obj: \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Tool/Shovel.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Animation/DirtyEffect.hpp \
   C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Animation/Plane.hpp \
-  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/Label.hpp
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./UI/Component/Label.hpp \
+  C:/Users/haoen/Desktop/2025_I2P2_TowerDefense-main/./Bullet/Bullet.hpp

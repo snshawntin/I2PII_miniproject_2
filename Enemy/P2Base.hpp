@@ -7,6 +7,6 @@ public:
     P2Base(int x, int y);
     float gethp();
     void addhp(float f);
-    Enemy *P2Base::Clone() const override;
+    Enemy *Clone() const override;
 };
 #endif   // P2BASE_HPP

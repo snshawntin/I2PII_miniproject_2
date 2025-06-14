@@ -9,7 +9,7 @@
 #include "Scene/PlayScene.hpp"
 #include "UI/Animation/DirtyEffect.hpp"
 #include "Turret/Turret.hpp"
-#include <iostream>;
+#include <iostream>
 
 class Turret;
 
@@ -17,7 +17,7 @@ LaserBullet::LaserBullet(Engine::Point position, Engine::Point forwardDirection,
 }
 void LaserBullet::OnExplode(Enemy *enemy)
 {
-    std::cout << "Turret::simulateMode" << Turret::simulateMode;
+    std::cout << "Turret::simulateMode:" << Turret::simulateMode << std::endl;
     if (Turret::simulateMode)
         return; // 防止模擬時崩潰
 
